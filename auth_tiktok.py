@@ -37,7 +37,11 @@ CLIENT_KEY = os.getenv("TIKTOK_CLIENT_KEY", "")
 AUTHORIZE_URL = "https://www.tiktok.com/v2/auth/authorize/"
 TOKEN_URL = "https://open.tiktokapis.com/v2/oauth/token/"
 
-SCOPES = "user.info.basic,user.info.profile,user.info.stats,video.upload,video.publish"
+# Uniquement ce que le pipeline utilise réellement (identifier le compte +
+# publier directement via Content Posting API, cf. agents/tiktok_publisher.py)
+# — demander user.info.profile/user.info.stats sans jamais s'en servir aurait
+# retardé la review TikTok ("remove unused scopes").
+SCOPES = "user.info.basic,video.upload,video.publish"
 
 # TikTok exige désormais le flux OAuth PKCE (RFC 7636).
 CODE_VERIFIER = secrets.token_urlsafe(64)
