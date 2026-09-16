@@ -1,0 +1,101 @@
+{
+  "app_name": "TikTok AutoPost",
+  "version": "1.0.0",
+
+  "posting_schedule": {
+    "posts_per_day": 1,
+    "post_times_utc": ["14:00", "17:00", "20:00"],
+    "best_hours_note": "18h-21h heure locale = pic d'engagement TikTok"
+  },
+
+  "content_search": {
+    "sources": ["pexels", "pixabay"],
+    "categories": [
+      "nature",
+      "satisfying",
+      "motivation",
+      "facts",
+      "tech",
+      "food",
+      "travel",
+      "animals",
+      "science",
+      "history"
+    ],
+    "keywords_by_category": {
+      "nature": ["beautiful nature", "ocean waves", "mountains", "forest", "aurora borealis", "waterfall"],
+      "satisfying": ["satisfying compilation", "perfect loops", "oddly satisfying", "cleaning", "soap cutting"],
+      "motivation": ["success", "determination", "inspiration", "workout", "sunrise"],
+      "facts": ["space facts", "ocean deep", "volcano", "lightning", "microscopic"],
+      "tech": ["futuristic technology", "robot", "AI", "neon city", "cyberpunk"],
+      "food": ["cooking timelapse", "chocolate", "street food", "latte art"],
+      "travel": ["drone footage", "city timelapse", "aerial view", "paris", "tokyo"],
+      "animals": ["cute animals", "underwater creatures", "birds flying", "baby animals"],
+      "science": ["experiment", "chemistry reaction", "physics", "lab"],
+      "history": ["ancient civilization", "ruins", "archaeology", "medieval"]
+    },
+    "viral_hooks": [
+      "Wait for it...",
+      "You won't believe what happens next",
+      "This is why",
+      "Nobody talks about this",
+      "POV:",
+      "Day {number} of",
+      "The fact that",
+      "This blew my mind",
+      "Watch until the end",
+      "Only in"
+    ],
+    "min_video_duration_sec": 5,
+    "max_video_duration_sec": 60,
+    "preferred_orientation": "portrait",
+    "download_quality": "hd"
+  },
+
+  "video_editing": {
+    "output_format": "mp4",
+    "output_resolution": [1080, 1920],
+    "codec": "libx264",
+    "audio_codec": "aac",
+    "add_text_overlay": true,
+    "add_music": true,
+    "add_watermark": false,
+    "subtitle_style": {
+      "font": "Arial",
+      "fontsize": 48,
+      "fontcolor": "white",
+      "outline_color": "black",
+      "outline_width": 3,
+      "position": "center"
+    }
+  },
+
+  "cloud_storage": {
+    "provider": "local",
+    "local_path": "./output",
+    "max_storage_mb": 5000,
+    "cleanup_after_post": true,
+    "google_drive_enabled": false
+  },
+
+  "tiktok": {
+    "privacy_level": "PUBLIC_TO_EVERYONE",
+    "allow_comments": true,
+    "allow_duet": false,
+    "allow_stitch": false,
+    "is_ai_generated": false
+  },
+
+  "agents": {
+    "max_retries": 3,
+    "fallback_enabled": true,
+    "health_check_interval_min": 30,
+    "agent_rotation": true
+  },
+
+  "logging": {
+    "log_dir": "./logs",
+    "log_level": "INFO",
+    "max_log_size_mb": 50
+  }
+}
