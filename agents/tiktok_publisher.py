@@ -28,6 +28,20 @@ class TikTokPublisherAgent:
         self.refresh_token = os.getenv("TIKTOK_REFRESH_TOKEN", "")
         self.post_history = self._load_post_history()
 
+    def _save_tokens_to_env(self, access_token: str, refresh_token: str):
+        """Persiste les tokens rafraîchis dans .env pour survivre à un redémarrage."""
+        import re
+
+        env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
+        if not os.path.exists(env_path):
+            return
+        with open(env_path, "r") as f:
+            content = f.read()
+        content = re.sub(r"TIKTOK_ACCESS_TOKEN=.*", f"TIKTOK_ACCESS_TOKEN={access_token}", content)
+        content = re.sub(r"TIKTOK_REFRESH_TOKEN=.*", f"TIKTOK_REFRESH_TOKEN={refresh_token}", content)
+        with open(env_path, "w") as f:
+            f.write(content)
+
     def _load_post_history(self) -> list:
         log_path = os.path.join("logs", "post_history.json")
         if os.path.exists(log_path):
@@ -50,7 +64,7 @@ class TikTokPublisherAgent:
 
         try:
             resp = requests.post(
-                f"{self.TIKTOK_API_BASE}/oauth2/token/",
+                f"{self.TIKTOK_API_BASE}/oauth/token/",
                 data={
                     "client_key": self.client_key,
                     "client_secret": self.client_secret,
@@ -60,9 +74,12 @@ class TikTokPublisherAgent:
                 timeout=15,
             )
             resp.raise_for_status()
-            data = resp.json().get("data", {})
+            # L'endpoint /v2/oauth/token/ renvoie les tokens à la racine du
+            # JSON (pas sous une clé "data").
+            data = resp.json()
             self.access_token = data.get("access_token", "")
             self.refresh_token = data.get("refresh_token", self.refresh_token)
+            self._save_tokens_to_env(self.access_token, self.refresh_token)
             logger.info("Access token refreshed successfully")
             return True
         except Exception as e:
@@ -85,7 +102,7 @@ class TikTokPublisherAgent:
 
         try:
             init_resp = requests.post(
-                f"{self.TIKTOK_API_BASE}/post/publish/inbox/video/init/",
+                f"{self.TIKTOK_API_BASE}/post/publish/video/init/",
                 headers={
                     "Authorization": f"Bearer {self.access_token}",
                     "Content-Type": "application/json",

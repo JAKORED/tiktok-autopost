@@ -88,7 +88,9 @@ def exchange_code_for_tokens(auth_code: str):
         print(f"Response body: {resp.text[:500]}")
         resp.raise_for_status()
 
-        data = resp.json().get("data", {})
+        # L'endpoint /v2/oauth/token/ renvoie les tokens à la racine du JSON
+        # (pas sous une clé "data", contrairement aux autres endpoints v2).
+        data = resp.json()
         access_token = data.get("access_token", "")
         refresh_token = data.get("refresh_token", "")
         expires_in = data.get("expires_in", 0)
