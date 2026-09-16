@@ -126,6 +126,11 @@ class TikTokPublisherAgent:
                     "source_info": {
                         "source": "FILE_UPLOAD",
                         "video_size": file_size,
+                        # Obligatoires même pour un envoi en un seul morceau —
+                        # sans eux l'API renvoie "The video info is empty"
+                        # (vérifié en conditions réelles, sandbox, 16/09).
+                        "chunk_size": file_size,
+                        "total_chunk_count": 1,
                     },
                 },
                 timeout=15,
