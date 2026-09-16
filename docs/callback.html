@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autorisation TikTok — FactVibes</title>
+  <style>
+    :root { --tiktok: #00f2ea; --tiktok2: #ff0050; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background: #001018; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; }
+    .logo { font-size: 1.8rem; font-weight: 800; letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--tiktok), var(--tiktok2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+    h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 16px; }
+    p { color: #9fb3c8; max-width: 480px; line-height: 1.5; margin-bottom: 16px; }
+    .box { background: #0a1e28; border: 1px solid #1e3a4a; border-radius: 12px; padding: 20px; width: 100%; max-width: 560px; margin-bottom: 20px; word-break: break-all; }
+    .code { font-family: 'Consolas', monospace; font-size: 1rem; color: #00f2ea; user-select: all; }
+    .label { font-size: 0.8rem; color: #7fb2d6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .btn { display: inline-block; padding: 12px 26px; margin-top: 8px; border-radius: 999px;
+      font-weight: 600; font-size: .95rem; background: linear-gradient(90deg, var(--tiktok), var(--tiktok2));
+      color: #fff; border: none; cursor: pointer; }
+    .error { color: #ff5a7a; }
+    .ok { color: #3ddc84; }
+  </style>
+</head>
+<body>
+  <div class="logo">FactVibes</div>
+  <h1 id="title">Traitement de l'autorisation…</h1>
+  <p id="instructions">Cette page reçoit la réponse de TikTok après ton autorisation.</p>
+
+  <div class="box" id="codeBox" style="display:none;">
+    <div class="label">Code d'autorisation (à copier dans le terminal)</div>
+    <div class="code" id="codeValue"></div>
+    <button class="btn" id="copyBtn">Copier le code</button>
+  </div>
+
+  <div class="box" id="errorBox" style="display:none;">
+    <div class="label">Erreur</div>
+    <div class="code error" id="errorValue"></div>
+  </div>
+
+  <p id="footNote"></p>
+
+  <script>
+    const qs = new URLSearchParams(window.location.search);
+    const code = qs.get('code');
+    const error = qs.get('error');
+    const errorDesc = qs.get('error_description');
+    const state = qs.get('state');
+
+    const title = document.getElementById('title');
+    const instructions = document.getElementById('instructions');
+
+    if (code) {
+      title.textContent = 'Autorisation reussie !';
+      title.className = 'ok';
+      instructions.textContent = "Copie ce code et colle-le dans le terminal ou tourne auth_tiktok.py, quand il te le demande.";
+      document.getElementById('codeBox').style.display = 'block';
+      document.getElementById('codeValue').textContent = code;
+      document.getElementById('footNote').textContent = state ? ('state: ' + state) : '';
+
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        navigator.clipboard.writeText(code).then(() => {
+          document.getElementById('copyBtn').textContent = 'Copié !';
+        }).catch(() => {});
+      });
+    } else if (error) {
+      title.textContent = "Autorisation refusee ou en erreur";
+      title.className = 'error';
+      instructions.textContent = 'Retourne au terminal et relance auth_tiktok.py si besoin.';
+      document.getElementById('errorBox').style.display = 'block';
+      document.getElementById('errorValue').textContent = error + (errorDesc ? (' — ' + errorDesc) : '');
+    } else {
+      title.textContent = 'Aucun parametre recu';
+      instructions.textContent = "Cette page attend d'etre ouverte par TikTok apres une autorisation (parametre ?code=...).";
+    }
+  </script>
+</body>
+</html>
