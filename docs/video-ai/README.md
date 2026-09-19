@@ -14,7 +14,7 @@ Objectif viral : appliquer les mécanismes observés (hook, rétention, chute, b
 - **Réalisé mais non publié** : 4 dessins animés vectoriels toon_001..004 (jugés trop basiques).
 - **Moteur vidéo IA retenu (provisoire)** : Wan 2.2 14B image→vidéo sur Space Hugging Face ZeroGPU — **quota trop faible** pour ~30 plans.
 - **Décors IA** : AI Horde (SDXL) validé. **Personnages** : vectoriels (cohérence garantie).
-- **Aucune vidéo cloud finale (cloud_001..005) n'existe encore.** Le prototype « épisode 1 » n'est pas encore produit.
+- **Prototype hybride `proto_001`** (décor IA AI Horde + personnages vectoriels + caméra cinématographique) : fichier réel, propre, **pas encore « pro »** (EXP-014). Aucune vidéo `cloud_001..005` avec plans Wan n'existe encore.
 
 ## Outils : validés / limités / rejetés (pourquoi → SOLUTIONS.md)
 - **Validés** : pipeline CPU (ffmpeg/edge-tts), moteur vectoriel pycairo, TikTok Studio (Selenium), AI Horde pour les décors.
@@ -33,7 +33,7 @@ Objectif viral : appliquer les mécanismes observés (hook, rétention, chute, b
 | Chemin | Rôle |
 |---|---|
 | `video_pipeline/generate.py` | vidéos « psychologie » CPU (EXP-001) |
-| `video_pipeline/toon_engine.py`, `toon_scripts.py`, `make_toon.py` | dessins animés vectoriels + voix + sous-titres + musique |
+| `video_pipeline/toon_engine.py`, `toon_scripts.py`, `make_toon.py` | dessins animés vectoriels + voix + sous-titres + musique ; épisode `proto_001` = mode `cinematic` avec `bg_image` (décor IA) |
 | `video_pipeline/cloud_episodes.py` | **5 épisodes originaux** (beats = 1 phrase/plan, prompts de plan, chutes) |
 | `video_pipeline/compose_cloud.py` | narration, plan de génération, montage final avec plans IA |
 | `cloud/hf_shots.py` | génération de plans sur Space HF (T2V LTX ; **le pilote Wan I2V reste à écrire**) |

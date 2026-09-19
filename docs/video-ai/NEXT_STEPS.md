@@ -9,6 +9,8 @@
 - [x] Rechercher Comfy Cloud (sources lues, calcul crédits→plans→vidéos) (EXP-012)
 - [x] Créer la mémoire du projet `docs/video-ai/` et protéger les secrets dans `.gitignore`
 - [x] Écrire les 5 concepts (`cloud_episodes.py`) avec les règles virales
+- [x] Produire un prototype hybride (option D) `proto_001` et le contrôler sur le fichier final (EXP-014) — verdict : propre, pas encore « pro »
+- [x] Source de décors de qualité sans watermark : AI Horde (EXP-011)
 
 ## À faire
 - [ ] **(HUMAIN — un seul choix)** Créer le compte gratuit Comfy Cloud, ou vérifier Kaggle (SMS), ou fournir `HF_TOKEN`
@@ -17,7 +19,7 @@
 - [ ] Finaliser la character sheet (visage, corps, vêtements, couleurs, accessoires, proportions, expressions, poses) — personnages vectoriels existants : Kevin, Fournier, Ministre, Josette, Bob
 - [ ] Écrire le pilote Wan 2.2 image→vidéo (`cloud/`) avec fallback moteur A→B→C
 - [ ] Comparer options A (IA), B (vectoriel), C (référence+Wan), D (hybride) sur un même plan — consigner la mesure
-- [ ] Produire le **prototype épisode 1** (24–30 s, hook→6 plans→chute→boucle)
+- [ ] Produire l'**épisode 1 « pro »** (24–30 s, hook→6 plans→chute→boucle) avec plans Wan sur accroche et chute
 - [ ] Contrôler le fichier final de l'épisode 1 (rythme, cohérence, audio, sous-titres, 9:16) ; corriger/régénérer
 - [ ] Produire les épisodes 2–5
 - [ ] Valider `publish_studio.py` corrigé sur une publication réelle

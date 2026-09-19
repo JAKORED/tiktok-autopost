@@ -423,7 +423,37 @@ def _gradient(ctx, top, bottom, y0=0, y1=H):
     ctx.fill()
 
 
-def draw_set(ctx, kind):
+def draw_image_set(ctx, path):
+    """Décor IA (AI Horde) : image « cover » sur 1080x1920, léger flou de profondeur de champ."""
+    from PIL import Image, ImageFilter
+    im = Image.open(path).convert("RGB")
+    sc = max(W / im.width, H / im.height)
+    im = im.resize((int(im.width * sc) + 1, int(im.height * sc) + 1), Image.LANCZOS)
+    x0, y0 = (im.width - W) // 2, (im.height - H) // 2
+    im = im.crop((x0, y0, x0 + W, y0 + H)).filter(ImageFilter.GaussianBlur(2.2))
+    surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, W, H)
+    buf = surf.get_data()
+    buf[:] = im.convert("RGBA").tobytes("raw", "BGRA")
+    surf.mark_dirty()
+    ctx.set_source_surface(surf, 0, 0)
+    ctx.paint()
+    return ((222, 164, 112), (168, 116, 74))
+
+
+def make_vignette():
+    surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, W, H)
+    c = cairo.Context(surf)
+    g = cairo.RadialGradient(W / 2, H / 2, H * 0.30, W / 2, H / 2, H * 0.72)
+    g.add_color_stop_rgba(0, 0, 0, 0, 0)
+    g.add_color_stop_rgba(1, 0, 0, 0, 0.45)
+    c.set_source(g)
+    c.paint()
+    return surf
+
+
+def draw_set(ctx, kind, bg_image=None):
+    if bg_image:
+        return draw_image_set(ctx, bg_image)
     if kind == "office":
         _gradient(ctx, (188, 214, 236), (222, 232, 242))
         ctx.set_source_rgba(*rgb((150, 190, 225)))

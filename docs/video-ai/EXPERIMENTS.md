@@ -109,6 +109,25 @@ Voir `AGENTS.md`. Points clés : Kaggle (SMS requis, ~30 h GPU/sem., T4×2/P100)
 interdit de contourner l'interface), Lightning AI (crédits, SMS), Cloudflare Workers AI FLUX-schnell (compte requis),
 Gemini/Imagen (aucun accès image gratuit), stockage : Backblaze B2 10 Go sans carte.
 
+## EXP-014 — Prototype hybride « proto_001 » (option D : décor IA + personnages vectoriels + caméra)
+- **Date** : 19/09/2026 — **Objectif** : mesurer si un décor IA réel et une vraie mise en scène améliorent nettement le rendu, sans GPU ni quota.
+- **Solution** : décor AI Horde (EXP-011, converti WEBP→PNG, flou de profondeur de champ 2,2 px, vignette) + personnages `toon_engine.py`
+  (Kevin, Mme Fournier) + caméra « cinématographique » dans `make_toon.py` (`cinematic=True` : plan large sur la 1re réplique, plan moyen ×1,3
+  sur celui qui parle, gros plan ×1,85 + secousse sur la chute, lissage exponentiel) + titre d'accroche effacé à 3,6 s (règle virale).
+- **Résultat (fichier réel)** : `videos/ready/proto_001.mp4` — **1080×1920, 24 fps, H.264+AAC, 30,17 s, 4,8 Mo, volume moyen −15,3 dB
+  (pic −1,2 dB)**. Rendu en **36 s** (≈ 1,2× plus rapide que le temps réel). Dialogues identiques à toon_001.
+- **Contrôle du fichier final** (8 images extraites de 0,6 s à 27 s + 5 images autour de 6,5 s et 18,5 s) :
+  + décor illustré cohérent et propre, profondeur de champ, alternance large/moyen/gros plan lisible, expressions (goutte de sueur, veine de colère),
+    sous-titres mot actif surligné, titre visible seulement au début, fin sur gros plan de la chute ;
+  − **fausse alerte** : un « chevauchement des personnages » vu sur la planche était un artefact de montage de la planche (bords de vignettes
+    juxtaposées), pas un défaut du fichier ; les images isolées sont correctes ;
+  − personnages toujours **plats** (mouvement limité à bouche, clignements, gestes du bras) ; ~25 % du cadre bas = comptoir vide (zone masquée
+    par l'interface TikTok, acceptable) ; aucune animation de fond.
+- **Verdict qualité** : nettement supérieur à toon_001 (fond plat) — **« propre et correct », PAS encore « pro/viral »** : il manque le mouvement riche
+  et l'expressivité que donnerait une génération vidéo IA (Wan). Non publié (non demandé).
+- **Coût** : 0 €, 0 s de quota GPU. **Décision** : option D **validée comme repli local** ; l'objectif « pro » passe par des plans Wan sur les moments forts
+  (accroche + chute) dès qu'une capacité GPU sans quota bloquant existe (voir NEXT_STEPS, action humaine).
+
 <!-- Nouvelle expérience : copier le modèle ci-dessous à la suite, incrémenter le numéro. -->
 <!--
 ## EXP-0NN — Titre

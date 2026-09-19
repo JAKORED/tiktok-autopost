@@ -85,3 +85,9 @@ EPISODES = [
         ],
     ),
 ]
+
+
+# Prototype hybride (option D) : dialogues de toon_001, décor IA AI Horde + caméra cinématographique.
+_t1 = next(e for e in EPISODES if e["id"] == "toon_001")
+EPISODES.append(dict(_t1, id="proto_001", ep=1, cinematic=True,
+                     bg_image="videos/generated/keyframes/bg_office.png"))

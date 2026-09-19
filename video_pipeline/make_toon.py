@@ -177,7 +177,9 @@ def render(ep, lines, total, wav, out_path, png_at=None, seconds=None):
 
     bg = cairo.ImageSurface(cairo.FORMAT_ARGB32, E.W, E.H)
     bctx = cairo.Context(bg)
-    counter = E.draw_set(bctx, ep["set"])
+    counter = E.draw_set(bctx, ep["set"], ep.get("bg_image"))
+    vignette = E.make_vignette() if ep.get("cinematic") else None
+    cam = dict(z=1.0, fx=E.W / 2, fy=900.0)
 
     chars = {"L": E.Toon(ep["left"], E.LEFT_X, 1), "R": E.Toon(ep["right"], E.RIGHT_X, 2)}
     side_of = {ep["left"]: "L", ep["right"]: "R"}
@@ -219,14 +221,27 @@ def render(ep, lines, total, wav, out_path, png_at=None, seconds=None):
                 if 0 <= d < 0.45:
                     k = (1 - d / 0.45)
                     shake_dx, shake_dy = math.sin(d * 80) * 14 * k, math.cos(d * 71) * 10 * k
-        zoom = 1.0 + 0.035 * t / total
+        if ep.get("cinematic") and speaker:
+            li = lines.index(speaker)
+            sx = E.LEFT_X if side_of[speaker["who"]] == "L" else E.RIGHT_X
+            kind = "close" if speaker.get("punch") else ("wide" if li == 0 else "med")
+            tz, tfx, tfy = {"wide": (1.0, E.W / 2, 900.0), "med": (1.3, sx, 930.0), "close": (1.85, sx, 880.0)}[kind]
+        else:
+            tz, tfx, tfy = 1.0 + 0.035 * t / total, E.W / 2, 900.0
+        kk = 1 - math.exp(-dt * 9)
+        cam["z"] += (tz - cam["z"]) * kk
+        cam["fx"] += (tfx - cam["fx"]) * kk
+        cam["fy"] += (tfy - cam["fy"]) * kk
+        z = cam["z"]
+        fx = min(max(cam["fx"], E.W / (2 * z)), E.W - E.W / (2 * z))
+        fy = min(max(cam["fy"], E.H / (2 * z)), E.H - E.H / (2 * z))
 
         ctx.set_source_rgba(0, 0, 0, 1)
         ctx.paint()
         ctx.save()
-        ctx.translate(E.W / 2 + shake_dx, 900 + shake_dy)
-        ctx.scale(zoom, zoom)
-        ctx.translate(-E.W / 2, -900)
+        ctx.translate(E.W / 2 + shake_dx, E.H / 2 + shake_dy)
+        ctx.scale(z, z)
+        ctx.translate(-fx, -fy)
         ctx.set_source_surface(bg, 0, 0)
         ctx.paint()
         order = ["L", "R"]
@@ -246,10 +261,19 @@ def render(ep, lines, total, wav, out_path, png_at=None, seconds=None):
                     reacting=not is_speaking)
         E.draw_counter(ctx, counter)
         ctx.restore()
+        if vignette is not None:
+            ctx.set_source_surface(vignette, 0, 0)
+            ctx.paint()
 
         # surimpressions fixes
         E.stroked_text(ctx, f"FACTVIBES TOONS  •  ÉPISODE {ep['ep']}", E.W / 2, 150, 32, (255, 255, 255), ow=7, family="Arial Black")
-        E.draw_headline(ctx, ep["headline"], ep["title"].upper() if False else "", ep["accent"], t)
+        if not ep.get("cinematic") or t < 4.0:  # règle virale : titre visible seulement au début
+            if ep.get("cinematic"):
+                ctx.push_group()
+            E.draw_headline(ctx, ep["headline"], "", ep["accent"], t)
+            if ep.get("cinematic"):
+                ctx.pop_group_to_source()
+                ctx.paint_with_alpha(1.0 if t < 3.4 else max(0.0, (4.0 - t) / 0.6))
         for g in groups:
             g_start, g_end = g[0][1], g[-1][2] + 0.12
             if g_start - 0.02 <= t < g_end:
