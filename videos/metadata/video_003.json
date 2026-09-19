@@ -1,0 +1,84 @@
+{
+  "video_id": "video_003",
+  "title": "Personne ne te regarde",
+  "hook": "Tu viens de te ridiculiser devant tout le monde. Vraiment ?",
+  "description": "L'effet projecteur : tu crois que tous les yeux sont sur toi. La science dit le contraire.",
+  "hashtags": [
+    "#psychologie",
+    "#confiance",
+    "#societe",
+    "#cerveau",
+    "#socialpsychology",
+    "#fyp"
+  ],
+  "voice": "fr-FR-EloiseNeural",
+  "duration_sec": 40.77,
+  "resolution": "1080x1920",
+  "fps": "30/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "scenes": [
+    {
+      "text": "TOUT LE MONDE A VU",
+      "voiceover": "Tu penses que tout le monde t'a vu trébucher, rougir, dire une bêtise. Vraiment ? Ça s'appelle l'effet projecteur.",
+      "bg": [
+        48,
+        30,
+        22
+      ],
+      "accent": [
+        255,
+        150,
+        80
+      ]
+    },
+    {
+      "text": "L'EFFET PROJECTEUR",
+      "voiceover": "Ton cerveau gonfle l'attention que tu reçois. En réalité, presque personne n'a remarqué. Ils sont tous occupés par leur propre projecteur.",
+      "bg": [
+        26,
+        34,
+        48
+      ],
+      "accent": [
+        140,
+        200,
+        255
+      ]
+    },
+    {
+      "text": "PERSONNE NE T'A VU",
+      "voiceover": "L'expérience le montre : les témoins ne remarquent presque rien. Et la personne qui juge, dans la salle ? Elle est plantée dans son propre projecteur.",
+      "bg": [
+        34,
+        26,
+        48
+      ],
+      "accent": [
+        255,
+        205,
+        66
+      ]
+    },
+    {
+      "text": "ALORS, VIS",
+      "voiceover": "Alors la prochaine fois que tu hésites par peur du regard, rappelle-toi : personne ne te regarde. Va vivre.",
+      "bg": [
+        22,
+        48,
+        40
+      ],
+      "accent": [
+        255,
+        255,
+        255
+      ]
+    }
+  ],
+  "engine": "pillow + edge-tts + ffmpeg (CPU) — Wan2GP/MiniMax non utilisables : aucun GPU",
+  "generated_utc": "2026-09-19T08:29:27.596515+00:00",
+  "status": "READY",
+  "caption": "Personne ne te regarde — Tu viens de te ridiculiser devant tout le monde. Vraiment ? #psychologie #confiance #societe #cerveau #socialpsychology #fyp"
+}

@@ -1,0 +1,174 @@
+[
+  {
+    "video_id": "video_001",
+    "state": "PUBLISHED",
+    "file": "ready/video_001.mp4",
+    "caption": "Vous ne décidez jamais du prix — Tu ne décides jamais ce qu'une chose vaut. #psychologie #argent #cerveau #negociation #biais #learnontiktok",
+    "hashtags": [
+      "#psychologie",
+      "#argent",
+      "#cerveau",
+      "#negociation",
+      "#biais",
+      "#learnontiktok"
+    ],
+    "created_utc": "2026-09-19T08:28:20.938012+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-19T08:43:37.082151+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "toast 'Vidéo publiée' + entrée dans Publications (TikTok Studio, compte FactVibes)",
+      "note": "au moment de la capture : 'Contenu en cours d'examen', visibilité 'Moi uniquement' en attendant la fin de l'examen TikTok"
+    },
+    "error": null
+  },
+  {
+    "video_id": "video_002",
+    "state": "PUBLISHED",
+    "file": "ready/video_002.mp4",
+    "caption": "Le slot machine dans ta poche — Ton téléphone n'a rien volé. C'est un slot machine. #psychologie #addiction #cerveau #telephone #focus #fyp",
+    "hashtags": [
+      "#psychologie",
+      "#addiction",
+      "#cerveau",
+      "#telephone",
+      "#focus",
+      "#fyp"
+    ],
+    "created_utc": "2026-09-19T08:29:33.915123+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-19T08:50:30.152763+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "video_003",
+    "state": "PUBLISHED",
+    "file": "ready/video_003.mp4",
+    "caption": "Personne ne te regarde — Tu viens de te ridiculiser devant tout le monde. Vraiment ? #psychologie #confiance #societe #cerveau #socialpsychology #fyp",
+    "hashtags": [
+      "#psychologie",
+      "#confiance",
+      "#societe",
+      "#cerveau",
+      "#socialpsychology",
+      "#fyp"
+    ],
+    "created_utc": "2026-09-19T08:29:33.931172+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-19T08:51:20.840747+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "toon_001",
+    "state": "FAILED",
+    "file": "ready/toon_001.mp4",
+    "caption": "La réunion qui aurait pu être un mail — épisode 1 #travail #bureau #reunion #entreprise #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#reunion",
+      "#entreprise",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-19T09:03:44.966030+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "toon_002",
+    "state": "FAILED",
+    "file": "ready/toon_002.mp4",
+    "caption": "La promesse historique du ministre — épisode 2 #politique #satire #promesse #societe #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "hashtags": [
+      "#politique",
+      "#satire",
+      "#promesse",
+      "#societe",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-19T09:03:44.985165+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "toon_003",
+    "state": "FAILED",
+    "file": "ready/toon_003.mp4",
+    "caption": "Le robot, l'IA et la réunion — épisode 3 #industrie #ia #robot #travail #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "hashtags": [
+      "#industrie",
+      "#ia",
+      "#robot",
+      "#travail",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-19T09:03:45.006518+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "toon_004",
+    "state": "FAILED",
+    "file": "ready/toon_004.mp4",
+    "caption": "Le prix de la tomate — épisode 4 #societe #inflation #courses #pouvoirdachat #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "hashtags": [
+      "#societe",
+      "#inflation",
+      "#courses",
+      "#pouvoirdachat",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-19T09:03:45.017051+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  }
+]

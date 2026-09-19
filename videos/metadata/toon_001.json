@@ -1,0 +1,77 @@
+{
+  "video_id": "toon_001",
+  "series": "FactVibes Toons",
+  "episode": 1,
+  "title": "La réunion qui aurait pu être un mail",
+  "topic": "travail / bureau",
+  "hook": "CETTE RÉUNION AURAIT PU ÊTRE UN MAIL",
+  "description": "Bonjour à tous ! Merci d'être venus à cette réunion très importante. / C'est sur quoi, Madame Fournier ?",
+  "hashtags": [
+    "#travail",
+    "#bureau",
+    "#reunion",
+    "#entreprise",
+    "#fyp",
+    "#pourtoi",
+    "#humour",
+    "#dessinanime",
+    "#cartoon",
+    "#drole",
+    "#FactVibesToons"
+  ],
+  "duration_sec": 30.17,
+  "resolution": "1080x1920",
+  "fps": "24/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "mean_volume": "-21.3 dB",
+  "lines": [
+    {
+      "who": "fournier",
+      "emo": "happy",
+      "text": "Bonjour à tous ! Merci d'être venus à cette réunion très importante."
+    },
+    {
+      "who": "kevin",
+      "emo": "worried",
+      "text": "C'est sur quoi, Madame Fournier ?"
+    },
+    {
+      "who": "fournier",
+      "emo": "happy",
+      "text": "Pour décider de la date de la prochaine réunion."
+    },
+    {
+      "who": "kevin",
+      "emo": "neutral",
+      "text": "Ça tenait dans un mail."
+    },
+    {
+      "who": "fournier",
+      "emo": "angry",
+      "text": "Non. Un mail, ça ne se planifie pas en réunion."
+    },
+    {
+      "who": "kevin",
+      "emo": "worried",
+      "text": "On vient de perdre une heure."
+    },
+    {
+      "who": "fournier",
+      "emo": "smug",
+      "text": "Je vous envoie un mail de synthèse. Après une réunion de suivi."
+    },
+    {
+      "who": "kevin",
+      "emo": "neutral",
+      "text": "Je démissionne. Par mail."
+    }
+  ],
+  "engine": "pycairo (dessin vectoriel) + edge-tts + ffmpeg — CPU, personnages et musique originaux",
+  "ai_generated_content": true,
+  "generated_utc": "2026-09-19T09:01:10.901759+00:00",
+  "status": "READY",
+  "caption": "La réunion qui aurait pu être un mail — épisode 1 #travail #bureau #reunion #entreprise #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons"
+}

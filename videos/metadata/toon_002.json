@@ -1,0 +1,72 @@
+{
+  "video_id": "toon_002",
+  "series": "FactVibes Toons",
+  "episode": 2,
+  "title": "La promesse historique du ministre",
+  "topic": "politique (satire générique)",
+  "hook": "LA PROMESSE HISTORIQUE",
+  "description": "Chers concitoyens, je vous fais une promesse historique : demain, tout ira mieux ! / Vous avez dit la même chose hier, monsieur le ministre.",
+  "hashtags": [
+    "#politique",
+    "#satire",
+    "#promesse",
+    "#societe",
+    "#fyp",
+    "#pourtoi",
+    "#humour",
+    "#dessinanime",
+    "#cartoon",
+    "#drole",
+    "#FactVibesToons"
+  ],
+  "duration_sec": 33.96,
+  "resolution": "1080x1920",
+  "fps": "24/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "mean_volume": "-22.0 dB",
+  "lines": [
+    {
+      "who": "ministre",
+      "emo": "happy",
+      "text": "Chers concitoyens, je vous fais une promesse historique : demain, tout ira mieux !"
+    },
+    {
+      "who": "josette",
+      "emo": "neutral",
+      "text": "Vous avez dit la même chose hier, monsieur le ministre."
+    },
+    {
+      "who": "ministre",
+      "emo": "happy",
+      "text": "Hier, c'était la promesse d'hier. Celle-ci est toute neuve."
+    },
+    {
+      "who": "josette",
+      "emo": "worried",
+      "text": "Et l'ancienne promesse, elle est où ?"
+    },
+    {
+      "who": "ministre",
+      "emo": "worried",
+      "text": "Elle est en cours d'évaluation. Par un comité. Qui se réunira."
+    },
+    {
+      "who": "josette",
+      "emo": "angry",
+      "text": "Quand ça ?"
+    },
+    {
+      "who": "ministre",
+      "emo": "smug",
+      "text": "Après les prochaines élections. Merci, bonne journée !"
+    }
+  ],
+  "engine": "pycairo (dessin vectoriel) + edge-tts + ffmpeg — CPU, personnages et musique originaux",
+  "ai_generated_content": true,
+  "generated_utc": "2026-09-19T09:02:04.386448+00:00",
+  "status": "READY",
+  "caption": "La promesse historique du ministre — épisode 2 #politique #satire #promesse #societe #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons"
+}

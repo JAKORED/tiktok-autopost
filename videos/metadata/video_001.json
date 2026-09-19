@@ -1,0 +1,84 @@
+{
+  "video_id": "video_001",
+  "title": "Vous ne décidez jamais du prix",
+  "hook": "Tu ne décides jamais ce qu'une chose vaut.",
+  "description": "L'ancrage en psychologie : le premier chiffre vu contrôle ton jugement. Exemple négociation salaire.",
+  "hashtags": [
+    "#psychologie",
+    "#argent",
+    "#cerveau",
+    "#negociation",
+    "#biais",
+    "#learnontiktok"
+  ],
+  "voice": "fr-FR-HenriNeural",
+  "duration_sec": 35.14,
+  "resolution": "1080x1920",
+  "fps": "30/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "scenes": [
+    {
+      "text": "LE PRIX, C'EST LUI QUI DÉCIDE",
+      "voiceover": "Voici ce que la psychologie a découvert, et ça va changer ta façon de négocier. Le premier chiffre que tu vois devient le point d'ancrage de ton cerveau.",
+      "bg": [
+        28,
+        20,
+        58
+      ],
+      "accent": [
+        255,
+        205,
+        66
+      ]
+    },
+    {
+      "text": "180€ ? OU 28€ ?",
+      "voiceover": "Même vin, même bouteille. Si tu vois d'abord cent quatre-vingts euros, les vingt-huit euros semblent soudain très raisonnables.",
+      "bg": [
+        20,
+        38,
+        70
+      ],
+      "accent": [
+        255,
+        255,
+        255
+      ]
+    },
+    {
+      "text": "LE PREMIER CHIFFRE = L'ANCRE",
+      "voiceover": "En négociation de salaire, c'est le même piège. Celui qui annonce le premier nombre a déjà fixé l'horizon de la discussion.",
+      "bg": [
+        48,
+        22,
+        62
+      ],
+      "accent": [
+        120,
+        220,
+        255
+      ]
+    },
+    {
+      "text": "PARLE LE PREMIER",
+      "voiceover": "Donc la prochaine fois, annonce le nombre en premier. Toi seul fixes la fenêtre. Et ton cerveau te croira.",
+      "bg": [
+        22,
+        48,
+        40
+      ],
+      "accent": [
+        255,
+        205,
+        66
+      ]
+    }
+  ],
+  "engine": "pillow + edge-tts + ffmpeg (CPU) — Wan2GP/MiniMax non utilisables : aucun GPU",
+  "generated_utc": "2026-09-19T08:27:53.818030+00:00",
+  "status": "READY",
+  "caption": "Vous ne décidez jamais du prix — Tu ne décides jamais ce qu'une chose vaut. #psychologie #argent #cerveau #negociation #biais #learnontiktok"
+}

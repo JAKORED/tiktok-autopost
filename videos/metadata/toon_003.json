@@ -1,0 +1,72 @@
+{
+  "video_id": "toon_003",
+  "series": "FactVibes Toons",
+  "episode": 3,
+  "title": "Le robot, l'IA et la réunion",
+  "topic": "industrie / intelligence artificielle",
+  "hook": "LE ROBOT VA TE REMPLACER",
+  "description": "Bonjour Kevin. Cette heure, j'ai assemblé mille pièces. / Bravo Bob. Moi, j'ai réussi à ouvrir mon tableur.",
+  "hashtags": [
+    "#industrie",
+    "#ia",
+    "#robot",
+    "#travail",
+    "#fyp",
+    "#pourtoi",
+    "#humour",
+    "#dessinanime",
+    "#cartoon",
+    "#drole",
+    "#FactVibesToons"
+  ],
+  "duration_sec": 35.08,
+  "resolution": "1080x1920",
+  "fps": "24/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "mean_volume": "-22.4 dB",
+  "lines": [
+    {
+      "who": "bob",
+      "emo": "neutral",
+      "text": "Bonjour Kevin. Cette heure, j'ai assemblé mille pièces."
+    },
+    {
+      "who": "kevin",
+      "emo": "neutral",
+      "text": "Bravo Bob. Moi, j'ai réussi à ouvrir mon tableur."
+    },
+    {
+      "who": "bob",
+      "emo": "neutral",
+      "text": "Je ne dors pas, je ne mange pas, je ne prends jamais de pause."
+    },
+    {
+      "who": "kevin",
+      "emo": "angry",
+      "text": "Ça va, on a compris, tu es parfait !"
+    },
+    {
+      "who": "bob",
+      "emo": "worried",
+      "text": "Plus pour longtemps. Ils me remplacent lundi par une intelligence artificielle."
+    },
+    {
+      "who": "kevin",
+      "emo": "worried",
+      "text": "Quoi ? Mais alors, nous aussi, on est remplacés !"
+    },
+    {
+      "who": "bob",
+      "emo": "neutral",
+      "text": "Non. Elle a déjà planifié une réunion pour en discuter."
+    }
+  ],
+  "engine": "pycairo (dessin vectoriel) + edge-tts + ffmpeg — CPU, personnages et musique originaux",
+  "ai_generated_content": true,
+  "generated_utc": "2026-09-19T09:02:55.810186+00:00",
+  "status": "READY",
+  "caption": "Le robot, l'IA et la réunion — épisode 3 #industrie #ia #robot #travail #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons"
+}

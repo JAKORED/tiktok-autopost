@@ -1,0 +1,96 @@
+{
+  "niche": "applied-psychology",
+  "format": "9:16 vertical, ~30-40s, karaoke text, original FR voiceover",
+  "concepts": [
+    {
+      "id": "video_001",
+      "title": "Vous ne décidez jamais du prix",
+      "hook": "Tu ne décides jamais ce qu'une chose vaut.",
+      "description": "L'ancrage en psychologie : le premier chiffre vu contrôle ton jugement. Exemple négociation salaire.",
+      "hashtags": ["#psychologie", "#argent", "#cerveau", "#negociation", "#biais", "#learnontiktok"],
+      "audio_voice": "fr-FR-HenriNeural",
+      "scenes": [
+        {
+          "text": "LE PRIX, C'EST LUI QUI DÉCIDE",
+          "voiceover": "Voici ce que la psychologie a découvert, et ça va changer ta façon de négocier. Le premier chiffre que tu vois devient le point d'ancrage de ton cerveau.",
+          "bg": [28, 20, 58], "accent": [255, 205, 66]
+        },
+        {
+          "text": "180€ ? OU 28€ ?",
+          "voiceover": "Même vin, même bouteille. Si tu vois d'abord cent quatre-vingts euros, les vingt-huit euros semblent soudain très raisonnables.",
+          "bg": [20, 38, 70], "accent": [255, 255, 255]
+        },
+        {
+          "text": "LE PREMIER CHIFFRE = L'ANCRE",
+          "voiceover": "En négociation de salaire, c'est le même piège. Celui qui annonce le premier nombre a déjà fixé l'horizon de la discussion.",
+          "bg": [48, 22, 62], "accent": [120, 220, 255]
+        },
+        {
+          "text": "PARLE LE PREMIER",
+          "voiceover": "Donc la prochaine fois, annonce le nombre en premier. Toi seul fixes la fenêtre. Et ton cerveau te croira.",
+          "bg": [22, 48, 40], "accent": [255, 205, 66]
+        }
+      ]
+    },
+    {
+      "id": "video_002",
+      "title": "Le slot machine dans ta poche",
+      "hook": "Ton téléphone n'a rien volé. C'est un slot machine.",
+      "description": "La récompense variable : pourquoi les notifications créent une addiction, et comment reprendre le contrôle.",
+      "hashtags": ["#psychologie", "#addiction", "#cerveau", "#telephone", "#focus", "#fyp"],
+      "audio_voice": "fr-FR-DeniseNeural",
+      "scenes": [
+        {
+          "text": "TON TÉLÉ EST UN SLOT MACHINE",
+          "voiceover": "Ton téléphone ne vole pas ton attention. Il t'a construit un slot machine. Une récompense imprévisible, à chaque ouverture d'application.",
+          "bg": [58, 18, 22], "accent": [255, 90, 90]
+        },
+        {
+          "text": "RÉCOMPENSE IMPRÉVISIBLE",
+          "voiceover": "En psychologie, la récompense variable est le renforçateur le plus puissant jamais mesuré. Parfois un message. Parfois rien. Parfois une notification rouge.",
+          "bg": [34, 22, 50], "accent": [255, 160, 60]
+        },
+        {
+          "text": "TU N'ES PAS FAIBLE",
+          "voiceover": "À deux heures du matin, tu scrooles sans fin. Tu n'es pas faible. Tu es entraîné, exactement comme une machine à sous entraîne son joueur.",
+          "bg": [20, 30, 52], "accent": [255, 205, 66]
+        },
+        {
+          "text": "REPRENDS LA MANETTE",
+          "voiceover": "La bonne nouvelle ? Une habitude se déconstruit. Coupe les notifications, et tu récupères la manette.",
+          "bg": [22, 50, 38], "accent": [255, 255, 255]
+        }
+      ]
+    },
+    {
+      "id": "video_003",
+      "title": "Personne ne te regarde",
+      "hook": "Tu viens de te ridiculiser devant tout le monde. Vraiment ?",
+      "description": "L'effet projecteur : tu crois que tous les yeux sont sur toi. La science dit le contraire.",
+      "hashtags": ["#psychologie", "#confiance", "#societe", "#cerveau", "#socialpsychology", "#fyp"],
+      "audio_voice": "fr-FR-EloiseNeural",
+      "scenes": [
+        {
+          "text": "TOUT LE MONDE A VU",
+          "voiceover": "Tu penses que tout le monde t'a vu trébucher, rougir, dire une bêtise. Vraiment ? Ça s'appelle l'effet projecteur.",
+          "bg": [48, 30, 22], "accent": [255, 150, 80]
+        },
+        {
+          "text": "L'EFFET PROJECTEUR",
+          "voiceover": "Ton cerveau gonfle l'attention que tu reçois. En réalité, presque personne n'a remarqué. Ils sont tous occupés par leur propre projecteur.",
+          "bg": [26, 34, 48], "accent": [140, 200, 255]
+        },
+        {
+          "text": "PERSONNE NE T'A VU",
+          "voiceover": "L'expérience le montre : les témoins ne remarquent presque rien. Et la personne qui juge, dans la salle ? Elle est plantée dans son propre projecteur.",
+          "bg": [34, 26, 48], "accent": [255, 205, 66]
+        },
+        {
+          "text": "ALORS, VIS",
+          "voiceover": "Alors la prochaine fois que tu hésites par peur du regard, rappelle-toi : personne ne te regarde. Va vivre.",
+          "bg": [22, 48, 40], "accent": [255, 255, 255]
+        }
+      ]
+    }
+  ]
+}

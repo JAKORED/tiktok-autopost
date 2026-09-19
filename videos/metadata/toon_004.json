@@ -1,0 +1,67 @@
+{
+  "video_id": "toon_004",
+  "series": "FactVibes Toons",
+  "episode": 4,
+  "title": "Le prix de la tomate",
+  "topic": "société / pouvoir d'achat",
+  "hook": "47 EUROS POUR UNE TOMATE",
+  "description": "Ça fait quarante-sept euros, madame. / Pour un paquet de pâtes, un yaourt et une tomate ?",
+  "hashtags": [
+    "#societe",
+    "#inflation",
+    "#courses",
+    "#pouvoirdachat",
+    "#fyp",
+    "#pourtoi",
+    "#humour",
+    "#dessinanime",
+    "#cartoon",
+    "#drole",
+    "#FactVibesToons"
+  ],
+  "duration_sec": 26.67,
+  "resolution": "1080x1920",
+  "fps": "24/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "mean_volume": "-21.6 dB",
+  "lines": [
+    {
+      "who": "kevin",
+      "emo": "neutral",
+      "text": "Ça fait quarante-sept euros, madame."
+    },
+    {
+      "who": "josette",
+      "emo": "worried",
+      "text": "Pour un paquet de pâtes, un yaourt et une tomate ?"
+    },
+    {
+      "who": "kevin",
+      "emo": "smug",
+      "text": "La tomate est en édition limitée."
+    },
+    {
+      "who": "josette",
+      "emo": "angry",
+      "text": "De mon temps, avec ce prix, on achetait le magasin !"
+    },
+    {
+      "who": "kevin",
+      "emo": "neutral",
+      "text": "De votre temps, le magasin coûtait vingt francs."
+    },
+    {
+      "who": "josette",
+      "emo": "happy",
+      "text": "Alors vous avez raison. Donnez-moi la tomate. Je la mets dans mon testament."
+    }
+  ],
+  "engine": "pycairo (dessin vectoriel) + edge-tts + ffmpeg — CPU, personnages et musique originaux",
+  "ai_generated_content": true,
+  "generated_utc": "2026-09-19T09:03:36.955733+00:00",
+  "status": "READY",
+  "caption": "Le prix de la tomate — épisode 4 #societe #inflation #courses #pouvoirdachat #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons"
+}

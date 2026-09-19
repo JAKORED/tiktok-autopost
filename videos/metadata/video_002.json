@@ -1,0 +1,84 @@
+{
+  "video_id": "video_002",
+  "title": "Le slot machine dans ta poche",
+  "hook": "Ton téléphone n'a rien volé. C'est un slot machine.",
+  "description": "La récompense variable : pourquoi les notifications créent une addiction, et comment reprendre le contrôle.",
+  "hashtags": [
+    "#psychologie",
+    "#addiction",
+    "#cerveau",
+    "#telephone",
+    "#focus",
+    "#fyp"
+  ],
+  "voice": "fr-FR-DeniseNeural",
+  "duration_sec": 43.96,
+  "resolution": "1080x1920",
+  "fps": "60/1",
+  "codecs": {
+    "video": "h264",
+    "audio": "aac"
+  },
+  "scenes": [
+    {
+      "text": "TON TÉLÉ EST UN SLOT MACHINE",
+      "voiceover": "Ton téléphone ne vole pas ton attention. Il t'a construit un slot machine. Une récompense imprévisible, à chaque ouverture d'application.",
+      "bg": [
+        58,
+        18,
+        22
+      ],
+      "accent": [
+        255,
+        90,
+        90
+      ]
+    },
+    {
+      "text": "RÉCOMPENSE IMPRÉVISIBLE",
+      "voiceover": "En psychologie, la récompense variable est le renforçateur le plus puissant jamais mesuré. Parfois un message. Parfois rien. Parfois une notification rouge.",
+      "bg": [
+        34,
+        22,
+        50
+      ],
+      "accent": [
+        255,
+        160,
+        60
+      ]
+    },
+    {
+      "text": "TU N'ES PAS FAIBLE",
+      "voiceover": "À deux heures du matin, tu scrooles sans fin. Tu n'es pas faible. Tu es entraîné, exactement comme une machine à sous entraîne son joueur.",
+      "bg": [
+        20,
+        30,
+        52
+      ],
+      "accent": [
+        255,
+        205,
+        66
+      ]
+    },
+    {
+      "text": "REPRENDS LA MANETTE",
+      "voiceover": "La bonne nouvelle ? Une habitude se déconstruit. Coupe les notifications, et tu récupères la manette.",
+      "bg": [
+        22,
+        50,
+        38
+      ],
+      "accent": [
+        255,
+        255,
+        255
+      ]
+    }
+  ],
+  "engine": "pillow + edge-tts + ffmpeg (CPU) — Wan2GP/MiniMax non utilisables : aucun GPU",
+  "generated_utc": "2026-09-19T08:28:49.114990+00:00",
+  "status": "READY",
+  "caption": "Le slot machine dans ta poche — Ton téléphone n'a rien volé. C'est un slot machine. #psychologie #addiction #cerveau #telephone #focus #fyp"
+}
