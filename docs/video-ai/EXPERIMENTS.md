@@ -128,6 +128,24 @@ Gemini/Imagen (aucun accès image gratuit), stockage : Backblaze B2 10 Go sans c
 - **Coût** : 0 €, 0 s de quota GPU. **Décision** : option D **validée comme repli local** ; l'objectif « pro » passe par des plans Wan sur les moments forts
   (accroche + chute) dès qu'une capacité GPU sans quota bloquant existe (voir NEXT_STEPS, action humaine).
 
+## EXP-015 — Préparation du pipeline Kaggle (Wan 2.2 5B) et tests locaux
+- **Date** : 19/09/2026 — **Objectif** : tout préparer et tester localement avant l'intervention humaine (compte Kaggle).
+- **Livrables** : `cloud/kaggle_video_pipeline.ipynb` (autonome, projet embarqué), `cloud/kaggle/` (config, setup, generate_shots, render_episodes, restore_previous,
+  build_notebook, plans), `cloud/validate_video.py`, `cloud/ingest_incoming.py`, `docs/video-ai/KAGGLE.md`. Plans de narration réels calculés pour les 5 épisodes :
+  31 plans (7+6+6+6+6), 21,2–28,7 s par épisode.
+- **Recherche (agent infra, sources dans KAGGLE.md)** : Kaggle = **2×T4 seulement** (P100 retiré le 15/09/2026), 29 Go RAM, 12 h, sortie 20 Go / 500 fichiers ; Wan 2.2 5B =
+  34,2 Go, « ≥ 24 Go VRAM » officiel, pic 26 Go au décodage VAE, tiling VAE bugué, fp16 sur T4 **non vérifié**, aucun temps de génération T4 publié, aucun notebook Kaggle Wan en script.
+- **Tests locaux réels** (aucun GPU) : validation de 4 cas (valide, plan IA réel, tronqué, absent) ; montage bout en bout avec 6 vrais clips IA en substituts →
+  cloud_005 de test 1080×1920, 23,1 s, −15,4 dB, en 77 s ; reprise (valide repris / corrompu refusé / rejeté ignoré) ; import zip → `ready/` ; `--check` sur l'épisode 1.
+- **Bugs trouvés PAR ces tests et corrigés** : (1) `validate_video` plantait sur un fichier corrompu (division par zéro) ; (2) ma portabilité de police a créé une **récursion infinie**
+  dans `toon_engine._select_font` (aurait cassé tout rendu de sous-titres) ; (3) les plans 480×832 étaient **étirés** vers 1080×1920 → recadrage `increase+crop` ;
+  et, à la relecture de `generate_shots.py` : (4) les pipelines Wan renvoient des flottants [0,1] → le détecteur « image noire » aurait rejeté tous les plans ; (5) plan sans image de départ relancé
+  inutilement ; (6) échec du test A/B laissait la production sans modèle chargé.
+- **NON VALIDÉ (aucun accès GPU)** : chargement/inférence de SDXL et de Wan 2.2 5B sur T4, dtype fp16, classe `WanImageToVideoPipeline` sur le repo 5B (vérifiée dans le code diffusers et une issue,
+  jamais exécutée ici), temps par plan, VRAM réelle, qualité du 5B.
+- **Décision** : le premier passage Kaggle (`PHASE=episode1`) sert de **validation technique** : il produit `measurements.json`, l'A/B (image de départ vs texte seul) et les images de référence.
+  Aucune promesse de qualité avant contrôle du fichier réel.
+
 <!-- Nouvelle expérience : copier le modèle ci-dessous à la suite, incrémenter le numéro. -->
 <!--
 ## EXP-0NN — Titre

@@ -170,5 +170,30 @@
     "published_at_utc": null,
     "published_evidence": null,
     "error": "légende non saisie"
+  },
+  {
+    "video_id": "proto_001",
+    "state": "READY",
+    "file": "ready/proto_001.mp4",
+    "caption": "La réunion qui aurait pu être un mail — épisode 1 #travail #bureau #reunion #entreprise #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#reunion",
+      "#entreprise",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-19T10:16:20.504787+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
   }
 ]

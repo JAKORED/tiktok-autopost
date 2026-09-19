@@ -1,0 +1,17 @@
+# Dépendances installées par setup.sh dans le notebook Kaggle (torch est déjà fourni par Kaggle : ne pas le réinstaller).
+# Versions minimales : Wan 2.2 TI2V-5B exige un diffusers récent (>= 0.35.0, NON VÉRIFIÉ — voir docs/video-ai/KAGGLE.md).
+diffusers>=0.35.0
+transformers>=4.51
+accelerate>=1.0
+safetensors
+sentencepiece
+ftfy
+imageio
+imageio-ffmpeg
+huggingface_hub[hf_transfer]
+psutil
+Pillow
+numpy
+# Montage (CPU) : voix, sous-titres, dessin vectoriel
+edge-tts
+pycairo

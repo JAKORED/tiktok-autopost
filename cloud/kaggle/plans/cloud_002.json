@@ -1,0 +1,42 @@
+{
+  "episode": "cloud_002",
+  "total": 28.702,
+  "shots": [
+    {
+      "index": 0,
+      "span": 4.45,
+      "num_frames": 105,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. close-up of a chubby cartoon pigeon wearing a tiny tie standing on a city bench, talking to the camera, warm sunset"
+    },
+    {
+      "index": 1,
+      "span": 3.628,
+      "num_frames": 85,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon pigeon shocked looking at a price sign with three crumbs in front of a bakery window, comedic"
+    },
+    {
+      "index": 2,
+      "span": 3.508,
+      "num_frames": 81,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon baker cat in an apron shrugging behind a bakery counter full of pastries, bright cozy shop"
+    },
+    {
+      "index": 3,
+      "span": 4.612,
+      "num_frames": 109,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon pigeon making air quotes with its wings, sarcastic face, close-up"
+    },
+    {
+      "index": 4,
+      "span": 4.708,
+      "num_frames": 113,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon pigeon swooping down to grab a sandwich from a tourist's hand, dynamic action, city street"
+    },
+    {
+      "index": 5,
+      "span": 7.796,
+      "num_frames": 121,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon pigeon flying away triumphantly with a sandwich, sunset skyline, slow motion"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "_doc": "Configuration du pipeline Kaggle. Un seul paramètre change par expérience (voir docs/video-ai/KAGGLE.md).",
+  "phase": "episode1",
+  "episodes_by_phase": {
+    "episode1": [
+      "cloud_001"
+    ],
+    "rest": [
+      "cloud_002",
+      "cloud_003",
+      "cloud_004",
+      "cloud_005"
+    ],
+    "all": [
+      "cloud_001",
+      "cloud_002",
+      "cloud_003",
+      "cloud_004",
+      "cloud_005"
+    ]
+  },
+  "time_budget_hours": 8.0,
+  "model": {
+    "wan_repo": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+    "keyframe_repo": "stabilityai/stable-diffusion-xl-base-1.0"
+  },
+  "wan": {
+    "mode": "i2v",
+    "width": 480,
+    "height": 832,
+    "fps": 24,
+    "steps": "auto",
+    "steps_min": 20,
+    "steps_max": 40,
+    "guidance_scale": 5.0,
+    "dtype": "auto",
+    "offload": "model",
+    "seed_base": 1000,
+    "max_retries": 2,
+    "negative_prompt": "blurry, low quality, distorted face, extra fingers, extra hands, floating limbs, deformed hands, static image, jpeg artifacts, text, watermark, subtitles, logo, flicker, morphing",
+    "vae_tiling": false,
+    "dtype_order": [
+      "fp16",
+      "bf16"
+    ],
+    "oom_fallback": "tiling_then_fewer_frames",
+    "_doc_dtype": "T4 : pas de bf16 matériel. 'auto' teste fp16 puis bf16 en 17 images / 8 steps et garde le premier valide (ni NaN, ni noir).",
+    "_doc_size": "Largeur/hauteur = multiples de 32 (VAE ×16 × patch 2). Format natif Wan 2.2 5B : 704×1280 ; 480×832 = compromis coût."
+  },
+  "keyframe": {
+    "enabled": true,
+    "width": 768,
+    "height": 1344,
+    "steps": 24,
+    "guidance_scale": 6.0,
+    "style": "flat colorful cartoon illustration, clean outlines, Pixar-style character design, vibrant saturated colors, soft lighting, vertical composition, single clear subject,",
+    "negative_prompt": "photo, realistic, text, watermark, logo, blurry, deformed, extra limbs, dark, muddy, cropped face, multiple heads"
+  },
+  "probe": {
+    "enabled": true,
+    "sizes": [
+      [
+        480,
+        832
+      ],
+      [
+        704,
+        1280
+      ]
+    ],
+    "frames": 17,
+    "steps": 8
+  },
+  "ab_test": {
+    "enabled": true,
+    "episode": "cloud_001",
+    "shot": 3,
+    "_doc": "Compare UNE seule variable sur le même plan et la même seed : image de départ (i2v) vs texte seul (t2v)."
+  },
+  "references": {
+    "enabled": true,
+    "_doc": "Une image de référence par personnage récurrent (contrôle visuel d'identité), générée une fois."
+  },
+  "character_bible": {
+    "pigeon": "a chubby grey city pigeon with orange eyes, glossy green-purple neck feathers, wearing a tiny red tie",
+    "lion": "a majestic cartoon lion with a golden mane, a small gold crown and a red cape",
+    "robot": "a friendly industrial robot with a square metallic head, glowing blue eyes and an orange-and-grey body",
+    "cat": "a fluffy orange tabby cat with big green eyes and a white chest",
+    "peacock": "a proud peacock with shiny blue-green plumage in a navy suit and red tie",
+    "sloth": "a sleepy brown sloth with half-closed eyes wearing a white shirt",
+    "owl": "a wise brown owl with big round glasses",
+    "shark": "a grey cartoon shark in a sharp black business suit",
+    "hamster": "a cute round golden hamster holding a tiny notebook"
+  },
+  "scratch_dirs": [
+    "/kaggle/temp",
+    "/tmp"
+  ],
+  "gpu": {
+    "expected": "2x T4 (16 Go) — le P100 a été retiré de Kaggle le 15/09/2026",
+    "use_gpu_index": 0
+  }
+}

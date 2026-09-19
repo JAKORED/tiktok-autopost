@@ -14,6 +14,7 @@ Objectif viral : appliquer les mécanismes observés (hook, rétention, chute, b
 - **Réalisé mais non publié** : 4 dessins animés vectoriels toon_001..004 (jugés trop basiques).
 - **Moteur vidéo IA retenu (provisoire)** : Wan 2.2 14B image→vidéo sur Space Hugging Face ZeroGPU — **quota trop faible** pour ~30 plans.
 - **Décors IA** : AI Horde (SDXL) validé. **Personnages** : vectoriels (cohérence garantie).
+- **Pipeline Kaggle préparé** (`cloud/kaggle_video_pipeline.ipynb`, doc `KAGGLE.md`) : testé localement, **génération GPU jamais exécutée**. Action humaine unique : compte Kaggle + SMS.
 - **Prototype hybride `proto_001`** (décor IA AI Horde + personnages vectoriels + caméra cinématographique) : fichier réel, propre, **pas encore « pro »** (EXP-014). Aucune vidéo `cloud_001..005` avec plans Wan n'existe encore.
 
 ## Outils : validés / limités / rejetés (pourquoi → SOLUTIONS.md)
@@ -36,6 +37,8 @@ Objectif viral : appliquer les mécanismes observés (hook, rétention, chute, b
 | `video_pipeline/toon_engine.py`, `toon_scripts.py`, `make_toon.py` | dessins animés vectoriels + voix + sous-titres + musique ; épisode `proto_001` = mode `cinematic` avec `bg_image` (décor IA) |
 | `video_pipeline/cloud_episodes.py` | **5 épisodes originaux** (beats = 1 phrase/plan, prompts de plan, chutes) |
 | `video_pipeline/compose_cloud.py` | narration, plan de génération, montage final avec plans IA |
+| `cloud/kaggle_video_pipeline.ipynb`, `cloud/kaggle/` | **pipeline Kaggle autonome** (voir `KAGGLE.md`) ; `python cloud/kaggle/build_notebook.py` le régénère |
+| `cloud/validate_video.py`, `cloud/ingest_incoming.py` | contrôle d'un mp4 (technique + intégrité + planche d'images) ; import `videos/incoming/` → `ready/` |
 | `cloud/hf_shots.py` | génération de plans sur Space HF (T2V LTX ; **le pilote Wan I2V reste à écrire**) |
 | `cloud/horde_image.py` | images/décors SDXL via AI Horde (clé anonyme publique) |
 | `cloud/modal_video.py`, `cloud/modal_gpu_probe.py` | **historique** — Modal rejeté, conservés comme preuve du test |
@@ -58,5 +61,5 @@ Objectif viral : appliquer les mécanismes observés (hook, rétention, chute, b
 - Variables : voir `.env.example` (`HF_TOKEN`, `COMFY_API_KEY`, `TIKTOK_*`). **Ne jamais committer de valeurs.**
 
 ## Prochaines étapes → NEXT_STEPS.md
-Action humaine à choisir (une seule suffit) : créer le compte gratuit **Comfy Cloud**, ou faire la vérification SMS **Kaggle**, ou fournir un `HF_TOKEN`
-gratuit. En attendant : construire le prototype hybride de l'épisode 1 (décors AI Horde + personnages vectoriels + montage) et écrire le pilote Wan I2V.
+Action humaine unique : **Kaggle** (compte + vérification téléphone, importer le notebook, T4 x2 + Internet On, `PHASE="episode1"`, Save & Run All).
+Le reste est prêt (voir `KAGGLE.md`). Recherche d'alternatives en parallèle : `NEXT_STEPS.md`.

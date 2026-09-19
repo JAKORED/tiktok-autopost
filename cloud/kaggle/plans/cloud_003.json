@@ -1,0 +1,42 @@
+{
+  "episode": "cloud_003",
+  "total": 24.622,
+  "shots": [
+    {
+      "index": 0,
+      "span": 5.098,
+      "num_frames": 121,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. majestic cartoon lion wearing a golden crown in a flooded animal kingdom, river overflowing, dramatic stormy sky"
+    },
+    {
+      "index": 1,
+      "span": 2.98,
+      "num_frames": 69,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon lion signing a huge scroll with a feather pen while ministers animals watch, grand hall"
+    },
+    {
+      "index": 2,
+      "span": 3.46,
+      "num_frames": 81,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon fox and badger ministers arguing over a very long list, tower of papers, comedic"
+    },
+    {
+      "index": 3,
+      "span": 3.508,
+      "num_frames": 81,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon animals sitting around a huge table with mountains of paperwork, one falling asleep"
+    },
+    {
+      "index": 4,
+      "span": 3.628,
+      "num_frames": 85,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon water rising inside the hall, animals on the table lifting their feet, humorous"
+    },
+    {
+      "index": 5,
+      "span": 5.948,
+      "num_frames": 121,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon lion reading a thick report with a deadpan expression while standing in water, slow zoom in"
+    }
+  ]
+}

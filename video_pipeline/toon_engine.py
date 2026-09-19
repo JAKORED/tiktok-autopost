@@ -8,7 +8,9 @@ Tout est dessiné par code (aucun asset externe, aucun personnage protégé) :
 - sous-titres animés mot par mot
 """
 import math
+import os
 import random
+import sys
 
 import cairo
 
@@ -28,6 +30,16 @@ CHARACTERS = {
     "bob": dict(name="Robo-Bob", skin=(170, 185, 200), hair="robot", hair_col=(90, 100, 115),
                 outfit="robot", outfit_col=(120, 135, 150), robot=True),
 }
+
+
+
+def _select_font(ctx, family):
+    """Windows : Impact / Arial Black. Linux (Kaggle) : police gras de repli (TOON_FONT, défaut DejaVu Sans)."""
+    if sys.platform.startswith("win"):
+        ctx.select_font_face(family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+    else:
+        ctx.select_font_face(os.environ.get("TOON_FONT", "DejaVu Sans"), cairo.FONT_SLANT_NORMAL,
+                             cairo.FONT_WEIGHT_BOLD)
 
 
 def rgb(c, a=1.0):
@@ -525,7 +537,7 @@ def draw_counter(ctx, colors):
 
 # ------------------------------------------------------------------ texte
 def stroked_text(ctx, text, x, y, size, fill, outline=(0, 0, 0), ow=12, family="Impact", center=True):
-    ctx.select_font_face(family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+    _select_font(ctx, family)
     ctx.set_font_size(size)
     ext = ctx.text_extents(text)
     px = x - ext.width / 2 - ext.x_bearing if center else x
@@ -538,7 +550,7 @@ def stroked_text(ctx, text, x, y, size, fill, outline=(0, 0, 0), ow=12, family="
 
 
 def text_width(ctx, text, size, family="Impact"):
-    ctx.select_font_face(family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+    _select_font(ctx, family)
     ctx.set_font_size(size)
     return ctx.text_extents(text).x_advance
 

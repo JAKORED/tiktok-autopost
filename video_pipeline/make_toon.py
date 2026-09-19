@@ -8,6 +8,7 @@ Usage :
 import asyncio
 import json
 import math
+import os
 import subprocess
 import sys
 import time
@@ -22,7 +23,7 @@ import toon_engine as E  # noqa: E402
 from toon_scripts import EPISODES, GENERIC_TAGS, VOICES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-VIDEOS = ROOT / "videos"
+VIDEOS = Path(os.environ.get("VIDEO_ROOT", ROOT / "videos"))  # VIDEO_ROOT : surcharge (Kaggle, tests)
 FPS = 24
 SR = 24000
 LEAD_IN, GAP, TAIL = 0.7, 0.3, 1.8

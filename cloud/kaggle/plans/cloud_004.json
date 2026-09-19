@@ -1,0 +1,42 @@
+{
+  "episode": "cloud_004",
+  "total": 21.214,
+  "shots": [
+    {
+      "index": 0,
+      "span": 3.826,
+      "num_frames": 89,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. friendly cartoon industrial robot with a square head and glowing blue eyes on a factory floor, orange sparks"
+    },
+    {
+      "index": 1,
+      "span": 4.324,
+      "num_frames": 101,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon factory robot with several arms assembling products on a fast conveyor belt, sparks, dynamic camera"
+    },
+    {
+      "index": 2,
+      "span": 2.86,
+      "num_frames": 69,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon factory workers laughing with coffee cups at a break table, robot working in the background, warm light"
+    },
+    {
+      "index": 3,
+      "span": 2.476,
+      "num_frames": 57,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon factory robot looking up at a sleek shiny new robot descending on a platform, dramatic light"
+    },
+    {
+      "index": 4,
+      "span": 3.46,
+      "num_frames": 81,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon robot placing tools into a small box, slow sad movement, close-up of glowing blue eyes dimming"
+    },
+    {
+      "index": 5,
+      "span": 4.268,
+      "num_frames": 101,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. shiny new cartoon robot sitting on a chair sipping a tiny cup while the old robot stares surprised, comedic"
+    }
+  ]
+}

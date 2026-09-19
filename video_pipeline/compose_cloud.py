@@ -2,13 +2,14 @@
 
 Étapes (chaque phase peut être relancée seule) :
   python video_pipeline/compose_cloud.py <id> prepare  # voix (edge-tts), timings, plan des plans -> shots_plan.json
-  (GPU cloud)  python -m modal run cloud/modal_shots.py --episode <id>   # produit shots/shot_XX.mp4
+  (GPU)        cloud/kaggle/generate_shots.py (notebook Kaggle) ou cloud/hf_shots.py   # produit shots/shot_XX.mp4
   python video_pipeline/compose_cloud.py <id> render   # montage 9:16 + sous-titres + musique -> ready/
 
 Les plans sont calés sur la narration : un plan par phrase, durée = durée de la phrase (+ respiration).
 """
 import asyncio
 import json
+import os
 import subprocess
 import sys
 import time
@@ -24,7 +25,7 @@ import toon_engine as E  # noqa: E402  (sous-titres animés, titre)
 from cloud_episodes import EPISODES, NARRATORS, GENERIC_TAGS  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-VIDEOS = ROOT / "videos"
+VIDEOS = Path(os.environ.get("VIDEO_ROOT", ROOT / "videos"))  # VIDEO_ROOT : surcharge (Kaggle, tests)
 FPS, SR = 24, M.SR
 LEAD_IN, GAP, TAIL = 0.15, 0.22, 1.7
 MAX_FRAMES = 121  # Wan 2.2 TI2V-5B : 121 images à 24 fps ≈ 5 s
@@ -72,7 +73,7 @@ def render(ep):
     shots_dir = work / "shots"
     missing = [p["index"] for p in plan if not (shots_dir / f"shot_{p['index']:02d}.mp4").exists()]
     if missing:
-        sys.exit(f"plans vidéo manquants : {missing} (lancer d'abord le job GPU cloud)")
+        sys.exit(f"plans vidéo manquants : {missing} (générer d'abord les plans : voir docs/video-ai/KAGGLE.md)")
 
     # 1) chaque plan est calé à sa durée exacte, redimensionné en 1080x1920, concaténé
     fitted = []
@@ -80,7 +81,8 @@ def render(ep):
         src = shots_dir / f"shot_{p['index']:02d}.mp4"
         out = work / f"fit_{p['index']:02d}.mp4"
         M.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(src),
-               "-vf", f"tpad=stop_mode=clone:stop_duration=4,scale={E.W}:{E.H}:flags=lanczos,fps={FPS},"
+               "-vf", f"tpad=stop_mode=clone:stop_duration=4,scale={E.W}:{E.H}:force_original_aspect_ratio=increase:flags=lanczos,"
+                      f"crop={E.W}:{E.H},fps={FPS},"
                       f"unsharp=5:5:0.6,format=yuv420p",
                "-t", f"{p['span']:.3f}", "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "17", str(out)])
         fitted.append(out)
@@ -153,7 +155,7 @@ def render(ep):
         "duration_sec": round(dur, 2), "resolution": f"{v['width']}x{v['height']}", "fps": v["r_frame_rate"],
         "codecs": {"video": v["codec_name"], "audio": a["codec_name"]}, "mean_volume": mean,
         "beats": [{"text": b["text"], "shot": b["shot"]} for b in ep["beats"]],
-        "engine": "Wan 2.2 TI2V-5B (GPU cloud Modal) + edge-tts + ffmpeg/cairo",
+        "engine": "Wan 2.2 (plans IA générés sur GPU cloud) + edge-tts + ffmpeg/cairo",
         "ai_generated_content": True, "generated_utc": datetime.now(timezone.utc).isoformat(),
         "status": "READY", "caption": f"{ep['title']} — épisode {ep['ep']} " + " ".join(hashtags),
     }

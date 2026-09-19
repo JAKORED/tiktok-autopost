@@ -1,0 +1,42 @@
+{
+  "episode": "cloud_005",
+  "total": 23.134,
+  "shots": [
+    {
+      "index": 0,
+      "span": 4.258,
+      "num_frames": 101,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon orange cat sitting on a desk next to a laptop showing a video call, cozy home office, morning light"
+    },
+    {
+      "index": 1,
+      "span": 3.628,
+      "num_frames": 85,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon cat walking across a laptop keyboard, close-up of paws on the keys, comedic"
+    },
+    {
+      "index": 2,
+      "span": 2.548,
+      "num_frames": 61,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon cat turning around with its tail up in front of a laptop camera, comedic, home office"
+    },
+    {
+      "index": 3,
+      "span": 4.396,
+      "num_frames": 105,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon cat wearing a tiny headset sitting seriously at a desk, deadpan expression, close-up"
+    },
+    {
+      "index": 4,
+      "span": 3.244,
+      "num_frames": 77,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon cat knocking a coffee mug off the desk in slow motion, dramatic, home office"
+    },
+    {
+      "index": 5,
+      "span": 5.06,
+      "num_frames": 121,
+      "prompt": "Pixar-style 3D animated cartoon, vibrant saturated colors, soft cinematic lighting, expressive characters, smooth fluid motion, high quality, vertical composition. cartoon cat sleeping curled on a warm laptop keyboard peacefully, close-up, soft light"
+    }
+  ]
+}

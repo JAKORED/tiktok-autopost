@@ -55,6 +55,12 @@ les faits retenus sont dans `EXPERIMENTS.md` / `SOLUTIONS.md`.
 - **Mission** : images de départ cohérentes sans quota. **Verdict** : personnages vectoriels (cohérence garantie) + décors IA (AI Horde vérifié en réel) ;
   Cloudflare FLUX-schnell possible mais demande un compte/token ; génération locale CPU = brouillon 512².
 
+### AGENT INFRA/KAGGLE (Wan 2.2 5B sur T4)
+- **Mission** : vérifier API diffusers, VRAM/RAM, T4/fp16, limites Kaggle, notebooks existants. **Sortie** : faits dans `KAGGLE.md` / `EXPERIMENTS.md` (EXP-015).
+- **VÉRIFIÉ** : classes `WanPipeline`/`WanImageToVideoPipeline` (`expand_timesteps`), 34,2 Go, « ≥ 24 Go VRAM », pic 26 Go (issue diffusers #12097), tiling bugué (#12529),
+  P100 retiré le 15/09/2026 (annonce Kaggle), 29 Go RAM / 12 h / 20 Go / 500 fichiers (docs Kaggle).
+- **NON VÉRIFIÉ** : fp16 du 5B sur T4, temps par clip T4, quantification sur T4, quota 30 h, apt sur Kaggle, tout notebook Kaggle Wan en script (aucun trouvé).
+
 ### AGENT QUALITY CONTROL (rôle tenu par l'agent principal)
 - **Mission** : inspecter le **fichier final** (rythme, hook, cohérence, artefacts, audio, sous-titres, 9:16) et exiger la régénération d'un plan défectueux.
 - **Méthode** : `ffprobe` (format/durée), `volumedetect` (niveau), images extraites à intervalles réguliers assemblées en planche (PIL), lecture visuelle.

@@ -15,7 +15,7 @@
 | Pollinations | Images | Oui | Non | non mesuré | 584×1009, filigrane, déformé | **REJETÉ** — EXP-006 |
 | AI Horde (clé anonyme) | Images SDXL | Oui | Non | file d'attente, priorité basse | Bonne pour décors, 276 s/image | **VALIDÉ (décors)** — EXP-011 |
 | Comfy Cloud gratuit | ComfyUI cloud (Wan) | Oui | Non | 400 crédits/mois **ou** 5 runs (contradiction) | NV | **À TESTER** (compte requis) — EXP-012 |
-| Kaggle | GPU notebook | Oui | Non | ~30 h/sem. (source secondaire, NV), SMS obligatoire | NV | À TESTER (action humaine) |
+| Kaggle | GPU notebook | Oui | Non | ~30 h/sem. (source secondaire, NV), SMS obligatoire ; **2×T4 uniquement (P100 retiré le 15/09/2026)**, 29 Go RAM, 12 h/session, 500 fichiers de sortie | NV (Wan 2.2 5B sur T4 jamais mesuré) | **PRÉPARÉ, non exécuté** — notebook prêt (KAGGLE.md), action humaine requise |
 | Google Colab gratuit | GPU notebook | Oui | Non | non publié, session manuelle | NV | À TESTER (action humaine) |
 | Lightning AI | GPU notebook | Crédits | Non | ~15 crédits/mois (NV), SMS | NV | NV |
 | Cloudflare Workers AI FLUX-schnell | Images | Oui | Non (annoncé) | 10 000 neurons/jour | NV (compte + token requis) | NV |
@@ -43,3 +43,9 @@
 
 ### API TikTok — REJETÉE
 - **RAISON** : 403 à l'initialisation malgré token valide. **TEST** : EXP-002. **ALTERNATIVE** : TikTok Studio (EXP-003).
+
+### Kaggle — RETENU comme piste principale (non encore exécuté)
+- **RAISON** : seule option sans carte avec vraie capacité GPU et automatisation sans identifiants partagés (le propriétaire lance « Save & Run All »).
+- **TEST** : aucun test GPU possible depuis le poste ; tout ce qui est testable localement l'a été (montage, validation, reprise, import — voir KAGGLE.md).
+- **RÉSULTAT ATTENDU / RISQUES** : Wan 2.2 5B exige officiellement 24 Go de VRAM (T4 = 16 Go) ; fp16 sur T4 non vérifié ; qualité du 5B inconnue.
+- **ALTERNATIVE** si le 5B échoue sur T4 : LTX-Video (moins bon mais léger), Comfy Cloud (compte), HF ZeroGPU quotidien (1 vidéo/jour).

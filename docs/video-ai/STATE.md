@@ -1,6 +1,6 @@
 # CURRENT STATE
 
-Dernière mise à jour : 19/09/2026 — Agent : Claude (session « machine vidéo »)
+Dernière mise à jour : 19/09/2026 (Kaggle préparé) — Agent : Claude (session « machine vidéo »)
 
 ## Fonctionne (prouvé par fichier ou capture)
 - Publication TikTok Studio : video_001, 002, 003 publiées et visibles (EXP-003).
@@ -8,6 +8,8 @@ Dernière mise à jour : 19/09/2026 — Agent : Claude (session « machine vidé
 - Wan 2.2 14B image→vidéo sur Space HF : clip 480×832 propre et cohérent (EXP-010).
 - AI Horde : décor 704×1216 sans filigrane, 276 s (EXP-011).
 - **Prototype hybride proto_001** (décor IA + personnages vectoriels + caméra) : fichier réel 30,2 s 1080×1920, contrôlé — propre mais pas « pro/viral » (EXP-014).
+
+- **Pipeline Kaggle PRÉPARÉ** : notebook autonome + validation + montage + reprise + import, testés localement (EXP-015). Génération GPU **jamais exécutée**.
 
 ## Échec / rejeté
 - Modal : carte bancaire exigée même pour un T4 (EXP-005).
@@ -22,8 +24,9 @@ Dernière mise à jour : 19/09/2026 — Agent : Claude (session « machine vidé
 - Correctif de légende de `publish_studio.py` : écrit, non validé en publication réelle.
 
 ## Prochaine action
-1. (Agent) Écrire le pilote Wan 2.2 I2V + fallback, et remplacer les moments forts (accroche, chute) de proto_001 par des plans Wan dès qu'une capacité GPU existe.
-2. (Humain, une seule) Créer un compte gratuit Comfy Cloud **ou** valider Kaggle par SMS **ou** fournir un `HF_TOKEN` gratuit.
+1. **(Humain — la seule action requise)** Kaggle : compte + vérification téléphone → importer `cloud/kaggle_video_pipeline.ipynb` → GPU T4 x2 + Internet On → `PHASE="episode1"` → Save & Run All → télécharger l'Output dans `videos/incoming/`.
+2. (Agent) `python cloud/ingest_incoming.py`, contrôle VISUEL de l'épisode 1, lecture de `measurements.json` et de l'A/B, correction d'UNE variable si besoin, puis épisodes 2–5.
+3. Aucun identifiant n'est demandé. Rien n'est publié sans `--confirm` explicite.
 
 ## Objectif
 Produire 5 vidéos professionnelles 9:16 (24–30 s), gratuitement, publiées sur TikTok.
