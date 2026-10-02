@@ -226,6 +226,25 @@ Dans la fenêtre Chrome ouverte (portail TikTok, app FactVibes) :
   `PUBLISHED_SUSPECT` (pas `FAILED`). Cette vidéo **n'est jamais republiée
   automatiquement** (les gardes de scénario, de famille, d'empreinte et d'intervalle
   la traitent comme sortie) et compte dans le plafond du jour.
+- **Le champ description ne prend pas le clavier** (mesuré le 02/10) : `send_keys`, les
+  touches CDP et le clic souris n'ont aucun effet ; `Input.insertText` écrit dans le DOM
+  sans mettre à jour l'état Draft.js. Méthode retenue : **le nom du fichier EST la
+  légende** (`publish_studio.fs_caption()` copie le mp4 dans `C:\jv\<légende>.mp4`,
+  TikTok recopie le nom dans la description). `?` devient `？` (Windows l'interdit dans un
+  nom de fichier), les autres caractères interdits sont retirés, chemin plafonné à 210
+  caractères. Vérifié en ligne le 02/10 : légende complète, question + 4 hashtags.
+- **Un formulaire d'upload laissé ouvert peut partir tout seul** : le 02/10 à 10h33,
+  `auto_049` est apparue en ligne sans aucun clic, depuis l'upload d'une sonde de test.
+  Sur le vrai compte, toute sonde doit finir par quitter la page `/content`.
+- **Verrou de publication** (`videos/.publish.lock`) : `studio.publish_next` refuse un
+  second envoi si un premier est en cours (libéré automatiquement après 15 min). Deux
+  processus qui pilotent le même Chrome se marchent dessus et publient le mauvais fichier.
+- **Lecture du bloc Contenu :** une carte peut englober deux publications (TikTok Studio
+  imbrique les cartes dans des lignes). Une légende attribuée à la mauvaise vidéo donne un
+  « déjà en ligne » à tort, donc une vidéo **jamais publiée**. `_cartes_contenu()` coupe
+  chaque carte avant la durée suivante (en ignorant l'heure « 2 oct., 10:53 ») et
+  dédoublonne sur les 100 premiers caractères. Seul le compteur « Publications » (26 au
+  02/10) est une preuve fiable de volume : la liste ne charge que ~6-7 cartes.
 
 ---
 

@@ -250,15 +250,34 @@ def _cartes_contenu(d, tours=6):
     document.querySelectorAll('span').forEach(function(el){
       var t = (el.innerText||'').trim();
       if (!/^\d{2}:\d{2}$/.test(t)) return;
-      var p = el, card = null;
+      var p = el, meilleur = null;
       for (var i=0;i<12 && p;i++){
         p = p.parentElement; if (!p) break;
         var tx = (p.innerText||'');
-        if (tx.length >= 60 && /\d{1,2}:\d{2}/.test(tx)) { card = p; break; }
+        // On garde le PLUS PETIT ancêtre qui contient déjà une vraie légende : un
+        // ancêtre plus haut englobe plusieurs publications, et on attribuerait alors
+        // une légende à la mauvaise vidéo (faux « déjà en ligne » = vidéo perdue).
+        if (tx.length >= 60 && /\d{1,2}:\d{2}/.test(tx)) { meilleur = p; break; }
       }
-      if (!card) return;
-      var tx = (card.innerText||'').replace(/\s+/g,' ').trim();
-      if (vus[tx]) return; vus[tx] = 1;
+      if (!meilleur) return;
+      var tx = (meilleur.innerText||'').replace(/\s+/g,' ').trim();
+      // Un ancêtre peut engl PLUSIEURS publications (TikTok Studio imbrique les cartes
+      // dans des lignes). Une carte n'a qu'une durée : on coupe donc le texte avant la
+      // prochaine durée. Sans ça, la légende de la publication suivante atterrit dans
+      // la carte précédente -> faux « déjà en ligne » = vidéo jamais publiée.
+      // Piège : l'heure « 2 oct., 10:53 » a la forme d'une durée, ce n'en est pas une.
+      var coupe = -1, re = /\d{2}:\d{2}/g, m;
+      while ((m = re.exec(tx)) !== null) {
+        if (m.index === 0) continue;                       // la durée de la carte
+        var avant = tx.slice(Math.max(0, m.index - 24), m.index);
+        if (/\d{1,2}\s+[^0-9:]{2,8}\s*$/.test(avant)) continue;   // « 2 oct., 10:53 » : heure
+        coupe = m.index; break;
+      }
+      if (coupe > 0) tx = tx.slice(0, coupe).trim();
+      // Deux ancêtres peuvent décrire la MÊME carte (l'un avec les statistiques, l'autre
+      // sans) : on déduplique sur les 100 premiers caractères, jamais sur le texte entier.
+      var cle = tx.slice(0, 100);
+      if (tx.length < 8 || vus[cle]) return; vus[cle] = 1;
       out.push({duree: t, carte: tx.slice(0, 300)});
     });
     return JSON.stringify(out);

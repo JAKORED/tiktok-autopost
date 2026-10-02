@@ -1,5 +1,34 @@
 [
   {
+    "video_id": "via_007",
+    "state": "PUBLISHED",
+    "file": "ready/via_007.mp4",
+    "caption": "ROBO-BOB PREND LE POUVOIR — Robo-Bob prend le pouvoir (épisode 8). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#robot",
+      "#travail",
+      "#tech",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.220349+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-22T10:54:20.015241+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
     "video_id": "video_001",
     "state": "PUBLISHED",
     "file": "ready/video_001.mp4",
@@ -73,7 +102,7 @@
   },
   {
     "video_id": "toon_001",
-    "state": "FAILED",
+    "state": "PUBLISHED",
     "file": "ready/toon_001.mp4",
     "caption": "La réunion qui aurait pu être un mail — épisode 1 #travail #bureau #reunion #entreprise #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
     "hashtags": [
@@ -92,15 +121,19 @@
     "created_utc": "2026-09-19T09:03:44.966030+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
-    "error": "légende non saisie"
+    "published_at_utc": "2026-09-27T12:30:13.205454+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio (liste Contenu, 19 publications)",
+      "confirmation": "deja en ligne : toon_001",
+      "note": "detecte au 27/09 : deja publie le 26/09 20:08 mais la file le considérait encore READY -> risque de doublon"
+    },
+    "error": null
   },
   {
     "video_id": "toon_002",
-    "state": "FAILED",
+    "state": "PUBLISHED",
     "file": "ready/toon_002.mp4",
-    "caption": "La promesse historique du ministre — épisode 2 #politique #satire #promesse #societe #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "caption": "LA PROMESSE HISTORIQUE — La promesse historique du ministre (épisode 2). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
     "hashtags": [
       "#politique",
       "#satire",
@@ -117,15 +150,19 @@
     "created_utc": "2026-09-19T09:03:44.985165+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
-    "error": "légende non saisie"
+    "published_at_utc": "2026-09-20T09:24:24.631550+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
   },
   {
     "video_id": "toon_003",
-    "state": "FAILED",
+    "state": "PUBLISHED",
     "file": "ready/toon_003.mp4",
-    "caption": "Le robot, l'IA et la réunion — épisode 3 #industrie #ia #robot #travail #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "caption": "LE ROBOT VA TE REMPLACER — Le robot, l'IA et la réunion (épisode 3). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
     "hashtags": [
       "#industrie",
       "#ia",
@@ -142,15 +179,19 @@
     "created_utc": "2026-09-19T09:03:45.006518+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
-    "error": "légende non saisie"
+    "published_at_utc": "2026-09-20T09:25:12.490053+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
   },
   {
     "video_id": "toon_004",
-    "state": "FAILED",
+    "state": "PUBLISHED",
     "file": "ready/toon_004.mp4",
-    "caption": "Le prix de la tomate — épisode 4 #societe #inflation #courses #pouvoirdachat #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
+    "caption": "47 EUROS POUR UNE TOMATE — Le prix de la tomate (épisode 4). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
     "hashtags": [
       "#societe",
       "#inflation",
@@ -167,13 +208,17 @@
     "created_utc": "2026-09-19T09:03:45.017051+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
-    "error": "légende non saisie"
+    "published_at_utc": "2026-09-20T09:26:00.697892+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
   },
   {
     "video_id": "proto_001",
-    "state": "READY",
+    "state": "FAILED",
     "file": "ready/proto_001.mp4",
     "caption": "La réunion qui aurait pu être un mail — épisode 1 #travail #bureau #reunion #entreprise #fyp #pourtoi #humour #dessinanime #cartoon #drole #FactVibesToons",
     "hashtags": [
@@ -190,6 +235,1247 @@
       "#FactVibesToons"
     ],
     "created_utc": "2026-09-19T10:16:20.504787+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "DOUBLON de toon_001 (meme script) - publiee puis supprimee manuellement par le patron"
+  },
+  {
+    "video_id": "auto_001",
+    "state": "PUBLISHED",
+    "file": "ready/auto_001.mp4",
+    "caption": "LE MAIL DU VENDREDI 17 h 59 — Le mail du vendredi que tu redoutes (le budget) (épisode 1). Dessin animé original sur travail. #animationhumour #humourfrançais #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#mail",
+      "#weekend",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T08:02:18.671397+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-20T08:42:18.000575+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_002",
+    "state": "PUBLISHED",
+    "file": "ready/auto_002.mp4",
+    "caption": "LE MAIL DU VENDREDI 17 h 59 — Le mail du vendredi que tu redoutes (le planning) (épisode 2). Dessin animé original sur travail. #série #dessinanimé #animation #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#mail",
+      "#weekend",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T08:02:18.687223+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-20T08:46:39.805573+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_003",
+    "state": "FAILED",
+    "file": "ready/auto_003.mp4",
+    "caption": "LE MAIL DU VENDREDI 17 h 59 — Le mail du vendredi que tu redoutes (la présentation) (épisode 3). Dessin animé original sur travail. #humour #cartoonfr #dessin #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#mail",
+      "#weekend",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T08:02:18.703340+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "retire (20/09) : theme du 1er lot trop repetitif, remplace par la banque virale"
+  },
+  {
+    "video_id": "auto_004",
+    "state": "FAILED",
+    "file": "ready/auto_004.mp4",
+    "caption": "LE MAIL DU VENDREDI 17 h 59 — Le mail du vendredi que tu redoutes (le tableau des congés) (épisode 4). Dessin animé original sur travail. #viral #animation #france #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#mail",
+      "#weekend",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T08:02:18.719130+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "retire (20/09) : theme du 1er lot trop repetitif, remplace par la banque virale"
+  },
+  {
+    "video_id": "auto_005",
+    "state": "FAILED",
+    "file": "ready/auto_005.mp4",
+    "caption": "LA MACHINE À CAFÉ EN PANNE — La machine à café est en panne (enquête) (épisode 5). Dessin animé original sur travail. #dessinanimé #animation #humour #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#opendspace",
+      "#cafe",
+      "#machine",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T08:02:18.735030+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "retire (20/09) : theme du 1er lot trop repetitif, remplace par la banque virale"
+  },
+  {
+    "video_id": "via_001",
+    "state": "PUBLISHED",
+    "file": "ready/via_001.mp4",
+    "caption": "23 h 43 UN MAIL DE NUIT — Le message à 23 h 43 (épisode 2). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#ia",
+      "#mail",
+      "#nuit",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.125303+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-20T09:26:47.187131+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_002",
+    "state": "PUBLISHED",
+    "file": "ready/via_002.mp4",
+    "caption": "POV LE PRÉDATEUR DU FRIGO — POV : le voleur du frigo de bureau (épisode 3). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#pov",
+      "#bureau",
+      "#frigo",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.147255+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-21T08:41:52.212963+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_003",
+    "state": "PUBLISHED",
+    "file": "ready/via_003.mp4",
+    "caption": "3 H DU MATIN AU BUREAU — 3 h du matin au bureau (épisode 4). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#3h",
+      "#horreur",
+      "#bureau",
+      "#histoire",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.167103+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-21T09:03:13.914036+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_004",
+    "state": "PUBLISHED",
+    "file": "ready/via_004.mp4",
+    "caption": "MA DERNIÈRE NOTE VOCALE — La dernière note vocale (épisode 5). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#emotion",
+      "#note",
+      "#surprise",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.172870+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-21T09:04:39.520408+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_005",
+    "state": "PUBLISHED",
+    "file": "ready/via_005.mp4",
+    "caption": "LA VOYANTE DU DIMANCHE — La voyante du dimanche (épisode 6). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#astro",
+      "#tarot",
+      "#dimanche",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.196682+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-21T09:05:58.808974+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_006",
+    "state": "PUBLISHED",
+    "file": "ready/via_006.mp4",
+    "caption": "LE MINISTRE PLAT-ISTE — Le Ministre plat-iste (épisode 7). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#satire",
+      "#societe",
+      "#complot",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.206600+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-21T09:13:38.074198+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "via_008",
+    "state": "FAILED",
+    "file": "ready/via_008.mp4",
+    "caption": "LE MUTE CASSÉ — Le mute cassé (épisode 9). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#visio",
+      "#reunion",
+      "#teletravail",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.245084+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "via_009",
+    "state": "FAILED",
+    "file": "ready/via_009.mp4",
+    "caption": "POV VOYAGE DANS LE TEMPS — POV : voyage dans le temps (épisode 10). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#pov",
+      "#voyagetemporel",
+      "#reunion",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.253860+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "via_010",
+    "state": "FAILED",
+    "file": "ready/via_010.mp4",
+    "caption": "LE TRIBUNAL DU BUREAU — Le tribunal du bureau (épisode 11). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#tribunal",
+      "#debat",
+      "#cafe",
+      "#humour",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:15:55.267753+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "via_000",
+    "state": "PUBLISHED",
+    "file": "ready/via_000.mp4",
+    "caption": "LE MAIL PART À TOUS — Le mail qui part à tout le monde (épisode 1). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#mail",
+      "#storytime",
+      "#fyp",
+      "#pourtoi",
+      "#humour",
+      "#dessinanime",
+      "#cartoon",
+      "#drole",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-20T09:18:30.438827+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-20T09:23:19.901733+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_006",
+    "state": "FAILED",
+    "file": "ready/auto_006.mp4",
+    "caption": "La machine à café est en maintenance (enquête) — épisode 6 #travail #opendspace #cafe #machine #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#opendspace",
+      "#cafe",
+      "#machine",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-21T08:12:49.065880+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "retire (21/09) : theme machine a cafe trop repetitif, remplace par la banque virale"
+  },
+  {
+    "video_id": "auto_007",
+    "state": "FAILED",
+    "file": "ready/auto_007.mp4",
+    "caption": "La machine à café est en réparation (enquête) — épisode 7 #travail #opendspace #cafe #machine #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#opendspace",
+      "#cafe",
+      "#machine",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-21T08:12:49.081726+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "retire (21/09) : theme machine a cafe trop repetitif, remplace par la banque virale"
+  },
+  {
+    "video_id": "auto_008",
+    "state": "PUBLISHED",
+    "file": "ready/auto_008.mp4",
+    "caption": "LA MACHINE À CAFÉ HORS SERVICE — La machine à café est hors service (enquête) (épisode 8). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#opendspace",
+      "#cafe",
+      "#machine",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-23T09:21:36.647376+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-23T09:22:34.774943+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_009",
+    "state": "FAILED",
+    "file": "ready/auto_009.mp4",
+    "caption": "LE MUTE OUBLIÉ — Le mute oublié (le couloir) (épisode 9). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#visio",
+      "#reunion",
+      "#mute",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-23T09:21:36.689075+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_010",
+    "state": "FAILED",
+    "file": "ready/auto_010.mp4",
+    "caption": "LE MUTE OUBLIÉ — Le mute oublié (l'open space) (épisode 10). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#visio",
+      "#reunion",
+      "#mute",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-23T09:21:36.726464+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_011",
+    "state": "FAILED",
+    "file": "ready/auto_011.mp4",
+    "caption": "LE MUTE OUBLIÉ — Le mute oublié (le parking) (épisode 11). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#visio",
+      "#reunion",
+      "#mute",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-23T09:21:36.761528+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_012",
+    "state": "PUBLISHED",
+    "file": "ready/auto_012.mp4",
+    "caption": "LE MUTE OUBLIÉ — Le mute oublié (la cuisine) (épisode 12). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#visio",
+      "#reunion",
+      "#mute",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-23T09:21:36.787463+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-27T12:30:13.205454+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio (liste Contenu, 19 publications)",
+      "confirmation": "deja en ligne : auto_012#dessinanime #cartoon #pov #FactVibesToons",
+      "note": "detecte au 27/09 : deja publie le 26/09 20:08 mais la file le considérait encore READY -> risque de doublon"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_013",
+    "state": "PUBLISHED",
+    "file": "ready/auto_013.mp4",
+    "caption": "LE MICRO-ONDES DU MIDI — Le micro-ondes et du poisson (épisode 13). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#cantine",
+      "#midi",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-24T08:41:11.368757+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-24T10:45:00+02:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio le 24/09 10:45",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_014",
+    "state": "FAILED",
+    "file": "ready/auto_014.mp4",
+    "caption": "LE MICRO-ONDES DU MIDI — Le micro-ondes et du brocoli (épisode 14). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#cantine",
+      "#midi",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-24T08:41:11.404972+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_015",
+    "state": "FAILED",
+    "file": "ready/auto_015.mp4",
+    "caption": "LE MICRO-ONDES DU MIDI — Le micro-ondes et du chou (épisode 15). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#cantine",
+      "#midi",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-24T08:41:11.427812+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_016",
+    "state": "FAILED",
+    "file": "ready/auto_016.mp4",
+    "caption": "LE MICRO-ONDES DU MIDI — Le micro-ondes et un plat mystérieux (épisode 16). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#cantine",
+      "#midi",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-24T08:45:07.736609+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_017",
+    "state": "FAILED",
+    "file": "ready/auto_017.mp4",
+    "caption": "LE MOT DE PASSE OUBLIÉ — Le mot de passe oublié (le portail des congés) (épisode 17). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#admin",
+      "#motdepasse",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-24T08:45:07.764202+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_018",
+    "state": "FAILED",
+    "file": "ready/auto_018.mp4",
+    "caption": "LE MOT DE PASSE OUBLIÉ — Le mot de passe oublié (la bibliothèque) (épisode 18). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#admin",
+      "#motdepasse",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-25T22:09:20.762916+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_019",
+    "state": "FAILED",
+    "file": "ready/auto_019.mp4",
+    "caption": "LE MOT DE PASSE OUBLIÉ — Le mot de passe oublié (le logiciel de paie) (épisode 19). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#admin",
+      "#motdepasse",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-25T22:09:20.789498+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_020",
+    "state": "FAILED",
+    "file": "ready/auto_020.mp4",
+    "caption": "LE MOT DE PASSE OUBLIÉ — Le mot de passe oublié (le serveur secret) (épisode 20). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#admin",
+      "#motdepasse",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-25T22:09:20.811525+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_021",
+    "state": "FAILED",
+    "file": "ready/auto_021.mp4",
+    "caption": "LIVRÉ. DÉPOSÉ. INTROUVABLE. — La livraison « déposée » (une enceinte) (épisode 21). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#livraison",
+      "#colis",
+      "#ecommerce",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-25T22:09:20.832570+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_022",
+    "state": "PUBLISHED",
+    "file": "ready/auto_022.mp4",
+    "caption": "LIVRÉ. DÉPOSÉ. INTROUVABLE. — La livraison « déposée » (une carte mère) (épisode 22). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#livraison",
+      "#colis",
+      "#ecommerce",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-25T22:09:20.854612+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-27T12:30:13.205454+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio (liste Contenu, 19 publications)",
+      "confirmation": "deja en ligne : auto_022#FactVibesToons #pov #cartoon #humourfrancais",
+      "note": "detecte au 27/09 : deja publie le 26/09 20:08 mais la file le considérait encore READY -> risque de doublon"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_023",
+    "state": "FAILED",
+    "file": "ready/auto_023.mp4",
+    "caption": "LIVRÉ. DÉPOSÉ. INTROUVABLE. — La livraison « déposée » (un cadeau) (épisode 23). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#livraison",
+      "#colis",
+      "#ecommerce",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-26T17:40:59.113101+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_024",
+    "state": "FAILED",
+    "file": "ready/auto_024.mp4",
+    "caption": "LIVRÉ. DÉPOSÉ. INTROUVABLE. — La livraison « déposée » (un pneu) (épisode 24). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#livraison",
+      "#colis",
+      "#ecommerce",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-26T17:40:59.145305+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "légende non saisie"
+  },
+  {
+    "video_id": "auto_025",
+    "state": "PUBLISHED",
+    "file": "ready/auto_025.mp4",
+    "caption": "La banque qui bloque (un virement) — épisode 25 #banque #argent #virement #administration #FactVibesToons",
+    "hashtags": [
+      "#banque",
+      "#argent",
+      "#virement",
+      "#administration",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-26T17:40:59.183567+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-30T10:34:00+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio (liste lue le 30/09)",
+      "en_examen": false,
+      "note": "legende verifiee dans l'interface : legende complete (hook + question + 4 hashtags)"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_026",
+    "state": "DELETED",
+    "file": "ready/auto_026.mp4",
+    "caption": "VOTRE BANQUE VOUS PROTÈGE — La banque qui bloque (un paiement) (épisode 26). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#banque",
+      "#argent",
+      "#virement",
+      "#administration",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-26T17:10:03.411776+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-30T11:05:47.817773+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": false
+    },
+    "error": "doublon de scenario (variante de auto_025) — SUPPRIME PAR LE PATRON le 30/09/2026",
+    "deleted_by": "patron",
+    "deleted_utc": "2026-09-30T11:20:00+00:00"
+  },
+  {
+    "video_id": "auto_027",
+    "state": "FAILED",
+    "file": "ready/auto_027.mp4",
+    "caption": "La banque qui bloque (une simple consultation) — épisode 27 #banque #argent #virement #administration #FactVibesToons",
+    "hashtags": [
+      "#banque",
+      "#argent",
+      "#virement",
+      "#administration",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-26T17:10:03.428352+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « votre banque|vous protège » déjà publié)"
+  },
+  {
+    "video_id": "auto_028",
+    "state": "FAILED",
+    "file": "ready/auto_028.mp4",
+    "caption": "La banque qui bloque (le solde) — épisode 28 #banque #argent #virement #administration #FactVibesToons",
+    "hashtags": [
+      "#banque",
+      "#argent",
+      "#virement",
+      "#administration",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-27T12:37:12.123850+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « votre banque|vous protège » déjà publié)"
+  },
+  {
+    "video_id": "auto_029",
+    "state": "PUBLISHED",
+    "file": "ready/auto_029.mp4",
+    "caption": "DIMANCHE 21 h 47 — Dimanche soir : la réunion de lundi (épisode 29). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#dimanche",
+      "#angoisse",
+      "#lundi",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-27T12:37:12.148327+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-30T20:03:00+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio",
+      "confirmation": "présent dans Contenu (30 sept., 22:03)"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_030",
+    "state": "FAILED",
+    "file": "ready/auto_030.mp4",
+    "caption": "Dimanche soir : le mail en retard — épisode 30 #dimanche #angoisse #lundi #quotidien #FactVibesToons",
+    "hashtags": [
+      "#dimanche",
+      "#angoisse",
+      "#lundi",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-27T12:37:12.172187+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « dimanche|21 h 47 » déjà publié)"
+  },
+  {
+    "video_id": "auto_031",
+    "state": "FAILED",
+    "file": "ready/auto_031.mp4",
+    "caption": "Dimanche soir : le dossier non rendu — épisode 31 #dimanche #angoisse #lundi #quotidien #FactVibesToons",
+    "hashtags": [
+      "#dimanche",
+      "#angoisse",
+      "#lundi",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-30T11:14:06.245953+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « dimanche|21 h 47 » déjà publié)"
+  },
+  {
+    "video_id": "auto_032",
+    "state": "FAILED",
+    "file": "ready/auto_032.mp4",
+    "caption": "Dimanche soir : la to-do de la semaine — épisode 32 #dimanche #angoisse #lundi #quotidien #FactVibesToons",
+    "hashtags": [
+      "#dimanche",
+      "#angoisse",
+      "#lundi",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-30T11:14:06.274799+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « dimanche|21 h 47 » déjà publié)"
+  },
+  {
+    "video_id": "auto_033",
+    "state": "PUBLISHED",
+    "file": "ready/auto_033.mp4",
+    "caption": "LE GROUPE DE LA FAMILLE — Le groupe WhatsApp familial (Tonton) (épisode 33). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#whatsapp",
+      "#famille",
+      "#groupe",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-30T11:14:06.292622+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-09-30T11:56:36.670063+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_034",
+    "state": "FAILED",
+    "file": "ready/auto_034.mp4",
+    "caption": "Le groupe WhatsApp familial (Tatie) — épisode 34 #whatsapp #famille #groupe #quotidien #FactVibesToons",
+    "hashtags": [
+      "#whatsapp",
+      "#famille",
+      "#groupe",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-30T11:14:06.309792+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le groupe|de la famille » déjà publié)"
+  },
+  {
+    "video_id": "auto_035",
+    "state": "FAILED",
+    "file": "ready/auto_035.mp4",
+    "caption": "Le groupe WhatsApp familial (Cousine) — épisode 35 #whatsapp #famille #groupe #quotidien #FactVibesToons",
+    "hashtags": [
+      "#whatsapp",
+      "#famille",
+      "#groupe",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-09-30T17:01:14.068500+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le groupe|de la famille » déjà publié)"
+  },
+  {
+    "video_id": "auto_037",
+    "state": "PUBLISHED",
+    "file": "ready/auto_037.mp4",
+    "caption": "L'APPEL « ÇA VA ? » — L'appel qui commence par « ça va ? » (niveau un) (épisode 37). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#appel",
+      "#telephone",
+      "#stress",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-01T17:13:30.997723+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-01T17:30:37.746805+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true,
+      "note": "en ligne le 01/10 a 19:24 avec une legende cassee (hashtags seuls) malgre un premier run non concluant ; un deuxieme envoi du meme fichier a ete lance"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_041",
+    "state": "PUBLISHED",
+    "file": "ready/auto_041.mp4",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technologie",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-01T17:13:31.055254+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "error": null,
+    "caption": "L'IA RÉPOND « EN REVANCHE » — ChatGPT répond en revanche (un gâteau) (épisode 41 · auto_041). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "published_at_utc": "2026-10-02T08:16:35.116325+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    }
+  },
+  {
+    "video_id": "auto_045",
+    "state": "PUBLISHED",
+    "file": "ready/auto_045.mp4",
+    "caption": "L'IA REFONT L'ORGANIGRAMME — L'IA refait l'organigramme (ton poste) (épisode 45 · auto_045). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#organigramme",
+      "#entreprise",
+      "#robot",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-01T17:13:31.212498+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-02T08:54:14.073612+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_049",
+    "state": "PUBLISHED",
+    "file": "ready/auto_049.mp4",
+    "caption": "MA DEMANDE DE CONGÉS — La demande de congés sans réponse (août) (épisode 49 · auto_049). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#conge",
+      "#vacances",
+      "#travail",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-01T17:13:31.475702+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-02T09:26:26.467879+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio",
+      "confirmation": "déjà présent dans Contenu avant envoi",
+      "carte": "00:24 MA DEMANDE DE CONGÉS — La demande de congés sans réponse (août) (épisode 49 · auto_049). Et vous, vous auriez fait"
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_053",
+    "state": "READY",
+    "file": "ready/auto_053.mp4",
+    "caption": "L'OBJET EMPRUNTÉ — L'objet emprunté et jamais rendu (une cuillère) (épisode 53). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#bureau",
+      "#objet",
+      "#vol",
+      "#economie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-01T17:13:31.522702+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_065",
+    "state": "READY",
+    "file": "ready/auto_065.mp4",
+    "caption": "Le badge n'ouvre plus la porte du sous-sol — épisode 65 #travail #bureau #badge #securite #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#badge",
+      "#securite",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:39:39.639017+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_069",
+    "state": "READY",
+    "file": "ready/auto_069.mp4",
+    "caption": "Le ticket disparaît à la caisse — épisode 69 #quotidien #magasin #ticket #courses #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#ticket",
+      "#courses",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:46:16.663357+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_073",
+    "state": "READY",
+    "file": "ready/auto_073.mp4",
+    "caption": "La panne de l'emballeuse était prévue — épisode 73 #industrie #panne #usine #technique #FactVibesToons",
+    "hashtags": [
+      "#industrie",
+      "#panne",
+      "#usine",
+      "#technique",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:46:16.698672+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_077",
+    "state": "READY",
+    "file": "ready/auto_077.mp4",
+    "caption": "La conférence de presse qui ne répond pas — épisode 77 #politique #communication #presse #humour #FactVibesToons",
+    "hashtags": [
+      "#politique",
+      "#communication",
+      "#presse",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:46:16.759923+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_081",
+    "state": "READY",
+    "file": "ready/auto_081.mp4",
+    "caption": "Le salaire annoncé pour le 3 du mois — épisode 81 #travail #salaire #argent #patron #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#salaire",
+      "#argent",
+      "#patron",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:46:59.000840+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": null
+  },
+  {
+    "video_id": "auto_036",
+    "state": "READY",
+    "file": "ready/auto_036.mp4",
+    "caption": "Le groupe WhatsApp familial (Grand-père) — épisode 36 #whatsapp #famille #groupe #quotidien #FactVibesToons",
+    "hashtags": [
+      "#whatsapp",
+      "#famille",
+      "#groupe",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-02T08:48:02.755016+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
     "published_at_utc": null,

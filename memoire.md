@@ -120,3 +120,22 @@
 
 ## Commande pour relancer le gardien 24/7
 - double-clic ou: python guardian.py
+
+## 02/10/2026 - TROIS VIDEOS EN LIGNE, ET UNE DECOUVERTE SUR L'INTERFACE
+- Etat reel du compte : **26 publications** (etait 23 avant ce matin). Les 3 nouvelles :
+  `auto_041` (10:16, legende cassee -> a supprimer par le patron),
+  `auto_049` (10:33) et `auto_045` (10:53, legende complete et correcte).
+- **Le nom de fichier marche** : la legende en ligne de `auto_045` est bien le nom du
+  fichier copie dans C:\jv, avec la question et les 4 hashtags. Plus aucune saisie clavier.
+- DECOUVERTE IMPORTANTE : `auto_049` est partie en ligne a 10:33 **sans aucun clic de ma
+  part** : c'etait l'upload d'une sonde de test (`test_nom2.py`) laisse ouvert sur le
+  formulaire. Consequence : sur le vrai compte, un formulaire d'upload jamais ferme peut
+  partir tout seul. Regle : toute sonde de test termine par quitter la page /content.
+- Deux sondes ne doivent jamais tourner en meme temps qu'une publication : ajout d'un
+  **verrou `videos/.publish.lock`** dans `publish_next` (refuse un second envoi si un
+  premier est en cours, le libere apres 15 min s'il est perime).
+- Bug de lecture du DOM corrige : une carte du bloc Contenu pouvait englober DEUX
+  publications. Consequence : une legende attribuee a la mauvaise video, donc des
+  « deja en ligne » a tort, donc des videos jamais publiees. On coupe maintenant chaque
+  carte avant la duree suivante (en ignorant l'heure « 2 oct., 10:53 ») et on dedoublonne
+  sur les 100 premiers caracteres.

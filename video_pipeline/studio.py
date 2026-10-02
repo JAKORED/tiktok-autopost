@@ -13,6 +13,7 @@ Usage :
   python video_pipeline/studio.py publish --verify# reconfirme les SCHEDULED en attente
   python video_pipeline/studio.py status          # état de la file de publication
 """
+import functools
 import json
 import os
 import shutil
@@ -357,6 +358,37 @@ def last_published_dt(queue=None):
     return max(times) if times else None
 
 
+def _sous_verrou_publication(fn):
+    """Interdit deux publications simultanées (scheduler + relais + publication manuelle).
+
+    Deux process qui pilotent le même Chrome au même moment se marchent dessus : chacun
+    croit avoir le formulaire d'upload pour lui, un post part avec la mauvaise vidéo, et
+    la file est marquée Published alors que le fichier en ligne est un autre. Vécu le
+    02/10/2026 (un probe de test et le scheduler se sont trouvés sur la même page).
+    """
+    @functools.wraps(fn)
+    def enveloppe(*args, **kwargs):
+        lock = VIDEOS / ".publish.lock"
+        try:
+            fd = os.open(str(lock), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            age = time.time() - lock.stat().st_mtime
+            if age < 900:                      # verrou frais : on refuse, pas de doublon
+                print(f"[publier] publication déjà en cours (verrou de {age:.0f} s) "
+                      f"-> on n'envoie rien", flush=True)
+                return "busy"
+            lock.unlink(missing_ok=True)        # verrou périmé (process mort) : on libère
+            fd = os.open(str(lock), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                f.write(f"pid={os.getpid()} debut={datetime.now(timezone.utc).isoformat()}")
+            return fn(*args, **kwargs)
+        finally:
+            lock.unlink(missing_ok=True)
+    return enveloppe
+
+
+@_sous_verrou_publication
 def publish_next(config, video_id=None, allow_studio=None, force=False):
     """Publie le plus ancien READY via TikTok Studio navigateur (QR) ou API.
 

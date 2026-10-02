@@ -35,6 +35,8 @@ config/chrome_tiktok_profile/
 config/
 # cache d'empreintes visuelles : se régénère tout seul (ffmpeg), inutile en dépôt
 videos/fingerprints.json
+# verrou de publication : fichier d'exécution, jamais committé
+videos/.publish.lock
 # copies de sauvegarde de la file
 videos/queue.json.bak-*
 videos/generated/
