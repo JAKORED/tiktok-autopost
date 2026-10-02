@@ -1,11 +1,24 @@
 {
-  "app_name": "TikTok AutoPost",
+  "app_name": "FactVibes",
+  "account_name": "@factvibes.daily",
   "version": "1.0.0",
 
   "posting_schedule": {
-    "posts_per_day": 1,
-    "post_times_utc": ["14:00", "17:00", "20:00"],
-    "best_hours_note": "18h-21h heure locale = pic d'engagement TikTok"
+    "posts_per_day": 5,
+    "min_minutes_between_posts": 30,
+    "post_times_utc": ["17:00", "17:30", "18:00", "18:30", "19:00"],
+    "best_hours_note": "Ordre du patron (30/09/2026) : 1 post toutes les 30 MINUTES, 5/jour, 17:00-19:00 UTC = 19h-21h Paris (fenetre covering le pic FR du soir ~20h). Intervalle pile de 30 min entre chaque post, garde anti-doublon + garde min 30 min conservees."
+  },
+
+  "production": {
+    "engine": "toons",
+    "daily_render_cap": 5,
+    "min_buffer": 8,
+    "bg_ai_cap_per_day": 0,
+    "publish_method": "studio",
+    "api_allowed": true,
+    "auto_publish": true,
+    "note": "auto_publish=true : le scheduler produit (2/heure en tampon) et publie 1 vidéo par créneau (5/jour, 17:00-20:15 UTC = 19h-22h15 FR été). Volume 2 ligne au pic. publish_method=studio = TikTok Studio navigateur (connexion QR du patron) ; 'api' = API officielle (403 actuellement, sandbox). Légendes : max 5 hashtags, jamais #fyp/#viral, question comment-bait. Anti-doublon par signature de script obligatoire. Ledger logs/studio_ledger.json garde le budget du jour."
   },
 
   "content_search": {
@@ -72,6 +85,7 @@
 
   "cloud_storage": {
     "provider": "local",
+    "temp_path": "./temp",
     "local_path": "./output",
     "max_storage_mb": 5000,
     "cleanup_after_post": true,

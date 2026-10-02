@@ -9,6 +9,7 @@ Usage : python video_pipeline/publish_studio.py <video_id> --confirm
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -21,6 +22,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import (
+    StaleElementReferenceException, NoSuchElementException, WebDriverException)
 
 ROOT = Path(__file__).resolve().parent.parent
 VIDEOS = ROOT / "videos"
@@ -30,43 +33,317 @@ UPLOAD_URL = "https://www.tiktok.com/tiktokstudio/upload"
 CONTENT_URL = "https://www.tiktok.com/tiktokstudio/content"
 
 
-def ensure_chrome():
+def _cdp_ready(timeout=3):
     try:
-        urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=3)
+        with urllib.request.urlopen("http://127.0.0.1:9222/json/version", timeout=timeout) as r:
+            return r.status == 200
     except Exception:
+        return False
+
+
+def ensure_chrome(timeout=90):
+    """Chrome de debug (port 9222) déjà ouvert ? Sinon on le lance et on ATTEND le port.
+
+    Le 30/09/2026 l'ancien « sleep(8) » ne suffisait pas : Chrome met 15-25 s à ouvrir
+    9222 (et peut rester bloqué sur une boîte de premier lancement) -> publication
+    cassée avec SessionNotCreatedException. On sonde donc le port réellement.
+    """
+    if not _cdp_ready():
         subprocess.Popen([CHROME, "--remote-debugging-port=9222", f"--user-data-dir={PROFILE}",
-                          "--window-size=1200,950", UPLOAD_URL])
-        time.sleep(8)
+                          "--window-size=1200,950", "--no-first-run", "--no-default-browser-check",
+                          UPLOAD_URL])
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        if _cdp_ready():
+            break
+        time.sleep(2)
+    else:
+        raise RuntimeError(
+            f"Chrome debug injoignable sur le port 9222 après {timeout}s. "
+            f"Lance à la main : \"{CHROME}\" --remote-debugging-port=9222 "
+            f"--user-data-dir=\"{PROFILE}\" {UPLOAD_URL} (session TikTok déjà connectée "
+            f"dans ce profil, pas besoin de rescanner le QR).")
     o = Options()
     o.debugger_address = "127.0.0.1:9222"
     return webdriver.Chrome(options=o)
 
 
+def find_retry(d, by, val, tries=10, sleep=1.5):
+    """Recherche d'élément robuste aux StaleElementReference (recharges de page TikTok)."""
+    last = None
+    for _ in range(tries):
+        try:
+            return d.find_element(by, val)
+        except (StaleElementReferenceException, NoSuchElementException) as exc:
+            last = exc
+            time.sleep(sleep)
+    raise last
+
+
+def body_text(d, tries=10):
+    """Texte de la page, ou None si la page se recharge (TikTokStudio la reconstruit sans
+    arrêt pendant l'import) — les boucles d'attente traitent None en « pas encore »."""
+    try:
+        return find_retry(d, By.TAG_NAME, "body", tries=tries).text
+    except (StaleElementReferenceException, NoSuchElementException, WebDriverException):
+        return None
+
+
+def page_says(d, *words):
+    """True si au moins un des mots est dans la page (False si page illisible)."""
+    body = body_text(d)
+    if not body:
+        return False
+    return any(w in body for w in words)
+
+
 def click_button(d, text):
-    for b in d.find_elements(By.CSS_SELECTOR, "button"):
-        if b.text.strip() == text and b.is_displayed():
-            d.execute_script("arguments[0].click()", b)
-            time.sleep(1)
-            return True
+    for _ in range(3):
+        for b in d.find_elements(By.CSS_SELECTOR, "button"):
+            try:
+                if b.text.strip() == text and b.is_displayed():
+                    d.execute_script("arguments[0].click()", b)
+                    time.sleep(1)
+                    return True
+            except StaleElementReferenceException:
+                continue
+        return False
     return False
 
 
-def ensure_caption(d, caption, tries=4):
-    probe = caption[:25].strip()
-    for _ in range(tries):
-        ed = d.find_element(By.CSS_SELECTOR, ".public-DraftEditor-content")
-        if probe in ed.text:
+def _norm(s):
+    return " ".join((s or "").split())
+
+
+def _field_text(d):
+    """Texte réel du champ description, lu via le DOM (état TikTok inclus)."""
+    ed = editor(d, timeout=8)
+    if ed is None:
+        return ""
+    try:
+        return ed.text or ""
+    except StaleElementReferenceException:
+        return ""
+
+
+def editor(d, timeout=0):
+    """Attend et renvoie l'éditeur de description TikTok (parfois absent, parfois tardif).
+
+    Le 30/09/2026 : l'élément disparaît puis réapparaît pendant que TikTok reconstruit le
+    formulaire d'upload. On sait l'attendre au lieu de planter.
+    """
+    deadline = time.time() + max(0, timeout)
+    while True:
+        els = d.find_elements(By.CSS_SELECTOR, ".public-DraftEditor-content")
+        for e in els:
+            try:
+                if e.is_displayed():
+                    return e
+            except StaleElementReferenceException:
+                continue
+        if time.time() >= deadline:
+            return None
+        time.sleep(1.5)
+
+
+def _select_all(d, ed):
+    """Sélectionne tout le contenu du champ description (SANS modifier le DOM).
+
+    02/10/2026 — mesuré sur le vrai formulaire TikTok Studio :
+      * `element.send_keys()` ne fait RIEN sur ce DraftEditor (même Ctrl+A / Suppr) ;
+      * les touches CDP (Input.dispatchKeyEvent) sont également ignorées ;
+      * en revanche `Input.insertText` (CDP) écrit, et REMPLACE la sélection.
+
+    On sélectionne donc en JavaScript puis on écrit via CDP. Point important : le JS ne
+    fait que poser la sélection — il ne supprime rien — donc l'état React du DraftEditor
+    n'est pas désynchronisé (c'était le défaut du « filet de sécurité » du 30/09).
+    """
+    return d.execute_script("""
+      var n = arguments[0];
+      if (!n) return -1;
+      n.focus();
+      var r = document.createRange();
+      r.selectNodeContents(n);
+      var s = getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      return s.toString().length;
+    """, ed)
+
+
+def _insert_text(d, texte):
+    """Écrit un texte dans le champ focused, en remplaçant la sélection (CDP)."""
+    d.execute_cdp_cmd("Input.insertText", {"text": texte})
+
+
+def ensure_caption(d, caption, tries=4, settle=5.0):
+    """Saisit la légende et la VÉRIFIE strictement (égalité, plus simple « contient »).
+
+    TikTok réécrit la description avec le nom du fichier tant que la couverture
+    charge : après saisie on laisse la page se stabiliser et on revérifie, sinon on
+    recommence. Sans ça, le post part avec « auto_022 » comme légende.
+    """
+    want = _norm(caption)
+    probe = _norm(caption)[:25]
+
+    for attempt in range(tries):
+        # Ferme les fenêtres d'info. « J'ai compris » uniquement : « Annuler » annule
+        # l'import en cours sur le formulaire TikTok Studio, détruit le champ description
+        # et rend la légende impossible à saisir (c'est ce qui a fait échouer les 5 envois
+        # du 01/10 au soir, tous avec « légende non saisie »).
+        for b in d.find_elements(By.CSS_SELECTOR, "button"):
+            try:
+                if b.text.strip() == "J'ai compris" and b.is_displayed():
+                    d.execute_script("arguments[0].click()", b)
+                    time.sleep(1)
+            except StaleElementReferenceException:
+                continue
+
+        got = _norm(_field_text(d))
+        if got == want:
             return True
-        ed.click()
-        time.sleep(0.5)
-        ed.send_keys(Keys.CONTROL, "a")
-        ed.send_keys(Keys.DELETE)
-        time.sleep(0.5)
-        ed.send_keys(caption + " ")
-        time.sleep(3)
-        ed.send_keys(Keys.ESCAPE)
-        time.sleep(2)
-    return probe in d.find_element(By.CSS_SELECTOR, ".public-DraftEditor-content").text
+
+        ed = editor(d, timeout=25)   # l'éditeur peut réapparaître : on l'attend
+        if ed is None:
+            time.sleep(2)
+            continue
+
+        # TikTok remplit le champ avec le NOM DU FICHIER. On sélectionne tout (JS, sans
+        # toucher au DOM) puis on écrit par CDP : insertText REMPLACE la sélection.
+        try:
+            _select_all(d, ed)
+            time.sleep(0.4)
+            _insert_text(d, caption)
+        except WebDriverException as exc:
+            print(f"[legende] écriture CDP refusée ({exc.__class__.__name__}) -> nouvel essai",
+                  flush=True)
+            time.sleep(1.5)
+            continue
+        time.sleep(2.0)
+        # PAS de ESCAPE ici : sur le formulaire d'upload il fait perdre la publication
+        # (30/09/2026 — la page repartait sur /content).
+
+        # laisse TikTok finir de recharger la couverture, puis on revérifie strictement
+        deadline = time.time() + settle
+        while time.time() < deadline:
+            time.sleep(1.0)
+            if _norm(_field_text(d)) == want:
+                return True
+        if _norm(_field_text(d)) == want:
+            return True
+        print(f"[legende] champ non conforme après écriture (essai {attempt+1}/{tries}) "
+              f"-> champ = {_field_text(d)[:60]!r}", flush=True)
+        time.sleep(1.5)
+
+    return _norm(_field_text(d)) == want or probe in _norm(_field_text(d))
+
+
+def _cartes_contenu(d, tours=6):
+    """Liste les publications du compte.
+
+    TikTok Studio virtualise la page : chaque carte = un bloc contenant la durée puis
+    la légende. On récupère le texte de chaque carte (c'est ce que voit le patron), ce
+    qui permet de décider « est-ce que CE fichier est déjà en ligne ? ».
+    """
+    js = r"""
+    var out = [], vus = {};
+    document.querySelectorAll('span').forEach(function(el){
+      var t = (el.innerText||'').trim();
+      if (!/^\d{2}:\d{2}$/.test(t)) return;
+      var p = el, card = null;
+      for (var i=0;i<12 && p;i++){
+        p = p.parentElement; if (!p) break;
+        var tx = (p.innerText||'');
+        if (tx.length >= 60 && /\d{1,2}:\d{2}/.test(tx)) { card = p; break; }
+      }
+      if (!card) return;
+      var tx = (card.innerText||'').replace(/\s+/g,' ').trim();
+      if (vus[tx]) return; vus[tx] = 1;
+      out.push({duree: t, carte: tx.slice(0, 300)});
+    });
+    return JSON.stringify(out);
+    """
+    trouvees, vus = {}, set()
+    try:
+        d.set_script_timeout(25)   # le DOM du contenu grossit : pas de script qui bloque
+    except Exception:
+        pass
+    for tour in range(tours):
+        try:
+            brut = d.execute_script(js) or "[]"
+            for c in json.loads(brut):
+                cle = c.get("carte") or ""
+                if cle and cle not in vus:
+                    vus.add(cle)
+                    trouvees[cle] = c
+        except WebDriverException:
+            break
+        try:
+            d.execute_script("""
+              window.scrollTo(0, document.body.scrollHeight);
+              document.querySelectorAll('div').forEach(function(e){
+                if (e.scrollHeight > e.clientHeight + 60) e.scrollTop = e.scrollHeight;
+              });
+            """)
+        except WebDriverException:
+            break
+        time.sleep(2.2)
+    return list(trouvees.values())
+
+
+def present_dans_contenu(video_id, caption=None, driver=None):
+    """(Trouvé, extrait) si la vidéo est DÉJÀ publiée sur le compte.
+
+    On cherche trois marques, de la plus fiable à la moins fiable :
+      1. l'identifiant du fichier dans la légende (auto_041) — infaillible ;
+      2. le début de la légende construite (hook + titre) ;
+      3. à défaut, la durée exacte de la vidéo, qui colle fortement (00:33).
+    Le nom de fichier est absent des anciennes légendes : la durée rattrape ce cas.
+    """
+    d = driver or ensure_chrome()
+    try:
+        d.get(CONTENT_URL)
+    except WebDriverException as exc:
+        print(f"[contenu] navigation impossible : {exc.__class__.__name__}", flush=True)
+        return False, ""
+    time.sleep(9)
+
+    mp4 = VIDEOS / "ready" / f"{video_id}.mp4"
+    duree = ""
+    if mp4.exists():
+        try:
+            out = subprocess.run(
+                ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                 "-of", "default=nw=1:nk=1", str(mp4)],
+                capture_output=True, text=True, timeout=30)
+            duree = "00:%02d" % round(float(out.stdout.strip()))
+        except (ValueError, OSError, subprocess.SubprocessError):
+            duree = ""
+
+    cartes = _cartes_contenu(d)
+    print(f"[contenu] {len(cartes)} publication(s) lue(s), durée visée {duree or '?'}",
+          flush=True)
+    for c in cartes:
+        carte = (c.get("carte") or "")
+        if video_id in carte:
+            return True, carte
+        if caption and len(caption) >= 20 and _norm(caption)[:24] in _norm(carte):
+            return True, carte
+        # marqueur d'épisode : « (épisode 41) » -> auto_041
+        ep = re.search(r"\(épisode\s+(\d+)\)", carte)
+        if ep and video_id.endswith(ep.group(1).zfill(len(video_id.split("_")[-1]))):
+            return True, carte
+    # ALERSE (pas un blocage) : une publication de même durée à légende cassée peut être
+    # un envoi déjà parti dont on n'a aucune trace. Deux vidéos peuvent durer 26 s sans
+    # être la même : bloquer là-dessus empêcherait un post légitime, donc on se contente
+    # de le signaler et l'homme tranche.
+    if duree:
+        for c in cartes:
+            if c.get("duree") == duree and not re.search(r"\(épisode", c.get("carte") or ""):
+                print(f"[contenu] ⚠ publication de même durée ({duree}) à légende cassée : "
+                      f"{(c.get('carte') or '')[:80]}", flush=True)
+                break
+    return False, ""
 
 
 def set_state(video_id, state, **fields):
@@ -80,45 +357,112 @@ def set_state(video_id, state, **fields):
     qf.write_text(json.dumps(q, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def publish(video_id):
+def fs_caption(caption):
+    """Légende rendue utilisable comme NOM DE FICHIER Windows.
+
+    02/10/2026 — TikTok Studio recopie le nom du fichier dans la description. Or le
+    champ description de cette page refuse TOUTE frappe (send_keys, touches CDP, clic
+    souris : mesuré, aucun effet) et `Input.insertText` écrit dans le DOM sans mettre à
+    jour l'état Draft.js — la vidéo partait donc avec « auto_041 » comme légende. La
+    seule voie fiable est donc de nommer le fichier comme la légende.
+    Windows interdit \\ / : * ? " < > | dans un nom de fichier : seul « ? » est
+    remplacé (par « ? » pleine largeur, qui se lit pareil), le reste est sans effet.
+    """
+    txt = re.sub(r'[\\/:*"<>|]', '', caption or "")
+    txt = txt.replace("?", "\uff1f")
+    txt = re.sub(r"\s+", " ", txt).strip()
+    return txt[:210]
+
+
+def _fichier_a_envoyer(mp4, legende):
+    """Copie la vidéo sous le nom de la légende, dans un chemin court (< MAX_PATH)."""
+    for base in (Path(r"C:\jv"), Path(os.environ.get("TEMP", r"C:\Windows\Temp")) / "jv"):
+        try:
+            base.mkdir(parents=True, exist_ok=True)
+            cible = base / f"{legende}.mp4"
+            shutil.copy2(mp4, cible)
+            if cible.exists() and len(str(cible)) < 250:
+                return cible
+        except OSError:
+            continue
+    return mp4
+
+
+def publish(video_id, caption=None):
     meta = json.loads((VIDEOS / "metadata" / f"{video_id}.json").read_text(encoding="utf-8"))
     mp4 = VIDEOS / "ready" / f"{video_id}.mp4"
-    caption = meta["caption"]
+    if not caption:
+        caption = meta["caption"]
+    legende = fs_caption(caption)          # ce que TikTok affichera réellement
     d = ensure_chrome()
     d.get(UPLOAD_URL)
     time.sleep(5)
-    d.find_element(By.CSS_SELECTOR, 'input[type="file"]').send_keys(str(mp4.resolve()))
+    a_envoyer = _fichier_a_envoyer(mp4, legende)
+    print(f"[envoi] fichier : {a_envoyer.name[:70]}… ({len(str(a_envoyer))} car.)", flush=True)
+    find_retry(d, By.CSS_SELECTOR, 'input[type="file"]', tries=12, sleep=2).send_keys(
+        str(a_envoyer))
 
     for _ in range(60):  # attend la fin de l'import (max ~5 min)
         time.sleep(5)
-        body = d.find_element(By.TAG_NAME, "body").text
-        if "Importé" in body or "Uploaded" in body:
+        # La page est reconstruite en boucle pendant l'import : « illisible » = pas
+        # encore prêt, on continue d'attendre au lieu de planter (cf. 30/09/2026).
+        if page_says(d, "Importé", "Uploaded"):
             break
     else:
         set_state(video_id, "FAILED", error="import TikTok Studio non terminé")
         sys.exit("import non terminé")
 
-    for _ in range(3):  # ferme les fenêtres d'info éventuelles (la plus haute d'abord)
-        if not (click_button(d, "Annuler") or click_button(d, "J'ai compris")):
+    # Ferme les fenêtres d'info éventuelles. ATTENTION : on ne clique JAMAIS « Annuler »,
+    # ce bouton annule l'import en cours sur le formulaire TikTok Studio — il détruit le
+    # champ description et la vidéo part sans légende (01/10/2026, 19h24).
+    for _ in range(3):
+        if not click_button(d, "J'ai compris"):
             break
 
-    # TikTok réécrit la description (nom du fichier) tant que la couverture charge :
-    # on attend la fin du chargement, puis on saisit et on revérifie (jusqu'à 4 essais).
-    for _ in range(24):
-        if "Chargement" not in d.find_element(By.TAG_NAME, "body").text:
-            break
-        time.sleep(2.5)
-    if not ensure_caption(d, caption):
-        set_state(video_id, "FAILED", error="légende non saisie (écrasée par TikTok)")
+    # La description doit contenir la légende. Elle y est DÉJÀ : TikTok l'a recopiée
+    # depuis le nom du fichier. On vérifie donc, et seulement si le champ a bougé on
+    # tente une réécriture (sélection + Input.insertText).
+    if not ensure_caption(d, legende):
+        print(f"[legende] champ après 4 essais : {_field_text(d)[:150]!r}", flush=True)
+        print(f"[legende] éditeur présent : "
+              f"{bool(d.find_elements(By.CSS_SELECTOR, '.public-DraftEditor-content'))}",
+              flush=True)
+        set_state(video_id, "FAILED", error="légende non saisie (champ absent ou écrasé par TikTok)")
         sys.exit("légende non saisie")
 
-    if not ensure_caption(d, caption, tries=2):  # dernière vérification avant l'envoi
+    for _ in range(24):
+        if not page_says(d, "Chargement"):
+            break
+        time.sleep(2.5)
+
+    # dernière vérification stricte juste avant l'envoi (réécrit si TikTok a réécrit)
+    if not ensure_caption(d, legende, tries=3):
         set_state(video_id, "FAILED", error="légende perdue juste avant Publier")
         sys.exit("légende perdue avant Publier")
-    btn = d.find_element(By.CSS_SELECTOR, '[data-e2e="post_video_button"]')
-    d.execute_script("arguments[0].scrollIntoView({block:'center'})", btn)
-    time.sleep(1)
-    btn.click()
+
+    # Bouton Publier : il passe brièvement « not interactable » (overlay de confirmation).
+    posted = False
+    for _ in range(8):
+        btns = d.find_elements(By.CSS_SELECTOR, '[data-e2e="post_video_button"]')
+        if not btns:
+            time.sleep(1.5)
+            continue
+        btn = btns[0]
+        try:
+            d.execute_script("arguments[0].scrollIntoView({block:'center'})", btn)
+            btn.click()
+            posted = True
+            break
+        except WebDriverException:
+            try:
+                d.execute_script("arguments[0].click()", btn)
+                posted = True
+                break
+            except WebDriverException:
+                time.sleep(1.5)
+    if not posted:
+        set_state(video_id, "FAILED", error="bouton Publier introuvable ou non cliquable")
+        sys.exit("bouton Publier indisponible")
     time.sleep(4)
     # Confirmation éventuelle après « Publier » (ex. vérification de contenu / droits d'auteur)
     for label in ("Publier maintenant", "Publier quand même", "Continuer", "Publier"):
@@ -128,14 +472,23 @@ def publish(video_id):
             print(f"fenêtre de confirmation validée : {label}")
             time.sleep(3)
 
-    # Preuve réelle : la vidéo doit figurer dans la liste Contenu de TikTok Studio
-    time.sleep(6)
-    if "tiktokstudio/content" not in d.current_url:
-        d.get(CONTENT_URL)
-        time.sleep(5)
-    body = d.find_element(By.TAG_NAME, "body").text
-    if caption[:25] in body:
-        set_state(video_id, "PUBLISHED", error=None,
+    # Preuve réelle : la vidéo doit figurer dans la liste Contenu de TikTok Studio.
+    # La liste met parfois 30-60 s à afficher le nouveau post : on réessaie (30 × 6 s).
+    # La recherche porte sur l'IDENTIFIANT du fichier, que la légende contient désormais,
+    # et non sur les 25 premiers caractères (trop fragile : le 01/10/2026 une légende
+    # tronquée a fait croire à une publication réussie).
+    body, found = "", False
+    for _ in range(30):
+        time.sleep(6)
+        if "tiktokstudio/content" not in d.current_url:
+            d.get(CONTENT_URL)
+            time.sleep(5)
+        body = body_text(d) or ""
+        if video_id in body or (caption and _norm(caption)[:24] in _norm(body)):
+            found = True
+            break
+    if found:
+        set_state(video_id, "PUBLISHED", error=None, caption=legende,
                   published_at_utc=datetime.now(timezone.utc).isoformat(),
                   published_evidence={"method": "tiktok studio (navigateur, connexion QR)",
                                       "confirmation": "vidéo présente dans Contenu de TikTok Studio",
@@ -143,12 +496,32 @@ def publish(video_id):
         (VIDEOS / "published").mkdir(exist_ok=True)
         shutil.copy2(mp4, VIDEOS / "published" / mp4.name)
         print(f"{video_id} PUBLISHED (présente dans Contenu ; en examen={'examen' in body.lower()})")
+        try:
+            if a_envoyer != mp4:
+                a_envoyer.unlink(missing_ok=True)
+        except OSError:
+            pass
     else:
+        # Le clic « Publier » a déjà été fait : la vidéo PEUT être partie même si la liste
+        # ne l'affiche pas encore (ou l'a affichée avec une autre légende). On ne la
+        # marque surtout pas FAILED — ce serait la republier plus tard, soit le doublon
+        # récurrent du patron. État PUBLISHED_SUSPECT : ni republié, ni perdu.
         shot = VIDEOS / "failed" / f"{video_id}_studio.png"
-        shot.parent.mkdir(exist_ok=True)
-        d.save_screenshot(str(shot))
-        set_state(video_id, "FAILED", error=f"vidéo absente de Contenu après clic sur Publier (capture : {shot.name})")
-        sys.exit(f"aucune preuve de publication — voir {shot}")
+        shot.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            d.save_screenshot(str(shot))
+        except Exception:
+            pass
+        set_state(video_id, "PUBLISHED_SUSPECT", error=None,
+                  published_at_utc=datetime.now(timezone.utc).isoformat(),
+                  published_evidence={
+                      "method": "tiktok studio (navigateur, connexion QR)",
+                      "confirmation": "clic Publier effectué, mais absente de Contenu après 3 min",
+                      "capture": shot.name})
+        print(f"{video_id} CLIC « Publier » effectué mais PAS de preuve dans Contenu.\n"
+              f"  → état PUBLISHED_SUSPECT (jamais republié automatiquement).\n"
+              f"  → capture : {shot}", flush=True)
+        sys.exit("publication sans preuve — vérification manuelle requise")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,46 @@
+# Secrets
+.env
+*.env
+config/tiktok_cookies.json
+config/credentials.json
+
+# Data
+temp/
+output/
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Git
+.git/
+.gitignore
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+# --- video-ai : secrets de session et fichiers binaires générés (ne jamais committer) ---
+config/chrome_tiktok_profile/
+# tout le dossier config/ est local à la machine : cookies de session TikTok,
+# identifiants de relais. Rien de tout cela ne part sur Git.
+config/
+# cache d'empreintes visuelles : se régénère tout seul (ffmpeg), inutile en dépôt
+videos/fingerprints.json
+# copies de sauvegarde de la file
+videos/queue.json.bak-*
+videos/generated/
+videos/**/*.mp4
+videos/**/*.mp3
+videos/**/*.wav
+videos/**/*.png
+videos/**/*.jpg
+videos/**/*.webp
