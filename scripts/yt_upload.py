@@ -169,20 +169,31 @@ JS_CLOSE_CONFIRM = """(() => {
 #  utilitaires
 # --------------------------------------------------------------------------- #
 def get_tab():
-    """Onglet YouTube Studio existant (ouvert au besoin) + connexion CDP."""
+    """Onglet YouTube Studio sur la page d'import (ouvert au besoin) + connexion CDP.
+
+    Priorité : un onglet déjà sur /videos/upload ; sinon on réutilise un onglet
+    Studio existant et on le NAVIGUE vers la page d'import (la page d'import
+    est le seul endroit où le bouton « Importer des vidéos » et le champ fichier
+    existent — une page /edit ne les a pas)."""
     page = None
     for p in list_pages():
-        if "studio.youtube.com" in p.get("url", ""):
+        if ("studio.youtube.com" in p.get("url", "")
+                and "/videos/upload" in p.get("url", "")):
             page = p
             break
     if page is None:
-        page = open_tab(UPLOAD_URL)
-        time.sleep(8)
         for p in list_pages():
-            if p["id"] == page["id"]:
+            if "studio.youtube.com" in p.get("url", ""):
                 page = p
                 break
-    return Tab(page["webSocketDebuggerUrl"])
+    if page is None:
+        page = open_tab(UPLOAD_URL)
+        time.sleep(8)
+    tab = Tab(page["webSocketDebuggerUrl"])
+    if "/videos/upload" not in (page.get("url") or ""):
+        tab.evaluate("location.href = " + json.dumps(UPLOAD_URL) + "; 'nav'")
+        time.sleep(10)
+    return tab
 
 
 def wait_js(tab, expr, timeout=40, poll=1.0, desc=""):
@@ -236,6 +247,44 @@ def save_history(hist):
     os.makedirs(os.path.dirname(HISTORY), exist_ok=True)
     with io.open(HISTORY, "w", encoding="utf-8") as f:
         json.dump(hist, f, ensure_ascii=False, indent=2)
+
+
+CHANNEL_ID = "UCfRGgDMtWpsmd7LmBEY2_Lg"
+
+
+def rss_videos():
+    """Vidéos PUBLIÉES sur la chaîne — source de vérité absolue (flux RSS public,
+    visible en quelques secondes après publication, brouillons exclus)."""
+    import urllib.request
+    import xml.etree.ElementTree as ET
+    url = ("https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID)
+    with urllib.request.urlopen(url, timeout=15) as r:
+        data = r.read()
+    ns = {"a": "http://www.w3.org/2005/Atom",
+          "yt": "http://www.youtube.com/xml/schemas/2015"}
+    root = ET.fromstring(data)
+    out = {}
+    for e in root.findall("a:entry", ns):
+        vid = e.find("yt:videoId", ns).text
+        titre = (e.find("a:title", ns).text or "")
+        out[vid] = {"title": titre, "norm": normalize_title(titre)}
+    return out
+
+
+def attend_rss(titre, timeout=150, poll=10):
+    """Attend que le titre apparaisse dans le RSS public ; retourne l'URL
+    canonique, ou None si la vidéo n'est pas en ligne."""
+    norm = normalize_title(titre)
+    fin = time.time() + timeout
+    while time.time() < fin:
+        try:
+            for vid, info in rss_videos().items():
+                if info["norm"] == norm:
+                    return "https://youtube.com/shorts/" + vid
+        except Exception:
+            pass
+        time.sleep(poll)
+    return None
 
 
 # --------------------------------------------------------------------------- #
@@ -431,11 +480,26 @@ def publish_one(tab, vid, timeout_upload=90):
     wait_js(tab, JS_PUBLISH, timeout=20, poll=1.0, desc="bouton Publier")
     print("   clic sur Publier…")
 
-    # 8. confirmation « Vidéo mise en ligne »
-    conf = json.loads(wait_js(tab, JS_CONFIRM, timeout=120, poll=2.0,
-                              desc="confirmation de publication"))
-    link = conf.get("link") or link
-    tab.evaluate(JS_CLOSE_CONFIRM)
+    # 8. confirmation « Vidéo mise en ligne » — DEUX signaux acceptés :
+    #    le dialogue de confirmation, OU la navigation vers l'état « d=ud »
+    #    (upload done) de la page d'import. Cas réel du 18/10 : via_002
+    #    publiée mais dialogue non détecté → rejetée à tort.
+    JS_CONFIRM2 = JS_CONFIRM.replace(
+        "(() => {",
+        "(() => {\n  if ((location.href || '').indexOf('d=ud') > -1)"
+        " return JSON.stringify({ok: true, type: 'd-ud', link: null});",
+        1)
+    try:
+        conf = json.loads(wait_js(tab, JS_CONFIRM2, timeout=120, poll=2.0,
+                                  desc="confirmation de publication"))
+        link = conf.get("link") or link
+        print(f"   confirmation : {conf.get('type') or 'dialogue'}")
+        tab.evaluate(JS_CLOSE_CONFIRM)
+    except RuntimeError:
+        u = tab.evaluate("location.href") or ""
+        if "d=ud" not in u:
+            raise
+        print("   confirmation : état d=ud (upload done)")
     time.sleep(2)
     return link or "?"
 
@@ -471,6 +535,14 @@ def main():
         except Exception:
             pass
         chan = get_channel_titles(tab)
+        # vérité absolue en plus : le RSS public (publié seulement,
+        # brouillons exclus) — indépendant de l'état de l'interface Studio
+        try:
+            for vid_yt, info in rss_videos().items():
+                chan[vid_yt] = {"title": info["title"], "norm": info["norm"]}
+            print(f"Anti-doublon : {len(chan)} titres vérifiés (Studio + RSS public)")
+        except Exception as exc:
+            print(f"RSS public indisponible ({exc}) : dédup limitée à Studio + historique")
         vids = select_candidates(hist, chan, limit=restant)
         print(f"Candidates retenues ({len(vids)}) : {', '.join(vids) or 'aucune'}")
         if not vids:
@@ -487,22 +559,55 @@ def main():
         if hist.get(vid, {}).get("url"):
             print(f"[skip] {vid} déjà publiée : {hist[vid]['url']}")
             continue
+        mpath = os.path.join(ROOT, "videos", "metadata", vid + ".json")
+        title = ""
+        if os.path.exists(mpath):
+            with io.open(mpath, encoding="utf-8") as f:
+                title = json.load(f).get("title") or ""
+
+        # état propre : on (re)navigue vers la page d'import et on ferme les
+        # boîtes résiduelles — l'état laissé par le wizard précédent empoisonne
+        # le suivant (constaté le 18/10 : via_001 bloqué, via_003 sans champ).
+        try:
+            tab.evaluate("location.href = " + json.dumps(UPLOAD_URL) + "; 'nav'")
+            time.sleep(10)
+            tab.evaluate(JS_CLOSE_CONFIRM)
+            time.sleep(2)
+        except Exception:
+            pass
+
         print(f"[start] {vid}")
+        url = None
         try:
             url = publish_one(tab, vid)
-            mpath = os.path.join(ROOT, "videos", "metadata", vid + ".json")
-            title = ""
-            if os.path.exists(mpath):
-                with io.open(mpath, encoding="utf-8") as f:
-                    title = json.load(f).get("title") or ""
-            hist[vid] = {"url": url, "title": title,
+        except Exception as exc:
+            print(f"[echec-interface] {vid} : {exc}")
+
+        # VÉRITÉ RSS : publié = présent dans le flux public, quelle que soit
+        # la parole de l'interface. Une confirmation « perdue » n'est donc
+        # plus un échec si la vidéo est réellement en ligne.
+        url_rss = attend_rss(title, timeout=150 if url else 60)
+        if url_rss:
+            url_final = url_rss if url in (None, "?") else url
+            if url in (None, "?"):
+                print("   confirmé via RSS (l'interface n'avait pas confirmé)")
+            hist[vid] = {"url": url_final, "title": title,
                          "published_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ",
                                                         time.gmtime())}
             save_history(hist)
-            print(f"[ok] {vid} -> {url}")
-        except Exception as exc:
+            print(f"[ok] {vid} -> {url_final}")
+        elif url and url != "?":
+            # dialogue de confirmation vu mais RSS pas encore à jour :
+            # on enregistre quand même (preuve forte), RSS complétera
+            hist[vid] = {"url": url, "title": title,
+                         "published_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ",
+                                                        time.gmtime()),
+                         "note": "confirmation interface ; RSS à confirmer"}
+            save_history(hist)
+            print(f"[ok?] {vid} -> {url} (RSS pas encore à jour)")
+        else:
             failures += 1
-            print(f"[echec] {vid} : {exc}")
+            print(f"[echec] {vid} : pas en ligne (RSS) — brouillon possible à nettoyer")
         time.sleep(3)
 
     print(f"\nTerminé : {len(vids) - failures}/{len(vids)} publié(s)")
