@@ -50,12 +50,23 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
    lot ; les autres attendent le lot suivant.
 3. **Publication** : le script pilote Studio via CDP (import du fichier, titre,
    description, déroulé « Suivant », visibilité Publique, clic « Publier »).
-   La réussine n'est validée qu'après **effet réel** : confirmation
-   « Vidéo mise en ligne » + lien de la vidéo.
-4. **Enregistrement** : chaque vidéo publiée est ajoutée immédiatement à
-   `logs/youtube_posts.json` (URL, titre, date UTC, note). C'est cet historique
-   qui protège les lots suivants.
-5. **Rapport** : liste des vidéos publiées + URLs au patron (dans `memoire.md`
+   Entre chaque vidéo : re-navigation vers la page d'import + fermeture des
+   boîtes résiduelles (l'état laissé par le wizard précédent empoisonne le
+   suivant — constaté le 18/10). La réussine n'est validée qu'après **effet
+   réel** : confirmation « Vidéo mise en ligne » **ou** navigation vers l'état
+   « d=ud » (upload done) de la page d'import.
+4. **Vérification finale = flux RSS public** : après chaque tentative (succès
+   ou erreur d'interface), le script interroge
+   `https://www.youtube.com/feeds/videos.xml?channel_id=UCfRGgDMtWpsmd7LmBEY2_Lg`.
+   Une vidéo **est publiée si et seulement si** elle apparaît dans ce flux
+   (brouillons exclus) ; l'URL canonique du flux fait foi. Une confirmation
+   d'interface « perdue » n'est donc plus un échec, et une vidéo déclarée
+   publiée mais absente du flux est signalée. Repli : endpoint oEmbed
+   (`youtube.com/oembed?url=...&format=json`), insensible au cache du RSS.
+5. **Enregistrement** : chaque vidéo publiée est ajoutée immédiatement à
+   `logs/youtube_posts.json` (URL canonique, titre, date UTC, note). C'est cet
+   historique qui protège les lots suivants.
+6. **Rapport** : liste des vidéos publiées + URLs au patron (dans `memoire.md`
    et en réponse de session).
 
 ## 4. Contrôles et cas particuliers
@@ -79,6 +90,9 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
 |------|---------|--------|
 | 18/10 | `toon_004` « Le prix de la tomate » | En ligne depuis le 16/10 avec le titre brut **« toon 004 »** et aucune description (violation de la règle d'identifiants) → titre + description corrigés via Studio ; vidéo ajoutée à l'historique. |
 | 18/10 | `auto_002` « Le mail du vendredi (le planning) » | Confirmée **supprimée** de YouTube (page d'édition en erreur après rechargement + absente de la liste Contenu) → marquée `SUPPRIMEE`, comme `video_001/002/003`. |
+| 18/10 | premier lancement `--daily` | Bloqué 15 min sans sortie : l'onglet réutilisé n'était pas sur la page d'import, et la liste Shorts Studio fait parfois geler le renderer. Correctifs : navigation systématique vers `/videos/upload`, état propre par vidéo, dédup enrichie par RSS public. |
+| 18/10 | `via_002` « POV : le voleur du frigo » | Publiée par l'assistant **sans que la confirmation ne soit détectée** (dialogue non visible) → ratée à tort par le 1er lot. D'où la vérification RSS systématique : le flux public est la seule vérité. |
+| 18/10 | `via_001`/`via_003` | 1er passage avorté (wizard empoisonné par l'état de `via_001`) → repassés avec état propre : publiés et vérifiés (RSS + oEmbed). |
 
 ## 6. Outillage
 

@@ -288,3 +288,40 @@ Buffer demain : auto_157 (G40) / auto_161 (G41) / auto_165 (G42) deja rendus en 
 
 **YouTube** : toon_004 reste en BROUILLON (quota 6/jour atteint) — a publier demain.
 Questions ouvertes au patron : video_001/002/003 supprimes de YouTube par ses soins ?
+
+## 18/10/2026 — Recyclage TikTok → YouTube (ordre du patron : 3 matin + 3 après-midi, zéro doublon)
+
+**Procédure enregistrée sur GitHub** : commit `235efa2` (docs/PROCEDURE_YOUTUBE.md + outillage
+yt_upload/cdp/orchestrateur), puis `7c4895a` (durcissement anti-panne : RSS = vérité).
+
+**Inventaire** : 48 vidéos TikTok éligibles sans aucun doublon (identifiant + titre normalisé,
+confrontés à l'historique ET au contenu live de la chaîne ET au RSS public).
+
+**Corrections faites aujourd'hui**
+- toon_004 « Le prix de la tomate » : en ligne depuis le 16/10 avec le titre brut « toon 004 »
+  et aucune description (règle des identifiants violée) → titre + description corrigés,
+  vérifié publiquement (RSS + oEmbed).
+- auto_002 « Le mail du vendredi (le planning) » : confirmée SUPPRIMEE de YouTube (page
+  d'édition en erreur après rechargement + absente de la liste Contenu, deux vérifications) →
+  marquée SUPPRIMEE comme video_001/002/003. → Question au patron : est-ce toi qui supprimes ?
+  Si oui, je ne republie pas ; si non, remise en ligne possible (demande de validation).
+
+**Lot du MATIN — 3/3 publiées et vérifiées publiquement**
+- via_001 « Le message à 23 h 43 » → https://youtube.com/shorts/Oj6ahifC27U
+- via_002 « POV : le voleur du frigo de bureau » → https://youtube.com/shorts/z6FpiZoKOyM (164 vues)
+- via_003 « 3 h du matin au bureau » → https://youtube.com/shorts/SgmjZX7ZCTM
+
+**Incidents du jour (tous résolus, correctifs poussés)**
+1. Premier lancement `--daily` bloqué 15 min : get_tab() réutilisait le premier onglet Studio
+   trouvé (ici une page /edit sans bouton d'import) ; de plus la liste Shorts Studio fait
+   parfois geler le renderer. → navigation systématique vers /videos/upload avant chaque vidéo.
+2. via_002 publiée par l'assistant MAIS la confirmation n'a pas été détectée (dialogue non
+   visible) → rejetée à tort. → double signal (dialogue ou état « d=ud ») + VÉRIFICATION RSS
+   publique après chaque tentative : le flux public est la seule vérité.
+3. via_001 (1er essai) bloqué dans l'assistant, via_003 sans champ fichier : état empoisonné
+   par le wizard précédent → état propre (re-navigation + fermeture des boîtes) entre chaque vidéo.
+
+**Lot de l'APRÈS-MIDI programmé ~14h45** : via_004 « La dernière note vocale », via_005
+« La voyante du dimanche », via_006 « Le Ministre plat-iste » (résultat à confirmer).
+
+État en cours de journée : chaîne Phrazia = 9 vidéos publiées. Quota YouTube du jour : 3/6 consommés.
