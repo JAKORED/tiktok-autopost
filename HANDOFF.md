@@ -248,4 +248,105 @@ Dans la fenêtre Chrome ouverte (portail TikTok, app FactVibes) :
 
 ---
 
-_TikTok AutoPost — protocole HANDOFF v1.2 — ordres du patron JAKORED._
+## ORDRE L — LE SILENCE DU 03→09/10/2026 ET LA PROGRAMMATION AUTOMATIQUE (09/10/2026)
+
+Le patron a constaté : « aucune vidéo n'a été postée pendant trois ou quatre jours »
+et demandé une programmation de posting automatique + au moins 3 posts le jour même.
+**Cause réelle : rien ne lançait le pipeline.** Trois défauts distincts, tous corrigés.
+
+**1. Aucun démarrage automatique.** Aucun processus Python ne tournait, et il n'existe
+la tâche Planificateur « FactVibes AutoPoster » qu'on croyait depuis le 30/09 — le
+dossier de démarrage n'avait jamais été alimenté. Le HANDOFF §3 annonçait pourtant un
+Guardian relancé à chaque boot. **Règle : ne jamais supposer qu'un service tourne,
+le vérifier** (`Get-CimInstance Win32_Process`) avant de conclure à un bug de code.
+
+**2. Le scheduler n'attrape rien le matin.** `main.py run_scheduler` ne publie un créneau
+que si son heure UTC est DÉJÀ dépassée. Crénaux = 17:00-19:00 UTC : à 9 h du matin rien
+n'est dépassé, donc rien ne part. Un compte muet depuis 6 jours attendait 6 jours de
+plus. Corrigé dans `auto_poster.py` par la règle de RATTRAPAGE + les GARANTIES
+HORAIRES (`config.recovery.min_posts_by_hour_local`).
+
+**3. Chrome était figé depuis le 30/09.** Le port 9222 annonçait LISTENING mais toute
+connexion était REFUSÉE. `netstat` ne prouve rien : `auto_poster.chrome_vif()` fait une
+vraie requête HTTP, et relance Chrome avec le profil TikTok si besoin.
+
+**ARCHITECTURE DE PUBLICATION AUTOMATIQUE (ne pas réinventer) :**
+```
+dossier Démarrage Windows → superviseur.py (relance) → auto_poster.py (boucle 24/7)
+                                    ↓ tous les 120 s
+                      Chrome vivant ? → production du tampon → décision de poster
+                                    ↓
+                      studio.publish_next()  ← TOUS les gardes anti-doublon
+```
+- `auto_poster.py` ne fait QUE décider **quand** appeler `studio.publish_next`. Il ne
+  réimplémente aucun garde : c'est `studio` qui reste la seule porte de sortie.
+- Installer/réparer : `powershell -ExecutionPolicy Bypass -File scripts\installer_demarrage.ps1`
+  (sans droits admin) ou `scripts\installer_taches.ps1` (**exige l'administrateur**).
+- Pilotage : `python auto_poster.py --status | --post | --once`, arrêt par
+  `videos\.stop_autoposter` (orchestrateur) / `videos\.stop_superviseur` (superviseur).
+- Supervision : `logs\auto_poster_heartbeat.json` (cœur + PID), `logs\superviseur_*.log`.
+  Le superviseur exige un cœur **récent ET un PID vivant** — un fichier de cœur neuf ne
+  prouve rien (piège rencontré le 09/10 : un `--once` avait laissé un cœur de 1 min).
+
+**ORDRE L bis — ANTI-DOUBLON : LE GROUPE DE FABRIQUE EST LE SCÉNARIO.**
+`factory.py` produit 4 variantes par groupe. groups G1..G36. L'identité du scénario est
+donc le **groupe** (champ `family` = `G<n>`, calculé par
+`(no-1)//VARIANTES_PAR_SCENARIO + 1`), et `studio.family_key` lit ce champ en priorité.
+Avant, l'identité venait du `headline` — et G2/G16 mettaient le **paramètre** dans le
+headline (« LE PRIX DES PÂTES », puis « LE PRIX DU BEURRE », « DU CAFÉ », « DU PAIN »).
+Mesure du 09/10 sur les rendus : distance d'empreinte auto_061/auto_062 = **0.0187**,
+auto_061/auto_063 = **0.0219** — sous le seuil 0.035, donc indiscernables à l'œil. Les 4
+passaient pour 4 scénarios différents. **Règle : ne JAMAIS mettre le paramètre dans le
+`headline`, et vérifier que `family` est bien renseigné sur tout nouvel épisode.**
+
+**ORDRE L ter — LE FAUX POSITIVE QUI RÉCONCILAIT À L'ENVERS (09/10/2026, 12 h 45).**
+Un envoi resté ouvert depuis le 02/10 (`auto_069`) est **parti tout seul** à 12 h 45 —
+le phénomène déjà décrit à l'ORDRE K (« un formulaire d'upload laissé ouvert peut partir
+tout seul »). À 15 h 00, l'orchestrateur a voulu poster `auto_070` (même scénario) et
+`present_dans_contenu` a répondu « déjà en ligne » : `auto_070` a été marqué PUBLISHED
+**sans avoir jamais été envoyé**, pendant que `auto_069`, réellement en ligne, restait
+FAILED. La base et le compte se sont à nouveau désynchronisés — la cause historique des
+doublons du patron.
+
+Cause exacte : le contrôle comparait les **24 premiers caractères de la légende**, et ces
+24 caractères sont le HEADLINE, **partagé par les 4 variantes d'un scénario**. Conséquence :
+auto_070 était reconnu dans la carte de auto_069.
+* Corrigé dans `publish_studio.present_dans_contenu` : on ne compare plus que des
+  marqueurs propres à UNE vidéo — l'identifiant `auto_041`, le numéro d'épisode
+  « (épisode 41) », et le **titre distinctif** (la partie qui porte le paramètre :
+  « à la caisse » ≠ « sur le tapis »). La fonction renvoie désormais le `video_id`
+  réellement trouvé.
+* `studio.publish_next` réagit : si le `video_id` trouvé ≠ le nôtre, notre vidéo est
+  marquée FAILED (« doublon ») et l'autre est RÉCONCILIÉE en PUBLISHED. On ne confond
+  plus jamais deux vidéos.
+* **Attention à la regex** : les légendes en ligne contiennent parfois une espace —
+  `(épisode 61 )`. D'où le `\s*` avant la parenthèse. Oublié, la détection échouait sur
+  les deux posts du 09/10 ; c'est `tests/test_detection_doublon.py` qui l'a révélé.
+* `scripts\reconcilier.py` : aligne la base sur le compte (lecture seule par défaut,
+  `--appliquer` pour écrire). Il **rétrograde** un PUBLISHED dont la PREUVE stockée
+  désigne la carte d'une autre vidéo, et ne rétrograde **jamais** sur la simple absence
+  d'une carte (TikTok Studio n'en charge que ~7 : l'absence ne prouve rien).
+  L'orchestrateur le lance une fois par jour, au début de sa boucle.
+
+**RÉSERVE DE CONTENU :** 21 scénarios jamais publiés = **4,2 jours** à 5 posts/jour au
+09/10. `auto_poster` avertit (« la BANQUE est épuisée ») quand il n'a plus rien à
+rendre. Pour tenir : ajouter des groupes G37, G38… dans `video_pipeline/factory.py`
+(4 variantes par groupe, jamais plus), et rendre compte de l'autonomie restante.
+
+**ORDRE M — JAMAIS « auto_XXX » DANS UNE LÉGENDE PUBLIÉE (ordre du 13/10/2026) :**
+- Le patron : **« évite de mettre dans la description d'écrire AUTO si non l'algorithme
+  le verra et ils bannera les vidéos »**. L'algorithme TikTok lit `auto_…` comme du
+  contenu automatisé → risque de bannissement de la vidéo / du compte.
+- **La légende visible ne contient JAMAIS le video_id** (`auto_090`, etc.) : ni dans le
+  texte, ni dans le nom du fichier envoyé (TikTok recopie le nom du fichier en
+  description). `studio.build_caption` ne met plus l'identifiant : format
+  `hook — titre (épisode N). question #tags`.
+- La détection de doublon reste fiable SANS l'identifiant : le numéro `(épisode N)`
+  redonne le video_id (`auto_N`), et le titre distinctif porte le paramètre de la
+  variante (`publish_studio._id_depuis_carte` / `_titre_distinctif`).
+- Le video_id reste interne : métadonnées (`videos/metadata/auto_XXX.json`), nom du
+  fichier `ready/auto_XXX.mp4`, base de file — jamais du texte affiché au public.
+
+---
+
+_TikTok AutoPost — protocole HANDOFF v1.3 — ordres du patron JAKORED._

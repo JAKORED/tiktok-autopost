@@ -37,18 +37,52 @@ def run(cmd, **kw):
 
 
 # ------------------------------------------------------------------ voix
+# 13/10/2026 — PANNE MICROSOFT : depuis le 10/10, Read Aloud a migré de
+# speech.platform.bing.com vers api.msedgeservices.com et REFUSE (403) l'ancien point
+# d'entrée WebSocket que utilise edge-tts 7.2.8. Conséquence visible : plus AUCUN rendu
+# possible, et le compte s'est tu faute de vidéos prêtes. Le jeton client est inchangé :
+# il suffit de rediriger l'URL WebSocket. Le nouveau point d'entrée limite plus durement
+# (429 « too many requests »), d'où les réessais ci-dessous.
+EDGE_WSS_V2 = "wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1"
+
+
+def _utiliser_nouveau_point_tts():
+    """Redirige edge-tts vers le point d'entrée Microsoft actuel (idempotent).
+
+    On modifie `edge_tts.communicate.WSS_URL` et NON `edge_tts.constants.WSS_URL` : la
+    bibliothèque fait `from .constants import WSS_URL`, elle garde donc sa propre copie
+    et n'utiliserait pas notre changement autrement.
+    """
+    from edge_tts import communicate
+    from edge_tts.constants import TRUSTED_CLIENT_TOKEN
+    if "msedgeservices" not in communicate.WSS_URL:
+        communicate.WSS_URL = (f"{EDGE_WSS_V2}"
+                               f"?Ocp-Apim-Subscription-Key={TRUSTED_CLIENT_TOKEN}")
+
+
 async def tts_line(text, cfg, path):
     import edge_tts
-    com = edge_tts.Communicate(text, cfg["voice"], rate=cfg["rate"], pitch=cfg["pitch"],
-                               boundary="WordBoundary")
-    words = []
-    with open(path, "wb") as f:
-        async for ch in com.stream():
-            if ch["type"] == "audio":
-                f.write(ch["data"])
-            elif ch["type"] == "WordBoundary":
-                words.append((ch["text"], ch["offset"] / 1e7, ch["duration"] / 1e7))
-    return words
+    from aiohttp import ClientResponseError
+
+    _utiliser_nouveau_point_tts()
+    derniere = None
+    for essai in range(4):
+        words = []
+        try:
+            com = edge_tts.Communicate(text, cfg["voice"], rate=cfg["rate"],
+                                       pitch=cfg["pitch"], boundary="WordBoundary")
+            with open(path, "wb") as f:
+                async for ch in com.stream():
+                    if ch["type"] == "audio":
+                        f.write(ch["data"])
+                    elif ch["type"] == "WordBoundary":
+                        words.append((ch["text"], ch["offset"] / 1e7,
+                                      ch["duration"] / 1e7))
+            return words
+        except (ClientResponseError, Exception) as exc:   # 403/429, réseau, « no audio »
+            derniere = exc
+            await asyncio.sleep(2 * (essai + 1))
+    raise derniere
 
 
 def decode(path):
@@ -318,11 +352,14 @@ def qc(path):
     return v, a, dur, (mean[0].split("mean_volume:")[1].strip() if mean else "?")
 
 
-def main():
-    args = sys.argv[1:]
-    ep = next(e for e in EPISODES if e["id"] == args[0])
-    png_at = float(args[args.index("--png") + 1]) if "--png" in args else None
-    seconds = float(args[args.index("--seconds") + 1]) if "--seconds" in args else None
+def build(ep_id, seconds=None, png_at=None):
+    """Construit un épisode complet (TTS -> mix -> render -> QC -> ready/) et renvoie ses métadonnées.
+
+    - png_at  : génère UNE image de contrôle et renvoie son chemin (aucun mp4).
+    - seconds : génère un aperçu court (test) et renvoie son chemin.
+    Renvoie le dict de métadonnées (déjà écrit dans videos/metadata/ et copié dans videos/ready/).
+    """
+    ep = next(e for e in EPISODES if e["id"] == ep_id)
     work, lines, total = prepare(ep)
     print(f"{ep['id']} : {len(lines)} répliques, durée {total:.1f}s", flush=True)
     wav = mix_audio(lines, total, work)
@@ -330,15 +367,15 @@ def main():
         out = work / f"frame_{png_at:.1f}.png"
         render(ep, lines, total, wav, out, png_at=png_at)
         print(out)
-        return
+        return out
     out = work / (f"{ep['id']}_preview.mp4" if seconds else f"{ep['id']}.mp4")
     t0 = time.time()
     render(ep, lines, total, wav, out, seconds=seconds)
     print(f"rendu en {time.time() - t0:.0f}s", flush=True)
     if seconds:
-        return
+        return out
     v, a, dur, mean = qc(out)
-    hashtags = ep["tags"] + GENERIC_TAGS
+    hashtags = (ep["tags"] + ["#FactVibesToons"])[:5]  # 5 hashtags max, jamais #fyp/#viral
     meta = {
         "video_id": ep["id"], "series": "FactVibes Toons", "episode": ep["ep"],
         "title": ep["title"], "topic": ep["topic"],
@@ -360,6 +397,15 @@ def main():
     (VIDEOS / "metadata" / f"{ep['id']}.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
     (VIDEOS / "ready" / f"{ep['id']}.mp4").write_bytes(out.read_bytes())
     print(f"OK {ep['id']} {dur:.1f}s {v['width']}x{v['height']} volume moyen {mean}")
+    return meta
+
+
+def main():
+    args = sys.argv[1:]
+    ep_id = args[0]
+    png_at = float(args[args.index("--png") + 1]) if "--png" in args else None
+    seconds = float(args[args.index("--seconds") + 1]) if "--seconds" in args else None
+    build(ep_id, seconds=seconds, png_at=png_at)
 
 
 if __name__ == "__main__":

@@ -82,11 +82,24 @@ def find_retry(d, by, val, tries=10, sleep=1.5):
 
 def body_text(d, tries=10):
     """Texte de la page, ou None si la page se recharge (TikTokStudio la reconstruit sans
-    arrêt pendant l'import) — les boucles d'attente traitent None en « pas encore »."""
-    try:
-        return find_retry(d, By.TAG_NAME, "body", tries=tries).text
-    except (StaleElementReferenceException, NoSuchElementException, WebDriverException):
-        return None
+    arrêt pendant l'import) — les boucles d'attente traitent None en « pas encore ».
+
+    16/10/2026 : lecture en JavaScript (`document.body.innerText`) et PLUS `.text` de
+    Selenium. Sur ce Chrome, `element.text` renvoie une chaîne VIDE alors que la page
+    affiche tout : TOUTES les détections deviennent fausses en cascade (« import non
+    terminé », fenêtres « Publier maintenant » jamais cliquées -> « publication sans
+    preuve »). `innerText` et `page_source` voient bien le texte (mesuré).
+    """
+    for _ in range(tries):
+        try:
+            txt = d.execute_script(
+                "return document.body ? (document.body.innerText || '') : ''")
+            if txt:
+                return txt
+            return None                      # page vide = en reconstruction
+        except WebDriverException:
+            time.sleep(0.5)
+    return None
 
 
 def page_says(d, *words):
@@ -98,16 +111,30 @@ def page_says(d, *words):
 
 
 def click_button(d, text):
+    """Clique le bouton visible dont le INNERTEXT correspond (JS).
+
+    16/10/2026 : `b.text` est vide sur ce Chrome (cf. body_text) — la comparaison ne
+    fonctionnait plus et aucune fenêtre de confirmation n'était cliquée.
+    """
     for _ in range(3):
-        for b in d.find_elements(By.CSS_SELECTOR, "button"):
-            try:
-                if b.text.strip() == text and b.is_displayed():
-                    d.execute_script("arguments[0].click()", b)
-                    time.sleep(1)
-                    return True
-            except StaleElementReferenceException:
-                continue
-        return False
+        try:
+            ok = d.execute_script("""
+                var want = arguments[0];
+                var els = document.querySelectorAll('button, [role="button"]');
+                for (var i = 0; i < els.length; i++) {
+                    var e = els[i], r = e.getBoundingClientRect();
+                    if (r.width <= 0 || r.height <= 0) continue;
+                    if (getComputedStyle(e).visibility === 'hidden') continue;
+                    if ((e.innerText || '').trim() === want) { e.click(); return true; }
+                }
+                return false;
+            """, text)
+            if ok:
+                time.sleep(1)
+                return True
+            return False
+        except WebDriverException:
+            time.sleep(0.5)
     return False
 
 
@@ -116,13 +143,19 @@ def _norm(s):
 
 
 def _field_text(d):
-    """Texte réel du champ description, lu via le DOM (état TikTok inclus)."""
+    """Texte réel du champ description, lu en JS (innerText/textContent).
+
+    16/10/2026 : `.text` Selenium renvoie '' ici aussi (cf. body_text) — la légende
+    paraissait toujours absente et on réécrivait inutilement (risque d'abandon « légende
+    non saisie »)."""
     ed = editor(d, timeout=8)
     if ed is None:
         return ""
     try:
-        return ed.text or ""
-    except StaleElementReferenceException:
+        return d.execute_script(
+            "return arguments[0] ? (arguments[0].innerText || "
+            "arguments[0].textContent || '') : ''", ed) or ""
+    except (StaleElementReferenceException, WebDriverException):
         return ""
 
 
@@ -131,16 +164,26 @@ def editor(d, timeout=0):
 
     Le 30/09/2026 : l'élément disparaît puis réapparaît pendant que TikTok reconstruit le
     formulaire d'upload. On sait l'attendre au lieu de planter.
+    Le 16/10/2026 : la visibilité se teste en JS — `is_displayed()` renvoie False sur ce
+    Chrome même pour un élément visible (mesuré : 757x62 px, visibility:visible,
+    is_displayed=False), ce qui empêchait de TOUTOUVER le champ description.
     """
     deadline = time.time() + max(0, timeout)
     while True:
-        els = d.find_elements(By.CSS_SELECTOR, ".public-DraftEditor-content")
-        for e in els:
-            try:
-                if e.is_displayed():
-                    return e
-            except StaleElementReferenceException:
-                continue
+        try:
+            ed = d.execute_script("""
+                var els = document.querySelectorAll('.public-DraftEditor-content');
+                for (var i = 0; i < els.length; i++) {
+                    var e = els[i], r = e.getBoundingClientRect();
+                    if (r.width > 0 && r.height > 0 &&
+                        getComputedStyle(e).visibility !== 'hidden') return e;
+                }
+                return null;
+            """)
+        except WebDriverException:
+            ed = None
+        if ed is not None:
+            return ed
         if time.time() >= deadline:
             return None
         time.sleep(1.5)
@@ -191,13 +234,7 @@ def ensure_caption(d, caption, tries=4, settle=5.0):
         # l'import en cours sur le formulaire TikTok Studio, détruit le champ description
         # et rend la légende impossible à saisir (c'est ce qui a fait échouer les 5 envois
         # du 01/10 au soir, tous avec « légende non saisie »).
-        for b in d.find_elements(By.CSS_SELECTOR, "button"):
-            try:
-                if b.text.strip() == "J'ai compris" and b.is_displayed():
-                    d.execute_script("arguments[0].click()", b)
-                    time.sleep(1)
-            except StaleElementReferenceException:
-                continue
+        click_button(d, "J'ai compris")   # compare en innerText (JS), pas b.text (vide)
 
         got = _norm(_field_text(d))
         if got == want:
@@ -310,21 +347,59 @@ def _cartes_contenu(d, tours=6):
     return list(trouvees.values())
 
 
-def present_dans_contenu(video_id, caption=None, driver=None):
-    """(Trouvé, extrait) si la vidéo est DÉJÀ publiée sur le compte.
+def _id_depuis_carte(carte):
+    """Déduit le video_id d'une carte Contenu, via le marqueur « (épisode 69) ».
 
-    On cherche trois marques, de la plus fiable à la moins fiable :
+    La légende en ligne est le nom du fichier, qui contient toujours le numéro
+    d'épisode. C'est la seule correspondance fiable : le HEADLINE, lui, est partagé
+    par les 4 variantes d'un même scénario.
+    """
+    ep = re.search(r"\(épisode\s+(\d+)\s*\)", carte or "")
+    if not ep:
+        return None
+    return f"auto_{int(ep.group(1)):03d}"
+
+
+def _titre_distinctif(caption):
+    """La partie de la légende qui distingue UNE variante d'une autre.
+
+    La légende fait « HEADLINE — Titre (épisode N) ». Le headline est commun aux 4
+    variantes d'un scénario : s'en servir comme sonde « vidéo déjà en ligne » revient
+    à dire qu'une variante est en ligne dès qu'une autre l'est. C'est exactement ce qui
+    est arrivé le 09/10/2026 : auto_070 a été reconnu « déjà en ligne » à cause de
+    auto_069, et marqué PUBLISHED alors qu'il ne l'a jamais été.
+    On ne compare donc que le TITRE, qui porte le paramètre de la variante.
+    """
+    if not caption:
+        return ""
+    m = re.search(r"—\s*(.+?)\s*\(épisode", caption)
+    if not m:
+        return ""
+    return _norm(m.group(1))
+
+
+def present_dans_contenu(video_id, caption=None, driver=None):
+    """(Trouvé, extrait, video_id_en_ligne) si la vidéo est DÉJÀ publiée sur le compte.
+
+    09/10/2026 — le contrôle par « 24 premiers caractères de la légende » produisait un
+    faux positif : ces 24 caractères sont le HEADLINE, partagé par les 4 variantes d'un
+    scénario. La base s'est alors désynchronisée du compte (auto_070 marquée PUBLISHED,
+    auto_069 — réellement en ligne — restée FAILED), ce qui,a créé le 02/10 et entretenu
+    les doublons du patron.
+
+    On ne compare plus que des marqueurs propres à UNE vidéo :
       1. l'identifiant du fichier dans la légende (auto_041) — infaillible ;
-      2. le début de la légende construite (hook + titre) ;
-      3. à défaut, la durée exacte de la vidéo, qui colle fortement (00:33).
-    Le nom de fichier est absent des anciennes légendes : la durée rattrape ce cas.
+      2. le numéro d'épisode « (épisode 41) » ↔ auto_041 ;
+      3. le TITRE distinctif (la partie qui porte le paramètre de la variante).
+    Le video_id réellement trouvé est renvoyé : s'il diffère, c'est qu'UNE AUTRE variante
+    du même scénario est en ligne, et l'appelant doit le savoir (cf. studio.publish_next).
     """
     d = driver or ensure_chrome()
     try:
         d.get(CONTENT_URL)
     except WebDriverException as exc:
         print(f"[contenu] navigation impossible : {exc.__class__.__name__}", flush=True)
-        return False, ""
+        return False, "", None
     time.sleep(9)
 
     mp4 = VIDEOS / "ready" / f"{video_id}.mp4"
@@ -342,16 +417,29 @@ def present_dans_contenu(video_id, caption=None, driver=None):
     cartes = _cartes_contenu(d)
     print(f"[contenu] {len(cartes)} publication(s) lue(s), durée visée {duree or '?'}",
           flush=True)
+    titre = _titre_distinctif(caption)
     for c in cartes:
         carte = (c.get("carte") or "")
-        if video_id in carte:
-            return True, carte
-        if caption and len(caption) >= 20 and _norm(caption)[:24] in _norm(carte):
-            return True, carte
-        # marqueur d'épisode : « (épisode 41) » -> auto_041
-        ep = re.search(r"\(épisode\s+(\d+)\)", carte)
-        if ep and video_id.endswith(ep.group(1).zfill(len(video_id.split("_")[-1]))):
-            return True, carte
+        if not carte:
+            continue
+        if video_id in carte:                       # 1. l'id du fichier est dans la légende
+            return True, carte, video_id
+        id_carte = _id_depuis_carte(carte)
+        if id_carte and id_carte == video_id:       # 2. même numéro d'épisode
+            return True, carte, id_carte
+        if titre and len(titre) >= 12 and titre in _norm(carte):   # 3. titre distinctif
+            return True, carte, id_carte or video_id
+    # ALERTE (pas un blocage) : une publication de même durée à légende cassée peut être
+    # un envoi déjà parti dont on n'a aucune trace. Deux vidéos peuvent durer 26 s sans
+    # être la même : bloquer là-dessus empêcherait un post légitime, donc on se contente
+    # de le signaler et l'homme tranche.
+    if duree:
+        for c in cartes:
+            if c.get("duree") == duree and not re.search(r"\(épisode", c.get("carte") or ""):
+                print(f"[contenu] ⚠ publication de même durée ({duree}) à légende cassée : "
+                      f"{(c.get('carte') or '')[:80]}", flush=True)
+                break
+    return False, "", None
     # ALERSE (pas un blocage) : une publication de même durée à légende cassée peut être
     # un envoi déjà parti dont on n'a aucune trace. Deux vidéos peuvent durer 26 s sans
     # être la même : bloquer là-dessus empêcherait un post légitime, donc on se contente
@@ -459,26 +547,59 @@ def publish(video_id, caption=None):
         set_state(video_id, "FAILED", error="légende perdue juste avant Publier")
         sys.exit("légende perdue avant Publier")
 
-    # Bouton Publier : il passe brièvement « not interactable » (overlay de confirmation).
+    # Bouton Publier : clic sur le nœud VISIBLE (le premier `[data-e2e]` peut être un
+    # doublon invisible -> clic « réussi » sans effet réel, d'où les « sans preuve » du
+    # 15/10 soir) et surtout VÉRIFICATION de l'effet : URL/champ/confirmation/bouton
+    # désactivé. Sans effet observable, on réessaie au lieu de croire à un succès.
     posted = False
     for _ in range(8):
-        btns = d.find_elements(By.CSS_SELECTOR, '[data-e2e="post_video_button"]')
-        if not btns:
+        try:
+            etat = d.execute_script("""
+                var bs = document.querySelectorAll('[data-e2e="post_video_button"]');
+                var btn = null;
+                for (var i = 0; i < bs.length; i++) {
+                    var r = bs[i].getBoundingClientRect();
+                    if (r.width > 0 && r.height > 0 &&
+                        getComputedStyle(bs[i]).visibility !== 'hidden') { btn = bs[i]; break; }
+                }
+                if (!btn) return 'absent';
+                btn.scrollIntoView({block: 'center'});
+                btn.click();
+                return 'clic';
+            """)
+        except WebDriverException:
             time.sleep(1.5)
             continue
-        btn = btns[0]
-        try:
-            d.execute_script("arguments[0].scrollIntoView({block:'center'})", btn)
-            btn.click()
+        if etat != "clic":
+            time.sleep(1.5)
+            continue
+        time.sleep(3)
+        # effet observable ? (navigation, bouton parti/désactivé, fenêtre de confirmation)
+        effet = ("tiktokstudio/content" in d.current_url) or page_says(
+            d, "Publier maintenant", "Publier quand même", "Continuer")
+        if not effet:
+            try:
+                dispo = d.execute_script("""
+                    var b = document.querySelector('[data-e2e="post_video_button"]');
+                    if (!b) return false;                 // bouton parti = effet
+                    var r = b.getBoundingClientRect();
+                    if (r.width <= 0 || r.height <= 0) return false;
+                    return b.disabled || b.getAttribute('aria-disabled') === 'true';
+                """)
+                # False = absent/invisible (effet) ; True = désactivé (envoi en cours, effet)
+                # Seul « toujours visible et actif » = clic sans effet.
+                effet = dispo is not None and dispo in (True, False) and not d.execute_script(
+                    "var b=document.querySelector('[data-e2e=\"post_video_button\"]');"
+                    "if(!b) return false;var r=b.getBoundingClientRect();"
+                    "return r.width>0&&r.height>0&&!b.disabled&&"
+                    "b.getAttribute('aria-disabled')!=='true';")
+            except WebDriverException:
+                effet = False
+        if effet:
             posted = True
             break
-        except WebDriverException:
-            try:
-                d.execute_script("arguments[0].click()", btn)
-                posted = True
-                break
-            except WebDriverException:
-                time.sleep(1.5)
+        print("[publier] clic « Publier » sans effet visible -> nouvel essai", flush=True)
+        time.sleep(2)
     if not posted:
         set_state(video_id, "FAILED", error="bouton Publier introuvable ou non cliquable")
         sys.exit("bouton Publier indisponible")

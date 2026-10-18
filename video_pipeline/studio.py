@@ -146,24 +146,41 @@ def sync_ready_to_queue():
 
 # ------------------------------------------------------------------ captions
 def build_caption(ep):
-    """Légende 2026 : hook + titre + identifiant + QUESTION (comment-bait) + hashtags.
+    """Légende 2026 : hook + titre + QUESTION (comment-bait) + hashtags.
 
-    L'identifiant du fichier est dans la légende à dessein : c'est la seule trace fiable
-    qui relie une publication TikTok à SON fichier. Le 01/10/2026 on ne pouvait plus dire
-    quelle des vidéos en ligne était un doublon ; avec « auto_041 » dans le texte, la
-    lecture de la liste Contenu tranche sans ambiguïté.
+    13/10/2026 — ORDRE M du patron : JAMAIS le video_id (« auto_XXX ») dans la légende
+    visible. L'algorithme TikTok lit « auto_… » comme du contenu automatisé et peut
+    BANNIR la vidéo. L'identifiant reste interne (métadonnées, nom de fichier interne)
+    ; la preuve de présence dans la liste Contenu repose sur le numéro « (épisode N) »
+    et le titre distinctif (publish_studio._id_depuis_carte / _titre_distinctif), sans
+    jamais afficher « auto_… » au public.
     """
     cluster = CAPTION_CLUSTERS[ep["ep"] % len(CAPTION_CLUSTERS)]
     question = CAPTION_QUESTIONS[ep["ep"] % len(CAPTION_QUESTIONS)]
     hook = ep["headline"].replace("|", " ")
-    vid = ep.get("id") or ""
-    text = (f"{hook} — {ep['title']} (épisode {ep['ep']}"
-            f"{' · ' + vid if vid else ''}). "
+    text = (f"{hook} — {ep['title']} (épisode {ep['ep']}). "
             f"{question} {' '.join(cluster)} {BRAND_TAG}")
     return text.strip()
 
 
 # ------------------------------------------------------------------ production
+def families_a_eviter(queue):
+    """Scénarios qu'il ne faut PLUS rendre : déjà sortis ou déjà en attente.
+
+    13/10/2026 — « attention aux doublons ». `render_new` prenait les premiers épisodes
+    non produits de la banque sans regarder les scénarios : il rendait donc des VARIANTES
+    de scénarios déjà publiés (G19, G20, G21, G25…), que `publish_next` bloquait ensuite en
+    FAILED. Du rendu brûlé pour rien, et la file restait vide de contenu neuf. On écarte
+    ici toute famille déjà publiée ou déjà en tampon.
+    """
+    eps = {e["id"]: e for e in bank()}
+    fams = set(already_published_families(queue))
+    for e in queue:
+        if e.get("state") == "READY" and e["video_id"] in eps:
+            fams.add(family_key(eps[e["video_id"]]))
+    return fams
+
+
 def render_new(config, count=None, ep_ids=None):
     """Rend des épisodes neufs, dans la limite du budget journalier (ledger).
 
@@ -179,7 +196,19 @@ def render_new(config, count=None, ep_ids=None):
         if count is None:
             count = cap
         allowed = max(0, min(count, cap - used_today("renders")))
-        wanted = [e for e in bank() if e["id"] not in produced_ids()][:allowed]
+        deja = produced_ids()
+        eviter = families_a_eviter(load_queue())
+        wanted = []
+        for e in bank():
+            if e["id"] in deja:
+                continue
+            fam = family_key(e)
+            if fam in eviter:          # scénario déjà sorti/en tampon : jamais 2 variantes
+                continue
+            eviter.add(fam)            # une seule variante par scénario dans ce lot
+            wanted.append(e)
+            if len(wanted) >= allowed:
+                break
     os.makedirs(READY_DIR, exist_ok=True)
     done = []
     import make_toon
@@ -224,11 +253,22 @@ def signature(ep):
 def family_key(ep):
     """Identifiant du SCÉNARIO (et non de la variante).
 
-    La factory produit 4 variantes par scénario : même `headline`, même décor, mêmes
+    La factory produit 4 variantes par scénario : même décor, mêmes personnages, mêmes
     6 répliques sur 7 — visuellement c'est la MÊME vidéo. Le 30/09/2026 auto_025 puis
-    auto_026 sont partis ainsi (« même vidéo publiée une demi-heure après »). On compare
-    donc le headline, qui est commun aux 4 variantes.
+    auto_026 sont partis ainsi (« même vidéo publiée une demi-heure après »).
+
+    On lit d'abord le champ `family` posé par la factory (G1, G2, ... G26) : c'est
+    l'identité du groupe de fabrication. Repli sur le `headline` normalisé.
+
+    09/10/2026 : le repli sur le headline était insuffisant — G2 et G16 mettaient le
+    PARAMÈTRE dans le headline (« LE PRIX DES PÂTES » puis « LE PRIX DU BEURRE »), donc
+    les 4 variantes passaient pour 4 scénarios différents. Contrôle mesuré : distance
+    d'empreinte auto_061/auto_062 = 0.0187, auto_061/auto_063 = 0.0219 (seuil 0.035),
+    soit la même vidéo à l'œil. Avec `family`, tout le groupe est bloqué d'un coup.
     """
+    fam = (ep.get("family") or "").strip().lower()
+    if fam:
+        return fam
     h = (ep.get("headline") or "").strip().lower()
     if h:
         return h
@@ -267,24 +307,33 @@ def _mp4_of(video_id):
 def deja_publie_sur_tiktok(video_id, caption=None):
     """Interroge la liste Contenu du compte : cette vidéo y est-elle déjà ?
 
-    Retourne (True, extrait) si on la trouve, (False, "") sinon. Tout échec technique
-    (Chrome fermé, page lente) renvoie False : on n'empêche jamais une publication
-    parce que la vérification est indisponible — le garde de scénario et d'empreinte
-    restent, eux, hors ligne et fiables.
+    Renvoie (True, extrait, video_id_en_ligne). Le troisième élément est décisif :
+    s'il diffère de `video_id`, c'est qu'UNE AUTRE vidéo est en ligne — souvent une
+    variante du même scénario — et non la nôtre. C'est le cas du 09/10/2026 : la carte
+    trouvée était celle de auto_069 alors qu'on interrogeait auto_070. Traiter cela
+    comme « déjà publié » faisait dire à la base qu'auto_070 était en ligne.
+
+    Tout échec technique (Chrome fermé, page lente) renvoie False : on n'empêche jamais
+    une publication parce que la vérification est indisponible — le garde de scénario et
+    d'empreinte restent, eux, hors ligne et fiables.
     """
     try:
         import publish_studio
     except Exception:
-        return False, ""
+        return False, "", None
     try:
-        trouve, extrait = publish_studio.present_dans_contenu(video_id, caption)
+        trouve, extrait, id_en_ligne = publish_studio.present_dans_contenu(video_id, caption)
     except Exception as exc:
         print(f"[publier] vérification Contenu impossible ({exc.__class__.__name__}) "
               f"— on continue", flush=True)
-        return False, ""
+        return False, "", None
     if trouve:
-        print(f"[publier] {video_id} retrouvé dans Contenu : {extrait[:70]}", flush=True)
-    return trouve, extrait
+        if id_en_ligne and id_en_ligne != video_id:
+            print(f"[publier] ATTENTION : c'est {id_en_ligne} qui est en ligne, "
+                  f"pas {video_id} — {extrait[:60]}", flush=True)
+        else:
+            print(f"[publier] {video_id} retrouvé dans Contenu : {extrait[:70]}", flush=True)
+    return trouve, extrait, id_en_ligne
 
 
 def visual_duplicate_of(video_id, against_ids, threshold=VISUAL_DUP_THRESHOLD):
@@ -536,7 +585,30 @@ def publish_next(config, video_id=None, allow_studio=None, force=False):
     # ne prouvait rien. On interroge la liste Contenu du compte avant tout envoi.
     if not force:
         # ATTENTION : on décompose le retour, un tuple non vide étant toujours vrai.
-        trouve, extrait = deja_publie_sur_tiktok(e["video_id"], e.get("caption"))
+        trouve, extrait, id_en_ligne = deja_publie_sur_tiktok(e["video_id"], e.get("caption"))
+        if trouve and id_en_ligne and id_en_ligne != e["video_id"]:
+            # C'est une AUTRE vidéo qui est en ligne, pas la nôtre. Ne surtout pas se
+            # marquer PUBLISHED : c'est ce qui a désynchronisé la base du compte le
+            # 09/10 (auto_070 déclarée en ligne alors que c'était auto_069). On marque
+            # notre vidéo comme doublon, et on réconcilie l'autre, qui EST en ligne.
+            e.update(state="FAILED",
+                     error=f"doublon : c'est {id_en_ligne} qui est en ligne, "
+                           f"pas {e['video_id']} (même scénario, variante différente)")
+            print(f"[publier] {e['video_id']} ÉCARTÉE : {id_en_ligne} est déjà en ligne",
+                  flush=True)
+            autre = find_in_queue(queue, id_en_ligne)
+            if autre is not None and autre.get("state") not in (
+                    "PUBLISHED", "PUBLISHED_SUSPECT"):
+                autre.update(state="PUBLISHED", error=None, published_at_utc=now_utc(),
+                             published_evidence={
+                                 "method": "réconciliation TikTok Studio",
+                                 "confirmation": f"retrouvée dans Contenu au contrôle de "
+                                                 f"{e['video_id']}",
+                                 "carte": extrait[:120]})
+                print(f"[publier] {id_en_ligne} RÉCONCILIÉE : elle est bien en ligne",
+                      flush=True)
+            save_queue(queue)
+            return "doublon_reconcilie"
         if trouve:
             e.update(state="PUBLISHED", error=None, published_at_utc=now_utc(),
                      published_evidence={"method": "reconciliation TikTok Studio",
@@ -593,6 +665,15 @@ def publish_next(config, video_id=None, allow_studio=None, force=False):
             publish_studio.publish(e["video_id"], caption=e.get("caption") or None)
             return "published"
         except SystemExit as exc:
+            # publish_studio a pu marquer PUBLISHED_SUSPECT (clic fait, pas de preuve) :
+            # on ne l'écrase JAMAIS en FAILED (FAILED = « jamais publié », ce qui
+            # conduirait à le republier -> doublon). On garde son état tel quel.
+            frais = next((x for x in load_queue()
+                          if x["video_id"] == e["video_id"]), None)
+            if frais and frais.get("state") == "PUBLISHED_SUSPECT":
+                print(f"[publier] {e['video_id']} PUBLISHED_SUSPECT conservé "
+                      f"(jamais republié)", flush=True)
+                return "failed"
             e.update(state="FAILED", error=str(exc))
             save_queue(queue)
             return "failed"

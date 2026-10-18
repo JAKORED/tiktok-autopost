@@ -91,3 +91,16 @@ EPISODES = [
 _t1 = next(e for e in EPISODES if e["id"] == "toon_001")
 EPISODES.append(dict(_t1, id="proto_001", ep=1, cinematic=True,
                      bg_image="videos/generated/keyframes/bg_office.png"))
+
+
+# Banque paramétrique : dizaines d'épisodes supplémentaires (mêmes personnages/voix/décors).
+from factory import build_factory_episodes  # noqa: E402
+
+EPISODES += build_factory_episodes()
+
+
+# Banque « Concepts viraux » (20/09/2026) : formats qui font des millions de vues,
+# scripts 100 % réécrits. Produite EN PREMIER (c'est la ligne de croissance du compte).
+from viral_bank import build_viral_episodes  # noqa: E402
+
+EPISODES = build_viral_episodes() + EPISODES

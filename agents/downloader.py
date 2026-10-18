@@ -16,7 +16,7 @@ class DownloaderAgent:
     def __init__(self, config: dict):
         self.config = config
         self.storage_config = config.get("cloud_storage", {})
-        self.temp_dir = self.storage_config.get("local_path", "./temp")
+        self.temp_dir = self.storage_config.get("temp_path", "./temp")
         self.output_dir = self.storage_config.get("local_path", "./output")
         os.makedirs(self.temp_dir, exist_ok=True)
         os.makedirs(self.output_dir, exist_ok=True)

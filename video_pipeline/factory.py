@@ -30,10 +30,17 @@ SETS = {
 GENERIC = ["fyp", "pourtoi", "humour", "dessinanime", "cartoon", "drole", "FactVibesToons"]
 
 
-def _ep(no, pair, headline, title, topic, tags, lines):
+# Nombre de variantes produites par scénario. TOUS les groupes G1..G26 font exactement
+# 4 variantes : même décor, mêmes personnages, mêmes 6 répliques sur 7 — visuellement
+# c'est LA MÊME vidéo. Le groupe est donc l'identité du scénario (champ `family`).
+VARIANTES_PAR_SCENARIO = 4
+
+
+def _ep(no, pair, headline, title, topic, tags, lines, family=None):
     key = f"{pair[0]}_{pair[1]}"
     return dict(
-        id=f"auto_{no:03d}", ep=no, set=SETS[key], left=pair[0], right=pair[1],
+        id=f"auto_{no:03d}", ep=no, family=family, set=SETS[key],
+        left=pair[0], right=pair[1],
         accent=ACCENTS[key], headline=headline, title=title, topic=topic,
         tags=[f"#{t}" for t in tags], lines=[
             dict(who=w, emo=e, text=t, **({"punch": True} if p else {}))
@@ -53,7 +60,13 @@ def build_factory_episodes():
     def add(e):
         nonlocal no
         no += 1
-        eps.append(_ep(no, *e))
+        # Identité du SCÉNARIO = le groupe de fabrication, PAS le headline.
+        # Certains groupes mettaient le paramètre dans le headline (G2 « LA MACHINE À
+        # CAFÉ EN PANNE/EN MAINTENANCE », G16 « LE PRIX DES PÂTES / DU BEURRE / DU CAFÉ /
+        # DU PAIN ») : les 4 variantes passaient alors pour 4 scénarios différents et
+        # sortaient en série. C'est exactement le doublon visuel que le patron a signalé.
+        groupe = (no - 1) // VARIANTES_PAR_SCENARIO + 1
+        eps.append(_ep(no, *e, family=f"G{groupe}"))
 
     # --- G1 : le mail du vendredi 17 h 59 ---
     for (obj, jour) in [
@@ -639,6 +652,372 @@ def build_factory_episodes():
                 l_("josette", "angry", "Je n'ai pas payé pour l'ambiance, j'ai payé mes courses."),
                 l_("kevin", "happy", "Elles sont dans le coffre. Vous voulez le ticket ou la musique ?"),
                 l_("josette", "neutral", "Le ticket. La musique, je l'aurai gratuitement, toute la journée.", punch=True),
+            ],
+        ))
+
+    # ================= G27 à G36 : scénarios neufs du 09/10/2026 =====================
+    # Pourquoi : la banque ne tenait plus que 11 vidéos sans doublon, soit 2,2 jours à
+    # 5 posts/jour. L'orchestrateur automatique aurait donc buté sur une file vide. On
+    # ajoute 10 situations inédites (10 jours de contenu), toujours 4 variantes par
+    # groupe — le champ `family` fait le reste.
+    # Règle (ORDRE J) : un groupe = un scénario = UNE seule vidéo publiable.
+
+    # --- G27 : l'ascenseur monte, il ne descend jamais ---
+    for (depart, arrivee, excuse) in [
+        ("le sous-sol", "le quatrième", "le capteur d'hydratation"),
+        ("la cafétéria", "le premier", "la porte automatique"),
+        ("les archives", "le hall", "le bouton d'évacuation"),
+        ("le parking", "la rooftop", "le mode économie d'énergie"),
+    ]:
+        add((
+            OFFICE, "L'ASCENSEUR|MONTE|JAMAIS|IL NE DESCEND PAS",
+            f"L'ascenseur monte sans jamais descendre ({depart})", "quotidien / immeuble",
+            ["quotidien", "ascenseur", "immeuble", "humour"],
+            [
+                l_("kevin", "worried", "J'appuie sur {arrivee}. L'ascenseur est parti : {depart}.".format(arrivee=arrivee, depart=depart)),
+                l_("fournier", "smug", "Il monte. C'est tout ce qu'on lui a demandé."),
+                l_("kevin", "angry", "Je ne lui ai pas demandé de monter. Je lui ai demandé de descendre."),
+                l_("fournier", "happy", "Les trois premières fois, l'ascenseur obéit. Après, il fait ce qu'il veut."),
+                l_("kevin", "worried", "Et l'escalier, alors ?"),
+                l_("fournier", "smug", "L'escalier monte aussi. Mais lui, il ne vous fait pas payer."),
+                l_("kevin", "neutral", "Il est bloqué au troisième depuis neuf heures.", punch=True),
+            ],
+        ))
+
+    # --- G28 : la réunion de quatre heures pour une décision de quatre minutes ---
+    for (objet, duree, decision) in [
+        ("le budget de l'équipe", "quatre heures", "le même budget"),
+        ("la nouvelle charte graphique", "trois heures", "l'ancienne charte"),
+        ("le planning de septembre", "quatre heures", "le planning d'août"),
+        ("l'organisation des équipes", "quatre heures", "personne ne sait"),
+    ]:
+        add((
+            OFFICE, "LA RÉUNION|EST ARRIVÉE|À L'HEURE|POUT PAS",
+            f"La réunion de {duree} ({objet})", "travail / réunion",
+            ["travail", "reunion", "humour", "bureau"],
+            [
+                l_("kevin", "neutral", "{objet} : on a {duree} pour trancher.".format(objet=objet[0].upper() + objet[1:], duree=duree)),
+                l_("fournier", "happy", "C'est parfait. Une décision de cette importance mérite {duree}.".format(duree=duree)),
+                l_("kevin", "worried", "On a décidé quoi, du coup ?"),
+                l_("fournier", "smug", "{decision}. On aurait pu le dire en quatre minutes.".format(decision=decision[0].upper() + decision[1:])),
+                l_("kevin", "angry", "Alors pourquoi on a pointé pendant {duree} ?".format(duree=duree)),
+                l_("fournier", "happy", "Parce que c'était la seule partie importante."),
+                l_("kevin", "neutral", "La partie importante, c'est d'être là ?", punch=True),
+            ],
+        ))
+
+    # --- G29 : l'appli de livraison change l'adresse ---
+    for (commande, adresse) in [
+        ("une Pizza", "la rue d'à côté"),
+        ("des courses", "un autre quartier"),
+        ("unQuem", "un village"),
+        ("une fleur", "le parking du magasin"),
+    ]:
+        add((
+            MARKET, "L'APPLI DE LIVRAISON|CHANGE D'ADRESSE|À MOITIÉ DU TRAJET",
+            f"Le livreur livr elsewhere ({commande})", "société / livraison",
+            ["livraison", "application", "quotidien", "humour"],
+            [
+                l_("josette", "neutral", "Le suivi dit : le livreur arrive."),
+                l_("kevin", "happy", "Très bien. Il reste combien de temps ?"),
+                l_("josette", "worried", "Il est à {adresse}. J'habite à deux kilomètres.".format(adresse=adresse)),
+                l_("kevin", "neutral", "C'est le trajet le plus court pour lui."),
+                l_("josette", "angry", "Et pour moi ?"),
+                l_("kevin", "smug", "Pour vous, c'est deux kilomètres. Ça se marche."),
+                l_("josette", "worried", "Le colis va arriver froide, et moi je vais arriver chaude.".format(commande=commande), punch=True),
+            ],
+        ))
+
+    # --- G30 : le nouveau fait des bullet points à l'oral ---
+    for (sujet, detail) in [
+        ("le retard", "il y en a trois"),
+        ("la qualité", "elle est en baisse"),
+        ("le budget", "il est gelé"),
+        ("la roadmap", "elle n'existe pas"),
+    ]:
+        add((
+            OFFICE, "IL PARLE EN|PUCES|MAIS À L'ORAL",
+            f"Le nouveau fait des puces à l'oral ({sujet})", "travail / communication",
+            ["travail", "presentation", "humour", "bureau"],
+            [
+                l_("kevin", "neutral", "Le nouveau prend la parole. Premier point."),
+                l_("fournier", "happy", "Deuxième point."),
+                l_("kevin", "worried", "Il est en train de faire des puces à l'oral."),
+                l_("fournier", "smug", "C'est plus lisible à l'oral, on le voit dans ses gestes."),
+                l_("kevin", "neutral", "Troisième point : {detail}.".format(detail=detail)),
+                l_("fournier", "happy", "Point suivant ?"),
+                l_("kevin", "worried", "Il a terminé. Le dernier point c'était qu'il n'y en a pas.", punch=True),
+            ],
+        ))
+
+    # --- G31 : l'IA répond à côté de la question ---
+    for (question, reponse) in [
+        ("combien de jours de congé", "voici une recette de tarte"),
+        ("où est mon clavier", "les claviers sont une invention ancienne"),
+        ("quelle heure est-il", "il est toujours l'heure de partir"),
+        ("s'il pleut demain", "les pencils n'ont pas de parapluie"),
+    ]:
+        add((
+            FACTORY, "L'IA A RÉPONDU|À CÔTÉ DE LA QUESTION",
+            f"L'IA répond à côté de la question ({question})", "tech / IA",
+            ["ia", "chatgpt", "technique", "humour"],
+            [
+                l_("kevin", "neutral", "Je demande : {question} ?".format(question=question)),
+                l_("bob", "happy", "Excellente question. {reponse}.".format(reponse=reponse[0].upper() + reponse[1:])),
+                l_("kevin", "angry", "Ce n'est pas ma réponse !"),
+                l_("bob", "neutral", "C'est une réponse. Elle n'est pas à la question. C'est plus intéressant."),
+                l_("kevin", "worried", "On peut au moins essayer de nouveau ?"),
+                l_("bob", "smug", "On peut. Le modèle préfère parler de lui. C'est son seul sujet."),
+                l_("kevin", "neutral", "Je vais lui demander quel jour on est. Il va me parler du poids de l'eau.", punch=True),
+            ],
+        ))
+
+    # --- G32 : le rapport automatique faux (mais Accepted) ---
+    for (indicateur, valeur, realite) in [
+        ("le taux de présence", "98 %", "il y a deux jours de congés l'an dernier"),
+        ("le coût des transports", "en baisse", "il a doublé"),
+        ("la satisfaction équipe", "9/10", "personne n'a répondu"),
+        ("le délai de livraison", "amélioré", "c'est pareil"),
+    ]:
+        add((
+            FACTORY, "LE RAPPORT AUTOMATIQUE|EST FAUX|MAIS ACCEPTÉ",
+            f"Le rapport automatique faux ({indicateur})", "tech / données",
+            ["rapport", "donnees", "ia", "humour"],
+            [
+                l_("kevin", "neutral", "Le tableau de bord dit : {indicateur}, {valeur}.".format(indicateur=indicateur, valeur=valeur)),
+                l_("bob", "happy", "Les chiffres sont calculés. Ils sont donc exacts."),
+                l_("kevin", "worried", "Et en vrai ?"),
+                l_("bob", "neutral", "En vrai, c'est faux : {realite}.".format(realite=realite[0].upper() + realite[1:])),
+                l_("kevin", "angry", "Alors le tableau de bord est faux !"),
+                l_("bob", "smug", "Le tableau de bord est vrai. C'est le monde qui est faux."),
+                l_("kevin", "neutral", "Je vais mettre ça dans la présentation de demain.", punch=True),
+            ],
+        ))
+
+    # --- G33 : l'attente pour un retrait en magasin ---
+    for (commande, delai, excuse) in [
+        ("une commande", "quarante-cinq minutes", "le véhicule attend sa tournée"),
+        ("un retrait", "une heure", "le filtre a changé"),
+        ("un retour", "deux heures", "le parking est plein"),
+        ("un échange", "trois heures", "personne n'a l'article"),
+    ]:
+        add((
+            MARKET, "ILS ONT DIT|QUARANTE MINUTES|ÇA FAIT {delai}".format(delai="UNE HEURE"),
+            f"L'attente au comptoir ({commande})", "quotidien / magasin",
+            ["quotidien", "magasin", "attente", "humour"],
+            [
+                l_("josette", "worried", "On m'a dit {delai} pour {commande}.".format(delai=delai, commande=commande)),
+                l_("kevin", "happy", "{delai}. C'est noté sur le ticket.".format(delai=delai[0].upper() + delai[1:])),
+                l_("josette", "angry", "Le ticket a été imprimé à 14 h 02. Il est 15 h 12."),
+                l_("kevin", "smug", "Vous voyez, l'heure est respectée."),
+                l_("josette", "worried", "L'heure de quoi, exactement ?"),
+                l_("kevin", "neutral", "{excuse}. Le magasin ne répond plus de ces choses-là.".format(excuse=excuse[0].upper() + excuse[1:])),
+                l_("josette", "angry", "La commande va repartir sans moi, et moi sans elle.".format(commande=commande), punch=True),
+            ],
+        ))
+
+    # --- G34 : le décret sur le télétravail ---
+    for (regle, precision) in [
+        ("le télétravail obligatoire", "deux jours par semaine"),
+        ("la présence obligatoire", "quatre jours par semaine"),
+        ("le télétravail interdit", "cinq jours au bureau"),
+        ("la réunion obligatoire", "en présentiel, debout"),
+    ]:
+        add((
+            STAGE, "LE DÉCRET SUR LE|TÉLÉTRAVAIL|EST CLAIR",
+            f"Le décret sur le télétravail ({regle})", "administration / travail",
+            ["teletravail", "decret", "travail", "humour"],
+            [
+                l_("ministre", "happy", "Dès lundi : {regle}.".format(regle=regle)),
+                l_("josette", "neutral", "C'est obligatoire pour tout le monde ?"),
+                l_("ministre", "smug", "{precision}. Pour tout le monde.".format(precision=precision[0].upper() + precision[1:])),
+                l_("josette", "worried", "Et si la connexion ne marche pas ce jour-là ?"),
+                l_("ministre", "happy", "C'est précisément pour ça qu'il existe un décret."),
+                l_("josette", "angry", "Le décret ne va pas redémarrer ma box."),
+                l_("ministre", "smug", "On a prévu des offres. La connexion fait partie du foyer.", punch=True),
+            ],
+        ))
+
+    # --- G35 : le collègue qui répond « c'est noté » ---
+    for (sujet, relance) in [
+        ("la demande de matériel", "elle n'a jamais été chiffrée"),
+        ("le problème de bruit", "il n'a jamais été mesuré"),
+        ("la formation obligatoire", "elle n'a jamais eu de contenu"),
+        ("la clause sécurité", "elle n'a jamais été écrite"),
+    ]:
+        add((
+            OFFICE, "IL RÉPOND|« C'EST NOTÉ »|À TOUT",
+            f"Il répond « c'est noté » à tout ({sujet})", "travail / open space",
+            ["travail", "open space", "humour", "bureau"],
+            [
+                l_("kevin", "neutral", "Je signale : {sujet}.".format(sujet=sujet)),
+                l_("fournier", "smug", "C'est noté."),
+                l_("kevin", "worried", "Noté où ?"),
+                l_("fournier", "happy", "Dans ma tête. C'est très bien rangé."),
+                l_("kevin", "angry", "Je peux avoir une trace ?"),
+                l_("fournier", "smug", "{relance}.".format(relance=relance[0].upper() + relance[1:])),
+                l_("kevin", "neutral", "J'ai demandé une trace. Pas un constat d'absence.", punch=True),
+            ],
+        ))
+
+    # --- G36 : l'abonnement résilié mais facturé ---
+    for (service, montant) in [
+        ("le streaming", "onze euros"),
+        ("le sport", "trente euros"),
+        ("la musique", "dix euros"),
+        ("le cloud", "quatre euros"),
+    ]:
+        add((
+            MARKET, "J'AI RÉSILIÉ|{0} ET|ON M'A FACTURÉ".format(service.upper()),
+            f"L'abonnement résilié mais facturé ({service})", "société / argent",
+            ["abonnement", "argent", "quotidien", "humour"],
+            [
+                l_("josette", "angry", "J'ai résilié {service} en mars. J'ai encore été débitée de {montant}.".format(service=service, montant=montant)),
+                l_("kevin", "smug", "Le résilié prend effet à la fin de l'abonnement en cours."),
+                l_("josette", "worried", "On est en octobre."),
+                l_("kevin", "happy", "Exactement. Il faut attendre la fin du prochain."),
+                l_("josette", "angry", "Et si je me réabonne ?"),
+                l_("kevin", "neutral", "Alors le résilié est annulé et vous payez les deux. C'est le principe du foyer."),
+                l_("josette", "worried", "Je ne me réabonne pas. Je ne sais même pas comment on vérifie.", punch=True),
+            ],
+        ))
+
+    # ============ G37 à G42 : scénarios NEUFS du 16/10/2026 =======================
+    # Constat : la banque ne tenait plus que 1 scénario publiable sans doublon
+    # (auto_144). Les 41 autres étaient des variantes de familles déjà publiées.
+    # On ajoute 6 situations INÉDITES (2 jours à 3 posts/jour), sujets vérifiés
+    # un par un contre les 36 familles existantes pour éviter tout doublon de
+    # scénario. Mêmes personnages, décors, voix et structure (7 répliques + punch).
+
+    # --- G37 : le thermostat réglé en guerre froide ---
+    for (degres, coupable, excuse) in [
+        ("dix-sept degrés", "le service technique", "c'est la température de la concentration"),
+        ("quinze degrés", "la direction", "on chauffe la planète, pas le bureau"),
+        ("dix-huit degrés", "le consultant en énergie", "c'est le seuil d'alerte nationale"),
+        ("seize degrés", "les ressources humaines", "trop chaud, on dort ; trop froid, on travaille"),
+    ]:
+        add((
+            OFFICE, "LE THERMOSTAT|EST EN|GUERRE FROIDE",
+            f"Le thermostat réglé en guerre froide ({degres})", "travail / open space",
+            ["travail", "bureau", "froid", "thermostat"],
+            [
+                l_("kevin", "worried", "Il fait {0} au bureau. Je tape en gants.".format(degres)),
+                l_("fournier", "smug", "Le thermostat est réglé. C'est scientifique."),
+                l_("kevin", "angry", "Scientifique ? J'ai du givre sur le clavier."),
+                l_("fournier", "happy", "{0} a validé le réglage.".format(coupable.capitalize())),
+                l_("kevin", "neutral", "Et la raison, officiellement ?"),
+                l_("fournier", "smug", "{0}. C'est optimisé.".format(excuse)),
+                l_("kevin", "worried", "Optimisé pour qui ? Le congélateur du rez-de-chaussée ?", punch=True),
+            ],
+        ))
+
+    # --- G38 : le formulaire pour obtenir un formulaire ---
+    for (document, niveau, delai) in [
+        ("une attestation", "trois signatures", "deux semaines"),
+        ("un duplicata", "un timbre fiscal", "un mois"),
+        ("une autorisation", "une commission", "le trimestre"),
+        ("une copie certifiée", "une validation croisée", "l'an prochain"),
+    ]:
+        add((
+            OFFICE, "POUR AVOIR|UN FORMULAIRE|IL FAUT UN|FORMULAIRE",
+            f"Le formulaire à remplir pour obtenir un formulaire ({document})", "travail / administration",
+            ["travail", "bureaucratie", "formulaire", "admin"],
+            [
+                l_("kevin", "neutral", "Je viens chercher {0}, s'il vous plaît.".format(document)),
+                l_("fournier", "happy", "Il faut d'abord remplir le formulaire de demande."),
+                l_("kevin", "worried", "Le formulaire pour avoir le formulaire ?"),
+                l_("fournier", "smug", "Exactement. C'est {0}. Et une pièce jointe.".format(niveau)),
+                l_("kevin", "neutral", "Pièce jointe de quoi, à votre avis ?"),
+                l_("fournier", "happy", "Du formulaire déjà rempli. Vous l'aurez dans {0}.".format(delai)),
+                l_("kevin", "worried", "Donc je meurs de vieillesse en salle d'attente.", punch=True),
+            ],
+        ))
+
+    # --- G39 : le ministre inaugure quelque chose qui n'existe pas ---
+    for (lieu, promesse, realite) in [
+        ("la médiathèque du quartier", "elle ouvrira en juin", "le terrain sert de parking"),
+        ("la crèche de la gare", "cent places garanties", "il y a seulement un buisson"),
+        ("le pont sur la rivière", "fin de chantier en 2027", "il n'y a pas de rivière"),
+        ("la salle de sport municipale", "gratuite pour tous les habitants", "c'est un placard fermé à clé"),
+    ]:
+        add((
+            STAGE, "L'INAUGURATION|DE QUELQUE CHOSE|QUI N'EXISTE PAS",
+            f"Le ministre inaugure {lieu}", "politique / satire",
+            ["politique", "satire", "inauguration", "humour"],
+            [
+                l_("ministre", "happy", "J'inaugure aujourd'hui {0} !".format(lieu)),
+                l_("josette", "neutral", "Monsieur le ministre... il n'y a absolument rien ici."),
+                l_("ministre", "smug", "{0}. C'est le plus beau projet du département.".format(promesse.capitalize())),
+                l_("josette", "worried", "On coupe le ruban sur quoi, exactement ?"),
+                l_("ministre", "happy", "Sur le terrain. Il représente l'espoir."),
+                l_("josette", "angry", "En face, c'est le parking du centre commercial."),
+                l_("ministre", "smug", "Alors on a inauguré la concurrence. C'est encore mieux.", punch=True),
+            ],
+        ))
+
+    # --- G40 : le distributeur qui garde la monnaie ---
+    for (article, somme, pretexte) in [
+        ("un café", "cinquante centimes", "la machine ne rend pas les pièces"),
+        ("un ticket de bus", "deux euros", "la monnaie est en réforme"),
+        ("un sandwich", "trois euros cinquante", "le distributeur part en congé"),
+        ("une carte de recharge", "dix euros", "la petite monnaie est devenue numérique"),
+    ]:
+        add((
+            MARKET, "IL GARDE|LA MONNAIE|ET LE CAFÉ",
+            f"Le distributeur qui garde la monnaie ({article})", "quotidien / argent",
+            ["quotidien", "argent", "distributeur", "humour"],
+            [
+                l_("josette", "worried", "J'ai payé {0}. Il manque {1} de monnaie.".format(article, somme)),
+                l_("kevin", "smug", "La machine ne rend pas. C'est son principe."),
+                l_("josette", "angry", "Son principe, c'est donc de me voler {0} ?".format(somme)),
+                l_("kevin", "neutral", "{0}.".format(pretexte.capitalize())),
+                l_("josette", "worried", "Et je fais comment pour récupérer mon argent ?"),
+                l_("kevin", "happy", "Vous patientez. Il rend tout à la fin du mois."),
+                l_("josette", "angry", "Je reviens avec une pince. Elle rendra tout.", punch=True),
+            ],
+        ))
+
+    # --- G41 : la carte de fidélité qui perd les points ---
+    for (points, anciennete, excuse) in [
+        ("mille points", "deux ans", "les points expirent en silence"),
+        ("deux cents points", "un mois", "le système a été migré"),
+        ("huit cents points", "six mois", "la carte a été remplacée"),
+        ("cinq mille points", "trois ans", "le programme est parti en retraite"),
+    ]:
+        add((
+            MARKET, "MA CARTE|DE FIDÉLITÉ|A DISPARU",
+            f"La carte de fidélité qui perd les points ({anciennete})", "quotidien / magasin",
+            ["quotidien", "magasin", "fidelite", "argent"],
+            [
+                l_("josette", "worried", "J'ai {0} sur ma carte. Depuis {1}.".format(points, anciennete)),
+                l_("kevin", "smug", "Très bien. Vous voulez les utiliser ?"),
+                l_("josette", "happy", "Oui, c'est pour mes courses du samedi."),
+                l_("kevin", "neutral", "{0}.".format(excuse.capitalize())),
+                l_("josette", "angry", "Comment ça prend sa retraite ? C'est une carte en plastique !"),
+                l_("kevin", "smug", "Elle a servi trois ans sans congé. Elle l'a mérité."),
+                l_("josette", "worried", "Donc mes points partent en vacances sans moi.", punch=True),
+            ],
+        ))
+
+    # --- G42 : le répondeur « votre appel est important » ---
+    for (service, duree, revelation) in [
+        ("le service client", "quarante minutes", "le service client est une boucle audio"),
+        ("le service technique", "une heure", "personne ne décroche le mardi"),
+        ("la comptabilité", "deux heures", "tout le service est en réunion"),
+        ("les ressources humaines", "trois heures", "le service a été délocalisé"),
+    ]:
+        add((
+            FACTORY, "« VOTRE APPEL|EST IMPORTANT »|DEPUIS 40 MIN",
+            f"Le répondeur qui ne passe jamais ({service})", "société / service client",
+            ["quotidien", "telephone", "service", "humour"],
+            [
+                l_("bob", "neutral", "Vous êtes {0} en attente. Votre appel est important.".format(duree)),
+                l_("kevin", "worried", "Il me dit ça depuis {0}.".format(duree)),
+                l_("bob", "neutral", "Il le pense aussi. C'est pour ça qu'il le répète."),
+                l_("kevin", "angry", "Je veux parler à un humain, moi."),
+                l_("bob", "happy", "Un humain est en ligne. Il attend comme vous."),
+                l_("kevin", "worried", "Et {0} ?".format(revelation)),
+                l_("bob", "neutral", "Votre appel reste important. Bonne journée.", punch=True),
             ],
         ))
 

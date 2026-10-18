@@ -1351,9 +1351,9 @@
   },
   {
     "video_id": "auto_053",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_053.mp4",
-    "caption": "L'OBJET EMPRUNTÉ — L'objet emprunté et jamais rendu (une cuillère) (épisode 53). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "caption": "L'OBJET EMPRUNTÉ — L'objet emprunté et jamais rendu (une cuillère) (épisode 53 · auto_053). Ça vous arrive à vous aussi ？ #dessinanime #cartoon #pov #FactVibesToons",
     "hashtags": [
       "#bureau",
       "#objet",
@@ -1364,15 +1364,19 @@
     "created_utc": "2026-10-01T17:13:31.522702+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-02T17:11:35.183610+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
     "error": null
   },
   {
     "video_id": "auto_065",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_065.mp4",
-    "caption": "Le badge n'ouvre plus la porte du sous-sol — épisode 65 #travail #bureau #badge #securite #FactVibesToons",
+    "caption": "LE BADGE N'OUVRE PLUS RIEN — Le badge n'ouvre plus la porte du sous-sol (épisode 65 · auto_065). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
     "hashtags": [
       "#travail",
       "#bureau",
@@ -1383,15 +1387,19 @@
     "created_utc": "2026-10-02T08:39:39.639017+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-02T17:47:49.902572+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": false
+    },
     "error": null
   },
   {
     "video_id": "auto_069",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_069.mp4",
-    "caption": "Le ticket disparaît à la caisse — épisode 69 #quotidien #magasin #ticket #courses #FactVibesToons",
+    "caption": "LE TICKET EST PERDU TOUJOURS — Le ticket disparaît à la caisse (épisode 69 · auto_069). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
     "hashtags": [
       "#quotidien",
       "#magasin",
@@ -1402,15 +1410,19 @@
     "created_utc": "2026-10-02T08:46:16.663357+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-09T10:45:00+00:00",
+    "published_evidence": {
+      "method": "réconciliation TikTok Studio",
+      "confirmation": "en ligne sur le compte -> PUBLISHED (réconciliation)",
+      "carte": "00:36 LE TICKET EST PERDU TOUJOURS — Le ticket disparaît à la caisse (épisode 69). Et vous, vous auriez fait quoi ？ #hum"
+    },
     "error": null
   },
   {
     "video_id": "auto_073",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_073.mp4",
-    "caption": "La panne de l'emballeuse était prévue — épisode 73 #industrie #panne #usine #technique #FactVibesToons",
+    "caption": "LA PANNE EST PRÉVU — La panne de l'emballeuse était prévue (épisode 73 · auto_073). Ça vous arrive à vous aussi ？ #dessinanime #cartoon #pov #FactVibesToons",
     "hashtags": [
       "#industrie",
       "#panne",
@@ -1421,15 +1433,19 @@
     "created_utc": "2026-10-02T08:46:16.698672+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-03T22:35:42.176430+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": false
+    },
     "error": null
   },
   {
     "video_id": "auto_077",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_077.mp4",
-    "caption": "La conférence de presse qui ne répond pas — épisode 77 #politique #communication #presse #humour #FactVibesToons",
+    "caption": "LA CONFÉRENCE « JE RÉPONDSRA » — La conférence de presse qui ne répond pas (épisode 77 · auto_077). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
     "hashtags": [
       "#politique",
       "#communication",
@@ -1440,15 +1456,19 @@
     "created_utc": "2026-10-02T08:46:16.759923+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-03T23:08:25.578757+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
     "error": null
   },
   {
     "video_id": "auto_081",
-    "state": "READY",
+    "state": "PUBLISHED",
     "file": "ready/auto_081.mp4",
-    "caption": "Le salaire annoncé pour le 3 du mois — épisode 81 #travail #salaire #argent #patron #FactVibesToons",
+    "caption": "LE SALAIRE ATTENDU TOUJOURS — Le salaire annoncé pour le 3 du mois (épisode 81 · auto_081). Vous en pensez quoi, vous ？ #dessinanime #humourfrancais #storytime #FactVibesToons",
     "hashtags": [
       "#travail",
       "#salaire",
@@ -1459,13 +1479,17 @@
     "created_utc": "2026-10-02T08:46:59.000840+00:00",
     "scheduled_for_utc": null,
     "publish_id": null,
-    "published_at_utc": null,
-    "published_evidence": null,
+    "published_at_utc": "2026-10-03T23:41:02.023110+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
     "error": null
   },
   {
     "video_id": "auto_036",
-    "state": "READY",
+    "state": "FAILED",
     "file": "ready/auto_036.mp4",
     "caption": "Le groupe WhatsApp familial (Grand-père) — épisode 36 #whatsapp #famille #groupe #quotidien #FactVibesToons",
     "hashtags": [
@@ -1480,6 +1504,1298 @@
     "publish_id": null,
     "published_at_utc": null,
     "published_evidence": null,
+    "error": "doublon de scénario (variante de « le groupe|de la famille » déjà publié)"
+  },
+  {
+    "video_id": "auto_038",
+    "state": "FAILED",
+    "file": "ready/auto_038.mp4",
+    "caption": "L'appel qui commence par « ça va ? » (niveau deux) — épisode 38 #appel #telephone #stress #quotidien #FactVibesToons",
+    "hashtags": [
+      "#appel",
+      "#telephone",
+      "#stress",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-03T22:03:29.020021+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'appel|« ça va ? » » déjà publié)"
+  },
+  {
+    "video_id": "auto_039",
+    "state": "FAILED",
+    "file": "ready/auto_039.mp4",
+    "caption": "L'appel qui commence par « ça va ? » (niveau trois) — épisode 39 #appel #telephone #stress #quotidien #FactVibesToons",
+    "hashtags": [
+      "#appel",
+      "#telephone",
+      "#stress",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-03T22:03:29.035164+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'appel|« ça va ? » » déjà publié)"
+  },
+  {
+    "video_id": "auto_040",
+    "state": "FAILED",
+    "file": "ready/auto_040.mp4",
+    "caption": "L'appel qui commence par « ça va ? » (niveau max) — épisode 40 #appel #telephone #stress #quotidien #FactVibesToons",
+    "hashtags": [
+      "#appel",
+      "#telephone",
+      "#stress",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-03T22:03:29.050553+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'appel|« ça va ? » » déjà publié)"
+  },
+  {
+    "video_id": "auto_042",
+    "state": "FAILED",
+    "file": "ready/auto_042.mp4",
+    "caption": "ChatGPT répond en revanche (une présentation) — épisode 42 #ia #chatgpt #technologie #bureau #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technologie",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-03T22:03:29.065128+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia répond|« en revanche » » déjà publié)"
+  },
+  {
+    "video_id": "auto_043",
+    "state": "FAILED",
+    "file": "ready/auto_043.mp4",
+    "caption": "ChatGPT répond en revanche (un budget) — épisode 43 #ia #chatgpt #technologie #bureau #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technologie",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-03T22:32:26.080524+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia répond|« en revanche » » déjà publié)"
+  },
+  {
+    "video_id": "auto_044",
+    "state": "FAILED",
+    "file": "ready/auto_044.mp4",
+    "caption": "ChatGPT répond en revanche (un poème) — épisode 44 #ia #chatgpt #technologie #bureau #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technologie",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-04T18:36:22.449591+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia répond|« en revanche » » déjà publié)"
+  },
+  {
+    "video_id": "auto_046",
+    "state": "FAILED",
+    "file": "ready/auto_046.mp4",
+    "caption": "L'IA refait l'organigramme (la réunion) — épisode 46 #ia #organigramme #entreprise #robot #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#organigramme",
+      "#entreprise",
+      "#robot",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-04T18:36:22.475325+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia refont|l'organigramme » déjà publié)"
+  },
+  {
+    "video_id": "auto_047",
+    "state": "FAILED",
+    "file": "ready/auto_047.mp4",
+    "caption": "L'IA refait l'organigramme (ta pause café) — épisode 47 #ia #organigramme #entreprise #robot #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#organigramme",
+      "#entreprise",
+      "#robot",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-04T18:36:22.495738+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia refont|l'organigramme » déjà publié)"
+  },
+  {
+    "video_id": "auto_048",
+    "state": "FAILED",
+    "file": "ready/auto_048.mp4",
+    "caption": "L'IA refait l'organigramme (ton bureau) — épisode 48 #ia #organigramme #entreprise #robot #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#organigramme",
+      "#entreprise",
+      "#robot",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-04T18:36:22.521969+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'ia refont|l'organigramme » déjà publié)"
+  },
+  {
+    "video_id": "auto_050",
+    "state": "FAILED",
+    "file": "ready/auto_050.mp4",
+    "caption": "La demande de congés sans réponse (décembre) — épisode 50 #conge #vacances #travail #bureaucratie #FactVibesToons",
+    "hashtags": [
+      "#conge",
+      "#vacances",
+      "#travail",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-04T18:36:22.546698+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « ma demande|de congés » déjà publié)"
+  },
+  {
+    "video_id": "auto_051",
+    "state": "FAILED",
+    "file": "ready/auto_051.mp4",
+    "caption": "La demande de congés sans réponse (les vacances de printemps) — épisode 51 #conge #vacances #travail #bureaucratie #FactVibesToons",
+    "hashtags": [
+      "#conge",
+      "#vacances",
+      "#travail",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-05T17:32:22.446075+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « ma demande|de congés » déjà publié)"
+  },
+  {
+    "video_id": "auto_052",
+    "state": "FAILED",
+    "file": "ready/auto_052.mp4",
+    "caption": "La demande de congés sans réponse (l'été prochain) — épisode 52 #conge #vacances #travail #bureaucratie #FactVibesToons",
+    "hashtags": [
+      "#conge",
+      "#vacances",
+      "#travail",
+      "#bureaucratie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-05T17:32:22.490461+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « ma demande|de congés » déjà publié)"
+  },
+  {
+    "video_id": "auto_054",
+    "state": "FAILED",
+    "file": "ready/auto_054.mp4",
+    "caption": "L'objet emprunté et jamais rendu (une tasse) — épisode 54 #bureau #objet #vol #economie #FactVibesToons",
+    "hashtags": [
+      "#bureau",
+      "#objet",
+      "#vol",
+      "#economie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-05T17:32:22.540280+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'objet|emprunté » déjà publié)"
+  },
+  {
+    "video_id": "auto_055",
+    "state": "FAILED",
+    "file": "ready/auto_055.mp4",
+    "caption": "L'objet emprunté et jamais rendu (un stylo) — épisode 55 #bureau #objet #vol #economie #FactVibesToons",
+    "hashtags": [
+      "#bureau",
+      "#objet",
+      "#vol",
+      "#economie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-05T17:32:22.591210+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « l'objet|emprunté » déjà publié)"
+  },
+  {
+    "video_id": "auto_056",
+    "state": "FAILED",
+    "file": "ready/auto_056.mp4",
+    "caption": "L'objet emprunté et jamais rendu (le dernier café) — épisode 56 #bureau #objet #vol #economie #FactVibesToons",
+    "hashtags": [
+      "#bureau",
+      "#objet",
+      "#vol",
+      "#economie",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-05T17:35:09.764893+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon visuel de auto_053 (empreinte 0.0117 < 0.035) — vidéo indiscernable, bloquée"
+  },
+  {
+    "video_id": "auto_057",
+    "state": "PUBLISHED",
+    "file": "ready/auto_057.mp4",
+    "caption": "LA QUESTION DU STAGIAIRE — Le stagiaire et la marge (épisode 57 · auto_057). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#stagiaire",
+      "#entreprise",
+      "#question",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-06T17:24:11.758102+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-09T09:17:08.287547+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_059",
+    "state": "FAILED",
+    "file": "ready/auto_059.mp4",
+    "caption": "Le stagiaire et le temps perdu — épisode 59 #stagiaire #entreprise #question #humour #FactVibesToons",
+    "hashtags": [
+      "#stagiaire",
+      "#entreprise",
+      "#question",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-06T17:24:11.842456+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « la question|du stagiaire » déjà publié)"
+  },
+  {
+    "video_id": "auto_060",
+    "state": "FAILED",
+    "file": "ready/auto_060.mp4",
+    "caption": "Le stagiaire et l'ordre établi — épisode 60 #stagiaire #entreprise #question #humour #FactVibesToons",
+    "hashtags": [
+      "#stagiaire",
+      "#entreprise",
+      "#question",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-06T17:24:11.882499+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « la question|du stagiaire » déjà publié)"
+  },
+  {
+    "video_id": "auto_061",
+    "state": "PUBLISHED",
+    "file": "ready/auto_061.mp4",
+    "caption": "LE PRIX DES PÂTES — Le prix de les pâtes (épisode 61 · auto_061). Vous en pensez quoi, vous ？ #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#inflation",
+      "#prix",
+      "#courses",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-06T17:24:11.918124+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-09T10:08:17.503248+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_058",
+    "state": "FAILED",
+    "file": "ready/auto_058.mp4",
+    "caption": "Le stagiaire et la hiérarchie — épisode 58 #stagiaire #entreprise #question #humour #FactVibesToons",
+    "hashtags": [
+      "#stagiaire",
+      "#entreprise",
+      "#question",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-06T17:33:51.702481+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « la question|du stagiaire » déjà publié)"
+  },
+  {
+    "video_id": "auto_062",
+    "state": "FAILED",
+    "file": "ready/auto_062.mp4",
+    "caption": "Le prix de le beurre — épisode 62 #inflation #prix #courses #societe #FactVibesToons",
+    "hashtags": [
+      "#inflation",
+      "#prix",
+      "#courses",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-07T17:06:06.112310+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « g16 » déjà publié)"
+  },
+  {
+    "video_id": "auto_063",
+    "state": "FAILED",
+    "file": "ready/auto_063.mp4",
+    "caption": "Le prix de le café — épisode 63 #inflation #prix #courses #societe #FactVibesToons",
+    "hashtags": [
+      "#inflation",
+      "#prix",
+      "#courses",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-07T17:06:06.127996+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « g16 » déjà publié)"
+  },
+  {
+    "video_id": "auto_064",
+    "state": "FAILED",
+    "file": "ready/auto_064.mp4",
+    "caption": "Le prix de le pain — épisode 64 #inflation #prix #courses #societe #FactVibesToons",
+    "hashtags": [
+      "#inflation",
+      "#prix",
+      "#courses",
+      "#societe",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-07T17:06:06.145100+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « g16 » déjà publié)"
+  },
+  {
+    "video_id": "auto_066",
+    "state": "FAILED",
+    "file": "ready/auto_066.mp4",
+    "caption": "Le badge n'ouvre plus la porte des archives — épisode 66 #travail #bureau #badge #securite #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#badge",
+      "#securite",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-07T17:06:06.183125+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le badge|n'ouvre plus|rien » déjà publié)"
+  },
+  {
+    "video_id": "auto_067",
+    "state": "FAILED",
+    "file": "ready/auto_067.mp4",
+    "caption": "Le badge n'ouvre plus la porte de la salle de réunion — épisode 67 #travail #bureau #badge #securite #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#badge",
+      "#securite",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-07T17:06:06.199175+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le badge|n'ouvre plus|rien » déjà publié)"
+  },
+  {
+    "video_id": "auto_068",
+    "state": "FAILED",
+    "file": "ready/auto_068.mp4",
+    "caption": "Le badge n'ouvre plus la porte des toilettes du 3e — épisode 68 #travail #bureau #badge #securite #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#badge",
+      "#securite",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-08T17:03:27.652925+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le badge|n'ouvre plus|rien » déjà publié)"
+  },
+  {
+    "video_id": "auto_070",
+    "state": "FAILED",
+    "file": "ready/auto_070.mp4",
+    "caption": "LE TICKET EST PERDU TOUJOURS — Le ticket disparaît sur le tapis (épisode 70 · auto_070). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#ticket",
+      "#courses",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-08T17:03:27.675733+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": {
+      "note": "légende réellement en ligne",
+      "carte": "00:36 LE TICKET EST PERDU TOUJOURS — Le ticket disparaît à la caisse (épisode 69). Et vous, vous auriez fait quoi ？ #hum"
+    },
+    "error": "rétrogradé le 09/10/2026 : preuve invalide : la carte stockée est celle de auto_069 -> faux positif, à rétrograder"
+  },
+  {
+    "video_id": "auto_071",
+    "state": "FAILED",
+    "file": "ready/auto_071.mp4",
+    "caption": "Le ticket disparaît dans le sac — épisode 71 #quotidien #magasin #ticket #courses #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#ticket",
+      "#courses",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-08T17:03:27.699038+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le ticket|est perdu|toujours » déjà publié)"
+  },
+  {
+    "video_id": "auto_072",
+    "state": "FAILED",
+    "file": "ready/auto_072.mp4",
+    "caption": "Le ticket disparaît par mail — épisode 72 #quotidien #magasin #ticket #courses #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#ticket",
+      "#courses",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-08T17:32:26.197422+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « le ticket|est perdu|toujours » déjà publié)"
+  },
+  {
+    "video_id": "auto_074",
+    "state": "FAILED",
+    "file": "ready/auto_074.mp4",
+    "caption": "La panne de le convoyeur était prévue — épisode 74 #industrie #panne #usine #technique #FactVibesToons",
+    "hashtags": [
+      "#industrie",
+      "#panne",
+      "#usine",
+      "#technique",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-08T17:32:26.219435+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "doublon de scénario (variante de « la panne|est prévu » déjà publié)"
+  },
+  {
+    "video_id": "auto_085",
+    "state": "FAILED",
+    "file": "ready/auto_085.mp4",
+    "caption": "« À BASE DE » RIEN DU TOUT — « À base de » : l'étiquette qui ne dit rien (épisode 85 · auto_085). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#consommation",
+      "#marketing",
+      "#etiquette",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-09T09:16:58.422261+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_089",
+    "state": "FAILED",
+    "file": "ready/auto_089.mp4",
+    "caption": "LE NOUVEAU PARLE ROBOT — Le nouveau collègue parle robot (épisode 89 · auto_089). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#collegue",
+      "#robot",
+      "#absurde",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-09T09:16:58.454587+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_093",
+    "state": "FAILED",
+    "file": "ready/auto_093.mp4",
+    "caption": "LE DÉCRET EST ANNULÉ TOUJOURS — Le décret annoncé puis retiré (épisode 93 · auto_093). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#politique",
+      "#decret",
+      "#administration",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-09T09:16:58.489899+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_097",
+    "state": "PUBLISHED",
+    "file": "ready/auto_097.mp4",
+    "caption": "LE MOT DE PASSE EST « 123456 » — Le mot de passe trivial (épisode 97 · auto_097). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#securite",
+      "#motdepasse",
+      "#informatique",
+      "#travail",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-09T09:16:58.531249+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-10T18:38:18.482678+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_101",
+    "state": "PUBLISHED",
+    "file": "ready/auto_101.mp4",
+    "caption": "LA FILE DU DRIVE ATTEND — La file d'attente au drive avec musique (épisode 101 · auto_101). Vous en pensez quoi, vous ？ #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#drive",
+      "#file",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-09T09:16:58.558921+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-10T19:20:23.495862+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": false
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_086",
+    "state": "PUBLISHED",
+    "file": "ready/auto_086.mp4",
+    "caption": "« À BASE DE » RIEN DU TOUT — « À base de » : l'étiquette qui ne dit rien (épisode 86). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#consommation",
+      "#marketing",
+      "#etiquette",
+      "#quotidien",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T08:03:45.339479+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-13T10:00:52.952460+00:00",
+    "published_evidence": {
+      "method": "reconciliation TikTok Studio",
+      "confirmation": "déjà présent dans Contenu avant envoi",
+      "carte": "00:30 « À BASE DE » RIEN DU TOUT — « À base de » l'étiquette qui ne dit rien (épisode 86 ). Vous en pensez quoi, vous ？ "
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_090",
+    "state": "PUBLISHED",
+    "file": "ready/auto_090.mp4",
+    "caption": "LE NOUVEAU PARLE ROBOT — Le nouveau collègue parle robot (épisode 90 · auto_090). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#collegue",
+      "#robot",
+      "#absurde",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T08:03:45.375669+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-13T08:20:20.742037+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_094",
+    "state": "PUBLISHED",
+    "file": "ready/auto_094.mp4",
+    "caption": "LE DÉCRET EST ANNULÉ TOUJOURS — Le décret annoncé puis retiré (épisode 94). Et vous, vous auriez fait quoi ？ #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#politique",
+      "#decret",
+      "#administration",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T08:03:45.416799+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-13T13:08:29.895812+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_105",
+    "state": "PUBLISHED",
+    "file": "ready/auto_105.mp4",
+    "caption": "L'ASCENSEUR MONTE JAMAIS IL NE DESCEND PAS — L'ascenseur monte sans jamais descendre (le sous-sol) (épisode 105). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#ascenseur",
+      "#immeuble",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T08:03:45.455659+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-13T17:04:03.683983+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_109",
+    "state": "PUBLISHED",
+    "file": "ready/auto_109.mp4",
+    "caption": "LA RÉUNION EST ARRIVÉE À L'HEURE POUT PAS — La réunion de quatre heures (le budget de l'équipe) (épisode 109). Et vous, vous auriez fait quoi ？ #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#reunion",
+      "#humour",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T08:03:45.479017+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-13T17:37:04.547487+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_113",
+    "state": "PUBLISHED",
+    "file": "ready/auto_113.mp4",
+    "caption": "L'APPLI DE LIVRAISON CHANGE D'ADRESSE À MOITIÉ DU TRAJET — Le livreur livr elsewhere (une Pizza) (épisode 113). Ça vous arrive à vous aussi ？ #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#livraison",
+      "#application",
+      "#quotidien",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-13T13:15:04.026605+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-14T10:04:46.045491+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_117",
+    "state": "PUBLISHED",
+    "file": "ready/auto_117.mp4",
+    "caption": "IL PARLE EN PUCES MAIS À L'ORAL — Le nouveau fait des puces à l'oral (le retard) (épisode 117). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#presentation",
+      "#humour",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-14T00:07:23.554129+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-14T10:37:53.145086+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_121",
+    "state": "FAILED",
+    "file": "ready/auto_121.mp4",
+    "caption": "L'IA A RÉPONDU À CÔTÉ DE LA QUESTION — L'IA répond à côté de la question (combien de jours de congé) (épisode 121). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technique",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-14T00:07:23.723642+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_125",
+    "state": "FAILED",
+    "file": "ready/auto_125.mp4",
+    "caption": "LE RAPPORT AUTOMATIQUE EST FAUX MAIS ACCEPTÉ — Le rapport automatique faux (le taux de présence) (épisode 125). Qui a déjà vécu ça ? #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#rapport",
+      "#donnees",
+      "#ia",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-14T00:07:23.758380+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_129",
+    "state": "FAILED",
+    "file": "ready/auto_129.mp4",
+    "caption": "ILS ONT DIT QUARANTE MINUTES ÇA FAIT UNE HEURE — L'attente au comptoir (une commande) (épisode 129). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#attente",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-14T00:07:23.790630+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_133",
+    "state": "FAILED",
+    "file": "ready/auto_133.mp4",
+    "caption": "LE DÉCRET SUR LE TÉLÉTRAVAIL EST CLAIR — Le décret sur le télétravail (le télétravail obligatoire) (épisode 133). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#decret",
+      "#travail",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-14T00:07:23.821346+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_122",
+    "state": "PUBLISHED",
+    "file": "ready/auto_122.mp4",
+    "caption": "L'IA A RÉPONDU À CÔTÉ DE LA QUESTION — L'IA répond à côté de la question (où est mon clavier) (épisode 122). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technique",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-15T00:05:31.218836+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-15T09:27:00+00:00",
+    "published_evidence": {
+      "method": "réconciliation TikTok Studio",
+      "confirmation": "en ligne sur le compte -> PUBLISHED (réconciliation)",
+      "carte": "00:31 L'IA A RÉPONDU À CÔTÉ DE LA QUESTION — L'IA répond à côté de la question (où est mon clavier) (épisode 122). T'es "
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_126",
+    "state": "PUBLISHED",
+    "file": "ready/auto_126.mp4",
+    "caption": "LE RAPPORT AUTOMATIQUE EST FAUX MAIS ACCEPTÉ — Le rapport automatique faux (le coût des transports) (épisode 126). Vous en pensez quoi, vous ？ #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#rapport",
+      "#donnees",
+      "#ia",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-15T00:05:31.246331+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-15T06:48:05.830296+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_130",
+    "state": "PUBLISHED",
+    "file": "ready/auto_130.mp4",
+    "caption": "ILS ONT DIT QUARANTE MINUTES ÇA FAIT UNE HEURE — L'attente au comptoir (un retrait) (épisode 130). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#attente",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-15T00:05:31.281725+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-15T10:02:46.341057+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_134",
+    "state": "PUBLISHED",
+    "file": "ready/auto_134.mp4",
+    "caption": "LE DÉCRET SUR LE TÉLÉTRAVAIL EST CLAIR — Le décret sur le télétravail (la présence obligatoire) (épisode 134). Et vous, vous auriez fait quoi ？ #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#teletravail",
+      "#decret",
+      "#travail",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-15T00:05:31.308090+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-15T13:03:52.026229+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_137",
+    "state": "PUBLISHED",
+    "file": "ready/auto_137.mp4",
+    "caption": "IL RÉPOND « C'EST NOTÉ » À TOUT — Il répond « c'est noté » à tout (la demande de matériel) (épisode 137). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#open space",
+      "#humour",
+      "#bureau",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-15T00:05:31.339821+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-15T17:03:15.354709+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_123",
+    "state": "FAILED",
+    "file": "ready/auto_123.mp4",
+    "caption": "L'IA A RÉPONDU À CÔTÉ DE LA QUESTION — L'IA répond à côté de la question (quelle heure est-il) (épisode 123). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technique",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T00:03:58.453061+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_141",
+    "state": "FAILED",
+    "file": "ready/auto_141.mp4",
+    "caption": "J'AI RÉSILIÉ LE STREAMING ET ON M'A FACTURÉ — L'abonnement résilié mais facturé (le streaming) (épisode 141). Vous en pensez quoi, vous ? #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#abonnement",
+      "#argent",
+      "#quotidien",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T00:03:58.459862+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_124",
+    "state": "FAILED",
+    "file": "ready/auto_124.mp4",
+    "caption": "L'IA A RÉPONDU À CÔTÉ DE LA QUESTION — L'IA répond à côté de la question (s'il pleut demain) (épisode 124). Et vous, vous auriez fait quoi ? #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#ia",
+      "#chatgpt",
+      "#technique",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T10:22:03.448173+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_142",
+    "state": "FAILED",
+    "file": "ready/auto_142.mp4",
+    "caption": "J'AI RÉSILIÉ LE SPORT ET ON M'A FACTURÉ — L'abonnement résilié mais facturé (le sport) (épisode 142). T'es plutôt pour ou contre lui ? #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#abonnement",
+      "#argent",
+      "#quotidien",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T10:34:45.370221+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "import non terminé"
+  },
+  {
+    "video_id": "auto_143",
+    "state": "FAILED",
+    "file": "ready/auto_143.mp4",
+    "caption": "J'AI RÉSILIÉ LA MUSIQUE ET ON M'A FACTURÉ — L'abonnement résilié mais facturé (la musique) (épisode 143). Ça vous arrive à vous aussi ? #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#abonnement",
+      "#argent",
+      "#quotidien",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T11:24:27.012348+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": null,
+    "published_evidence": null,
+    "error": "publication sans preuve — vérification manuelle requise"
+  },
+  {
+    "video_id": "auto_145",
+    "state": "PUBLISHED",
+    "file": "ready/auto_145.mp4",
+    "caption": "LE THERMOSTAT EST EN GUERRE FROIDE — Le thermostat réglé en guerre froide (dix-sept degrés) (épisode 145). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#travail",
+      "#bureau",
+      "#froid",
+      "#thermostat",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.295073+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-16T17:17:22.317287+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_149",
+    "state": "PUBLISHED",
+    "file": "ready/auto_149.mp4",
+    "caption": "POUR AVOIR UN FORMULAIRE IL FAUT UN FORMULAIRE — Le formulaire à remplir pour obtenir un formulaire (une attestation) (épisode 149). Et vous, vous auriez fait quoi ？ #humour #animation2d #societe #FactVibesToon",
+    "hashtags": [
+      "#travail",
+      "#bureaucratie",
+      "#formulaire",
+      "#admin",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.317720+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-16T17:50:15.228061+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_153",
+    "state": "PUBLISHED",
+    "file": "ready/auto_153.mp4",
+    "caption": "L'INAUGURATION DE QUELQUE CHOSE QUI N'EXISTE PAS — Le ministre inaugure la médiathèque du quartier (épisode 153). Ça vous arrive à vous aussi ？ #dessinanime #cartoon #pov #FactVibesToons",
+    "hashtags": [
+      "#politique",
+      "#satire",
+      "#inauguration",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.342098+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-16T18:23:44.291116+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_157",
+    "state": "PUBLISHED",
+    "file": "ready/auto_157.mp4",
+    "caption": "IL GARDE LA MONNAIE ET LE CAFÉ — Le distributeur qui garde la monnaie (un café) (épisode 157). T'es plutôt pour ou contre lui ？ #humour #animation #quotidien #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#argent",
+      "#distributeur",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.361032+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-17T10:03:17.815495+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_161",
+    "state": "PUBLISHED",
+    "file": "ready/auto_161.mp4",
+    "caption": "MA CARTE DE FIDÉLITÉ A DISPARU — La carte de fidélité qui perd les points (deux ans) (épisode 161). Vous en pensez quoi, vous ？ #dessinanime #humourfrancais #storytime #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#magasin",
+      "#fidelite",
+      "#argent",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.389503+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-17T13:02:15.622035+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_165",
+    "state": "PUBLISHED",
+    "file": "ready/auto_165.mp4",
+    "caption": "« VOTRE APPEL EST IMPORTANT » DEPUIS 40 MIN — Le répondeur qui ne passe jamais (le service client) (épisode 165). Qui a déjà vécu ça ？ #humour #dessinanime #cartoon #FactVibesToons",
+    "hashtags": [
+      "#quotidien",
+      "#telephone",
+      "#service",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-16T16:19:34.411407+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-17T17:02:30.620353+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
+    "error": null
+  },
+  {
+    "video_id": "auto_144",
+    "state": "PUBLISHED",
+    "file": "ready/auto_144.mp4",
+    "caption": "J'AI RÉSILIÉ LE CLOUD ET ON M'A FACTURÉ — L'abonnement résilié mais facturé (le cloud) (épisode 144). Et vous, vous auriez fait quoi ？ #humour #animation2d #societe #FactVibesToons",
+    "hashtags": [
+      "#abonnement",
+      "#argent",
+      "#quotidien",
+      "#humour",
+      "#FactVibesToons"
+    ],
+    "created_utc": "2026-10-17T10:06:33.994208+00:00",
+    "scheduled_for_utc": null,
+    "publish_id": null,
+    "published_at_utc": "2026-10-18T10:03:06.337841+00:00",
+    "published_evidence": {
+      "method": "tiktok studio (navigateur, connexion QR)",
+      "confirmation": "vidéo présente dans Contenu de TikTok Studio",
+      "en_examen": true
+    },
     "error": null
   }
 ]

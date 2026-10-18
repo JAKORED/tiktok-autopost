@@ -41,8 +41,11 @@ class ContentFinderAgent:
 
     def _get_trending_category(self) -> str:
         categories = self.search_config.get("categories", ["nature"])
-        weights = [10, 12, 8, 9, 7, 11, 10, 13, 6, 5]
-        return random.choices(categories, weights=weights[: len(categories)])[0]
+        base_weights = [10, 12, 8, 9, 7, 11, 10, 13, 6, 5]
+        if len(categories) > len(base_weights):
+            base_weights += [8] * (len(categories) - len(base_weights))
+        weights = base_weights[: len(categories)]
+        return random.choices(categories, weights=weights)[0]
 
     def _get_random_keyword(self, category: str) -> str:
         keywords = self.search_config.get("keywords_by_category", {}).get(
@@ -55,6 +58,16 @@ class ContentFinderAgent:
         hook = random.choice(hooks)
         day = random.randint(1, 365)
         return hook.replace("{number}", str(day))
+
+    def _get_broader_queries(self) -> list:
+        queries = []
+        for kw_map in self.search_config.get("keywords_by_category", {}).values():
+            if isinstance(kw_map, list):
+                queries.extend(kw_map)
+        if not queries:
+            queries = ["nature", "city", "ocean", "sunset", "cute animals"]
+        random.shuffle(queries)
+        return queries[:5]
 
     def _search_pexels(self, query: str, per_page: int = 15) -> list:
         import requests
@@ -90,7 +103,16 @@ class ContentFinderAgent:
                         f for f in video_files if f.get("file_type") == "video/mp4"
                     ]
                 if hd_files:
-                    best = min(hd_files, key=lambda x: x.get("width", 9999))
+                    portrait = [
+                        f
+                        for f in hd_files
+                        if f.get("width") and f.get("height") and f["width"] < f["height"]
+                    ]
+                    candidates = portrait if portrait else hd_files
+                    best = min(
+                        candidates,
+                        key=lambda x: abs(x.get("width", 0) - 720),
+                    )
                     duration = video.get("duration", 0)
                     min_dur = self.search_config.get("min_video_duration_sec", 5)
                     max_dur = self.search_config.get("max_video_duration_sec", 60)
@@ -136,7 +158,12 @@ class ContentFinderAgent:
             data = resp.json()
 
             videos = []
+            min_dur = self.search_config.get("min_video_duration_sec", 5)
+            max_dur = self.search_config.get("max_video_duration_sec", 60)
             for hit in data.get("hits", []):
+                duration = hit.get("duration", 0)
+                if not (min_dur <= duration <= max_dur):
+                    continue
                 videos_dict = hit.get("videos", {})
                 medium = videos_dict.get("medium", {})
                 large = videos_dict.get("large", {})
@@ -150,7 +177,7 @@ class ContentFinderAgent:
                             "url": chosen["url"],
                             "width": chosen.get("width"),
                             "height": chosen.get("height"),
-                            "duration": hit.get("duration", 0),
+                            "duration": duration,
                             "thumbnail": hit.get("picture_id"),
                             "author": hit.get("user", "Unknown"),
                             "query": query,
@@ -190,7 +217,11 @@ class ContentFinderAgent:
 
         if not new_videos:
             logger.warning("No new videos found, trying broader search")
-            new_videos = all_videos
+            for kw in self._get_broader_queries():
+                logger.info(f"Broader search keyword: {kw}")
+                new_videos.extend(self._search_pexels(kw))
+                new_videos.extend(self._search_pixabay(kw))
+            new_videos = [v for v in new_videos if v["id"] not in posted_ids]
 
         if not new_videos:
             logger.error("No videos found from any source")

@@ -4,10 +4,16 @@
   "version": "1.0.0",
 
   "posting_schedule": {
-    "posts_per_day": 5,
+    "posts_per_day": 3,
     "min_minutes_between_posts": 30,
-    "post_times_utc": ["17:00", "17:30", "18:00", "18:30", "19:00"],
-    "best_hours_note": "Ordre du patron (30/09/2026) : 1 post toutes les 30 MINUTES, 5/jour, 17:00-19:00 UTC = 19h-21h Paris (fenetre covering le pic FR du soir ~20h). Intervalle pile de 30 min entre chaque post, garde anti-doublon + garde min 30 min conservees."
+    "post_times_utc": ["17:00", "17:30", "18:00"],
+    "best_hours_note": "Ordre du patron (16/10/2026) : 3 posts par jour sur TikTok. Créneaux 17:00-18:00 UTC = 19h-20h Paris (fenêtre sur le pic FR du soir). Intervalle de 30 min conservé, garde anti-doublon inchangée."
+  },
+
+  "recovery": {
+    "recovery_after_hours": 20,
+    "min_posts_by_hour_local": [["12:00", 1], ["15:00", 2], ["21:00", 3]],
+    "note": "16/10/2026 : cadence reduite a 3 posts/jour (ordre du patron). Les garanties horaires sont alignees sur 3/jour (1 a 12:00, 2 a 15:00, 3 a 21:00). Le rattrapage si compte muet > 20 h reste actif."
   },
 
   "production": {

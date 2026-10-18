@@ -133,6 +133,24 @@ python main.py health     # Rapport de santé des agents
 python main.py stats      # Statistiques journalières
 ```
 
+## Bot Telegram (FactVibes Tout-en-un)
+
+Pilote le pipeline depuis Telegram : `telegram_bot.py`
+
+1. Crée un bot via **@BotFather** → récupère le token.
+2. Renseigne dans `.env` :
+   - `TELEGRAM_BOT_TOKEN=...`
+   - `TELEGRAM_ALLOWED_IDS=...` (ton chat ID, via @userinfobot — vide = ouvert à tous)
+3. Lance : `python telegram_bot.py` (ou double-clic sur `FactVibes_BotTelegram.bat`)
+
+Commandes : `/cree [N]` (créer des vidéos), `/buffer [N]` (tampon), `/publier`,
+`/run` (pipeline complet), `/viral [mot]` (recherche vidéo virale), `/stats`
+(followers + likes TikTok), `/suivi` (historique), `/status`, `/last [N]`.
+
+> Pour les stats followers/likes en direct, ré-autorise le compte avec
+> `python auth_tiktok.py` (nouveau scope `user.info.stats`) — nécessaire
+> tant que TikTok n'a pas approuvé ce scope.
+
 ## Fichiers de logs
 
 ```

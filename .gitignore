@@ -37,6 +37,8 @@ config/
 videos/fingerprints.json
 # verrou de publication : fichier d'exécution, jamais committé
 videos/.publish.lock
+# verrou de l'orchestrateur (auto_poster) : idem
+videos/.autoposter.lock
 # copies de sauvegarde de la file
 videos/queue.json.bak-*
 videos/generated/
