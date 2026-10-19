@@ -1021,4 +1021,143 @@ def build_factory_episodes():
             ],
         ))
 
+    # ============ G43 à G48 : scénarios NEUFS du 19/10/2026 =======================
+    # Banque épuisée (0 post les 18-19/10) : 6 situations INÉDITES vérifiées un
+    # par un contre les 82 sujets déjà produits (liste extraite des métadonnées).
+    # Sujets écartés pour recouvrement : ascenseur, badge, mot de passe, prix,
+    # répondeur, attente au comptoir, machine à café… Mêmes personnages, décors,
+    # voix et structure (7 répliques + punch).
+
+    # --- G43 : le parking « cinq minutes » depuis trois heures ---
+    for (lieu, duree, excuse) in [
+        ("devant la boulangerie", "trois heures", "c'est une dépose minute, ça se dépose et ça repart"),
+        ("devant l'école", "deux heures", "le compteur est en grève"),
+        ("devant la pharmacie", "une heure et demie", "la place est prioritaire pour tout le monde"),
+        ("devant la mairie", "quatre heures", "l'agent est allé chercher la machine à lire les plaques"),
+    ]:
+        add((
+            MARKET, "LE PARKING « CINQ MINUTES »|DEPUIS TROIS HEURES",
+            f"Le parking « cinq minutes » depuis {duree} ({lieu})", "quotidien / rue",
+            ["quotidien", "parking", "voiture", "humour"],
+            [
+                l_("josette", "worried", "Je suis garée {0} depuis {1}.".format(lieu, duree)),
+                l_("kevin", "smug", "Oui. C'est une dépose minute."),
+                l_("josette", "angry", "Je dépose quoi, exactement ?"),
+                l_("kevin", "happy", "{0}.".format(excuse.capitalize())),
+                l_("josette", "worried", "Et l'agent qui tourne autour de ma voiture depuis dix minutes ?"),
+                l_("kevin", "neutral", "Il dépose aussi. Il repartira."),
+                l_("josette", "angry", "Je suis pressée, moi. Je me dépose donc ici pour toujours.", punch=True),
+            ],
+        ))
+
+    # --- G44 : la cantine et le plat du jour fantôme ---
+    for (plat, excuse, alternative) in [
+        ("le gratin dauphinois", "il était au menu hier", "il sera peut-être demain"),
+        ("le poisson du vendredi", "c'est le poisson de mardi", "vous vous confondez de jour"),
+        ("l'omelette aux fines herbes", "les herbes sont en congé", "la cuisine improvise à la place"),
+        ("le dessert du chef", "le chef est parti", "il revient avec des idées"),
+    ]:
+        add((
+            OFFICE, "LE PLAT DU JOUR|N'EXISTE PLUS|DEPUIS HIER",
+            f"La cantine et le plat du jour fantôme ({plat})", "travail / cantine",
+            ["travail", "cantine", "bureau", "humour"],
+            [
+                l_("kevin", "happy", "Bonjour, je voudrais {0}, s'il vous plaît.".format(plat)),
+                l_("fournier", "smug", "Ah. Il n'est plus au menu."),
+                l_("kevin", "angry", "Il était écrit en gros sur l'ardoise !"),
+                l_("fournier", "neutral", "{0}. C'est très évolutif.".format(excuse.capitalize())),
+                l_("kevin", "worried", "Et je mange quoi, du coup ?"),
+                l_("fournier", "happy", "Vous avez de la chance : il reste {0}.".format(alternative)),
+                l_("kevin", "angry", "Je suis tombé amoureux d'un plat fantôme. C'est ça ?", punch=True),
+            ],
+        ))
+
+    # --- G45 : le logiciel de pointage en retard avant l'arrivée ---
+    for (heure, responsable, excuse) in [
+        ("huit heures trente", "le service informatique", "le logiciel a son propre fuseau horaire"),
+        ("neuf heures pile", "les ressources humaines", "la pointeuse se synchronise avec la lune"),
+        ("huit heures", "le prestataire", "la mise à jour a décalé la matinée"),
+        ("neuf heures quinze", "la direction", "le logiciel pointe l'intention, pas l'arrivée"),
+    ]:
+        add((
+            OFFICE, "LE LOGICIEL DE POINTAGE|ME MET EN RETARD|AVANT MON ARRIVÉE",
+            f"Le pointage en retard à cause du logiciel ({heure})", "travail / horaires",
+            ["travail", "bureau", "pointage", "humour"],
+            [
+                l_("kevin", "worried", "J'ai pointé à {0} et le logiciel me met en retard.".format(heure)),
+                l_("fournier", "smug", "Le logiciel ne se trompe pas. C'est un algorithme."),
+                l_("kevin", "angry", "L'algorithme dit que je suis arrivé après moi-même."),
+                l_("fournier", "happy", "{0} a validé le fonctionnement.".format(responsable.capitalize())),
+                l_("kevin", "neutral", "Et la raison, officiellement ?"),
+                l_("fournier", "smug", "{0}. C'est optimisé.".format(excuse.capitalize())),
+                l_("kevin", "worried", "Donc je travaille, mais en retard de façon scientifique.", punch=True),
+            ],
+        ))
+
+    # --- G46 : « tu as deux secondes ? » ---
+    for (sujet, duree, consequence) in [
+        ("un truc rapide", "quarante-cinq minutes", "la réunion de dix heures est passée"),
+        ("une petite modif", "une heure", "le café de dix heures est froid depuis longtemps"),
+        ("un avis d'expert", "trente minutes", "on a fini par faire son idée"),
+        ("deux secondes", "une heure vingt", "le déjeuner est devenu une réunion debout"),
+    ]:
+        add((
+            OFFICE, "« TU AS|DEUX SECONDES ? »|NON.",
+            f"Le collègue qui demande « deux secondes » ({duree})", "travail / bureau",
+            ["travail", "bureau", "collègue", "humour"],
+            [
+                l_("josette", "happy", "Kevin, tu as {0} ? C'est {1}.".format(sujet, sujet)),
+                l_("kevin", "neutral", "Oui, vas-y. Je t'écoute."),
+                l_("josette", "neutral", "(elle explique, puis explique encore, puis reformule)"),
+                l_("kevin", "worried", "Il y a cinq minutes, tu avais deux secondes."),
+                l_("josette", "happy", "C'est justement le sujet : ça va vite."),
+                l_("kevin", "angry", "{0} sont passées. {1}.".format(duree.capitalize(), consequence.capitalize())),
+                l_("kevin", "worried", "On ne m'arrête plus. Je suis devenu une salle d'attente.", punch=True),
+            ],
+        ))
+
+    # --- G47 : l'imprimante qui n'a jamais de toner ---
+    for (doc, symptome, excuse) in [
+        ("le contrat de trois pages", "le toner est détecté à sec", "l'imprimante a faim, ce n'est pas grave"),
+        ("la note de frais", "il manque le cyan", "le cyan est en retraite"),
+        ("la candidature du stagiaire", "elle imprime en miroir", "c'est une version originale"),
+        ("le plan de la salle de réunion", "elle mange la dernière page", "elle vérifie la confidentialité"),
+    ]:
+        add((
+            OFFICE, "L'IMPRIMANTE|N'A JAMAIS|DE TONER",
+            f"L'imprimante qui n'a jamais de toner ({doc})", "travail / bureau",
+            ["travail", "bureau", "imprimante", "humour"],
+            [
+                l_("kevin", "angry", "L'imprimante refuse. {0}.".format(symptome.capitalize())),
+                l_("fournier", "smug", "Vous n'avez pas mis de papier."),
+                l_("kevin", "worried", "Il y a du papier. Elle a avalé les trois feuilles d'avant."),
+                l_("fournier", "happy", "{0}. Elle est plus maligne que vous.".format(excuse.capitalize())),
+                l_("kevin", "neutral", "Je veux juste imprimer {0} !".format(doc)),
+                l_("fournier", "neutral", "Alors demandez poliment. Et changez le toner. Et la lumière."),
+                l_("kevin", "angry", "Je vais la négocier à la place. Elle comprend mieux les siens.", punch=True),
+            ],
+        ))
+
+    # --- G48 : la dernière modification à dix-huit heures ---
+    for (heure, chef, modif) in [
+        ("dix-huit heures", "le directeur", "un dernier petit ajustement"),
+        ("sept heures du soir", "la cheffe de projet", "une régression de deux pixels"),
+        ("vingt heures", "le client", "on a repensé le concept"),
+        ("minuit moins le quart", "le chef de projet", "une dernière chose avant demain"),
+    ]:
+        add((
+            OFFICE, "LA DERNIÈRE MODIF|À DIX-HUIT|HEURES",
+            f"La dernière modification à {heure} ({modif})", "travail / projets",
+            ["travail", "bureau", "deadline", "humour"],
+            [
+                l_("fournier", "neutral", "Ce n'est pas livré ?"),
+                l_("kevin", "worried", "Si. Il y a une heure. Vous aviez validé."),
+                l_("fournier", "happy", "Oui, mais {0}. C'est tout petit.".format(modif)),
+                l_("kevin", "angry", "À {0} ? Moi, je finis à dix-huit heures.".format(heure)),
+                l_("fournier", "smug", "Les talents ne comptent pas les heures. {0} l'a demandé.".format(chef.capitalize())),
+                l_("kevin", "neutral", "Et la modif, elle est dans le cahier des charges ?"),
+                l_("fournier", "happy", "Non. Elle est dans ton cœur. Livre-la pour demain.", punch=True),
+            ],
+        ))
+
     return eps
