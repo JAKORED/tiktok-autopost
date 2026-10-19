@@ -325,3 +325,25 @@ confrontés à l'historique ET au contenu live de la chaîne ET au RSS public).
 « La voyante du dimanche », via_006 « Le Ministre plat-iste » (résultat à confirmer).
 
 État en cours de journée : chaîne Phrazia = 9 vidéos publiées. Quota YouTube du jour : 3/6 consommés.
+
+## 19/10/2026 — Journée complète : TikTok 3/3 + YouTube 3/3
+
+**CONTEXTE** : banque TikTok épuisée (0 post le matin, alerte « la BANQUE est épuisée » en boucle). Ordre du soir du patron : poster des vidéos TikTok en vérifiant mille fois l'absence de doublons.
+
+**NOUVEAUX SCÉNARIOS (G43-G48, 24 épisodes)** — 6 situations inédites vérifiées une à une contre les 82 sujets déjà produits : parking « cinq minutes » depuis 3 h, cantine et plat du jour fantôme, logiciel de pointage en retard avant l'arrivée, collègue « tu as deux secondes ? », imprimante sans toner, dernière modification à 18 h. Vérification anti-doublon multi-couches (titres usine + métadonnées + légendes TikTok publiées + scripts + familles + unicité interne) : AUCUN DOUBLON. Poussé GitHub d373fd2.
+
+**BUG CORRIGÉ** : le scénario G46 utilisait le personnage « josette » sur le décor OFFICE (casting autorisé : kevin + fournier) → KeyError à chaque tentative de rendu, ce qui bloquait auto_181 et privait toute la famille d'un tour. Réparé (fournier à la place), poussé GitHub 941d37a. Preuve : auto_181 rendu → prêt.
+
+**TIKTOK 19/10 : 3/3 publiés, audit live du compte OK**
+- 19:20 — auto_169 « LE PARKING « CINQ MINUTES » DEPUIS TROIS HEURES » — https://www.tiktok.com/@factivibeparano/video/7698429964554669334
+- 19:53 — auto_173 « LE PLAT DU JOUR N'EXISTE PLUS DEPUIS HIER » — https://www.tiktok.com/@factivibeparano/video/7698438489725046038
+- 20:27 — auto_177 « LE LOGICIEL DE POINTAGE ME MET EN RETARD » — https://www.tiktok.com/@factivibeparano/video/7698447366508088598
+- Légendes propres (aucun identifiant interne). Tampon pour demain : 3 vidéos prêtes (auto_181, auto_185, auto_189).
+
+**YOUTUBE : lot de l'après-midi du 18/10 rattrapé, 3/3 publiés et vérifiés publics (oEmbed)**
+- via_004 « La dernière note vocale #shorts » — https://youtube.com/shorts/X_6HbFm6EJE
+- via_005 « La voyante du dimanche #shorts » — https://youtube.com/shorts/-WVgMfOxCJY
+- via_006 « Le Ministre plat-iste #shorts » — https://youtube.com/shorts/zHKXyn2m0NI
+- Incident : premier essai avorté (onglet Studio gelé, renderer figé — incident connu). via_004 était resté en brouillon non publié (donc aucun doublon public possible). Onglet fermé, lot relancé sur onglet neuf : 3/3 OK. Un brouillon orphelin de via_004 subsiste dans le Studio (hygiène seule, le contrôle RSS en rend la publication impossible deux fois).
+
+**QUESTION TOUJOURS EN ATTENTE (posée le 18/10)** : est-ce toi qui supprimes les vidéos YouTube (video_001/002/003 + auto_002, marquées SUPPRIMÉES dans l'historique) ? Si oui, je ne les republie jamais. Si non, dis-moi et je les remonte.
