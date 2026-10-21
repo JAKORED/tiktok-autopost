@@ -176,8 +176,14 @@ def chrome_sur_la_bonne_page():
             return
     log("Aucun onglet TikTok Studio ouvert -> ouverture de la page d'upload")
     try:
-        import publish_studio
-        publish_studio.ensure_chrome()
+        # 21/10/2026 : avant, on appelait publish_studio.ensure_chrome() qui ne fait
+        # que CONNECTER Selenium quand Chrome est deja levé (aucun onglet cree ->
+        # boucle de log toutes les 2 min sans jamais rechauffer la page). Ouverture
+        # CDP directe, meme methode que scripts/cdp.py open_tab (PUT /json/new).
+        req = urllib.request.Request(
+            "http://127.0.0.1:9222/json/new?" + UPLOAD_URL, method="PUT")
+        with urllib.request.urlopen(req, timeout=10) as r:
+            r.read()
     except Exception as exc:
         log(f"ouverture de la page TikTok Studio impossible : {exc}", "WARN")
 
