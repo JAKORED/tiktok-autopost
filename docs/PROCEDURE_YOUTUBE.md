@@ -1,9 +1,9 @@
 # Procédure de publication YouTube — chaîne « Phrazia »
 
-> Ordre du patron (18/10/2026) : republier sur YouTube les vidéos **déjà publiées sur
-> TikTok** (chaîne FactVibes), sans aucun doublon, par lots de **3 le matin + 3
-> l'après-midi** (max 6/jour). Aucune création de contenu YouTube : on ne fait que
-> recycler ce qui existe déjà sur TikTok.
+> Ordre du patron (18/10/2026, cadence confirmée le 21/10/2026) : republier sur YouTube
+> les vidéos **déjà publiées sur TikTok** (chaîne FactVibes), sans aucun doublon, par lots
+> de **3 le matin + 3 le soir** (max 6/jour). Aucune création de contenu YouTube : on ne
+> fait que recycler ce qui existe déjà sur TikTok.
 
 ## 1. Principe directeur
 
@@ -95,6 +95,9 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
 | 18/10 | `via_001`/`via_003` | 1er passage avorté (wizard empoisonné par l'état de `via_001`) → repassés avec état propre : publiés et vérifiés (RSS + oEmbed). |
 | 19/10 | onglet Studio figé en plein lot | Le renderer de l'onglet d'import s'est gelé en cours d'envoi de `via_004` : `Runtime.evaluate` ne répond plus, `cmd` et `Page.close` bloquent aussi (websocket morte). Le fichier s'est téléversé (état `d=ud`) mais le wizard n'a jamais cliqué « Publier » → la vidéo est restée **brouillon**, donc absente du RSS (aucun doublon public). **Contournement** : fermeture au niveau navigateur via l'API HTTP — `Invoke-RestMethod -Method Put http://127.0.0.1:9222/json/close/<targetId>` (le navigateur répond même quand le renderer est mort), puis relance du lot sur un onglet neuf. Le lot a été perdu de 3/3. Leçon confirmée : `d=ud` seul ne prouve pas la publication si le wizard a calé avant le clic « Publier » — le RSS reste l'unique vérité. |
 | 20/10 | Chrome trouvé éteint au réveil | Vérifier `http://127.0.0.1:9222/json/version` **avant** chaque lot ; si absent, relancer `prepare_browser.bat` (la chaîne TikTok a aussi besoin de Chrome pour les créneaux du soir). |
+| 21/10 | Lot du matin 3/3 mais pilotage à deux | **Symptôme** : « aucune-boite » pendant 10 min puis, à l'instant où le bouton « Suivant » réapparaît, `Inspected target navigated or closed` — l'assistant disparaît alors que la vidéo part quand même en ligne. **Cause** : deux processus ont piloté **le même onglet** Studio en même temps (un second `yt_upload.py` a navigué l'onglet au milieu du wizard du premier ; il a publié `auto_025` à 13:28 alors que le premier le déclarait échoué). Règle : **un seul lanceur `yt_upload.py` à la fois** — avant de lancer un lot, vérifier `Get-CimInstance Win32_Process -Filter "Name='python.exe'"` (aucun `yt_upload` ne doit tourner) et dire au patron qu'une autre session/terminal pilote le même Chrome. |
+| 21/10 | `auto_012` publiée non détectée | La vidéo est en ligne (RSS + oEmbed) alors que l'interface n'a rien confirmé → l'historique a été réconcilié à la main. **Avant chaque relance : interroger le RSS public** ; une vidéo « déclarée échouée » peut être en ligne. |
+| 21/10 | Renderer Studio gelé en cours de lot | `Page.captureScreenshot` et `Runtime.evaluate` ne répondent plus (page d'import + ~90 workers TikTok dans le même Chrome). Contournement : fermer l'onglet au niveau navigateur (`Invoke-RestMethod -Method Put http://127.0.0.1:9222/json/close/<targetId>`) puis ouvrir un onglet neuf — jamais « réutiliser » un onglet gelé. |
 | 20/10 | lot programmé 02:04 (auto_012/022/025) | Le shell d'arrière-plan a été tué au redémarrage/session : **le lot n'a jamais tourné** (historique toujours à 19). Les 3 vidéos restent dues ; un shell d'arrière-plan meurt à chaque redémarrage → **toujours vérifier l'issue** (`logs/youtube_posts.json` + RSS) avant de re-lancer. |
 | 21/10 | méconnaissance des profils Chrome | **3 profils coexistent** : `FactVibesDebug` (créé le 20/10 par l'ancien `prepare_browser.bat`, **aucun cookie** — inutile), le profil par défaut de l'utilisateur (jamais utilisable : Chrome ≥136 refuse le port de débogage sur le profil par défaut), et **`config/chrome_tiktok_profile` = LE vrai** (sessions TikTok (QR) + YouTube, relancé par l'autoposter lui-même, parent logique du port 9222). `prepare_browser.bat` a été réécrit pour ce profil. Ne plus jamais toucher aux autres. |
 | 21/10 | `cdp.py eval <tab-id>` « introuvable » | `find_tab` matche sur **titre + URL**, jamais sur le GUID de l'onglet : toujours passer un sous-chaîne d'URL (`tiktokstudio/upload`, `example.com`…). Les « évaluations bloquées » du 20-21/10 étaient en fait des recherches d'onglet qui échouaient. |
@@ -113,7 +116,8 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
 
 ## 7. Rythme de publication
 
-- **Matin** : lot de 3 (avant 14 h)
-- **Après-midi** : lot de 3 (à partir de ~15 h)
+- **Matin** : lot de 3 (avant 14 h) — lancé à réveil de l'agent, jamais après 14 h
+- **Soir** : lot de 3 (à partir de ~19 h, fin de journée) — cadence ordonnée par le
+  patron le 21/10/2026 (remplace « 3 l'après-midi »)
 - Maximum strict : 6 vidéos/jour ; le lendemain reprend la file là où elle s'est
   arrêtée (ordre chronologique TikTok, sans jamais repasser sur un titre publié).

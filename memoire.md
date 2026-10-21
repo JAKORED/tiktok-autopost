@@ -347,3 +347,39 @@ confrontés à l'historique ET au contenu live de la chaîne ET au RSS public).
 - Incident : premier essai avorté (onglet Studio gelé, renderer figé — incident connu). via_004 était resté en brouillon non publié (donc aucun doublon public possible). Onglet fermé, lot relancé sur onglet neuf : 3/3 OK. Un brouillon orphelin de via_004 subsiste dans le Studio (hygiène seule, le contrôle RSS en rend la publication impossible deux fois).
 
 **QUESTION TOUJOURS EN ATTENTE (posée le 18/10)** : est-ce toi qui supprimes les vidéos YouTube (video_001/002/003 + auto_002, marquées SUPPRIMÉES dans l'historique) ? Si oui, je ne les republie jamais. Si non, dis-moi et je les remonte.
+
+## 21/10/2026 - YouTube : cadence ordonnee 3 matin + 3 soir, lot du MATIN 3/3
+
+**ORDRE DU PATRON** : posting journalier YouTube, **6 videos/jour = 3 le matin + 3 le soir**,
+en suivant l'ordre chronologique des videos deja publiees sur TikTok (aucune creation de
+contenu, recyclage uniquement). Cadence ecrite dans docs/PROCEDURE_YOUTUBE.md (§7).
+
+**LOT DU MATIN - 3/3 PUBLIEES ET VERIFIEES PUBLIQUES (oEmbed)**
+- auto_012 « Le mute oublie (la cuisine) » -> https://youtube.com/shorts/-WupvDP1-AI
+- auto_022 « La livraison « deposee » (une carte mere) » -> https://youtube.com/shorts/ZYSkWn96fGE
+- auto_025 « La banque qui bloque (un virement) » -> https://youtu.be/42r5pXW-e4E
+Quota du jour : 3/6 consommes. Fil de file : 39 videos TikTok encore a recycler (~13 jours
+a 6/jour).
+
+**INCIDENT MAJEUR : PILOTAGE A DEUX SUR LE MEME CHROME (a corriger avant le lot du soir)**
+Le lot a rate 2 videos sur 3 (« aucune-boite » pendant 10 min, puis « Inspected target
+navigated or closed » au moment du clic Suivant). Diagnostic : un SECOND processus
+yt_upload.py a pilote le MEME onglet Studio en parallele - il a navigue l'onglet au milieu
+du wizard du premier, et il a publie auto_025 a 13:28 alors que notre processus la
+declarait echouee. D'ou deux lecons, deja ecrites dans la procedure :
+1. **Un seul lanceur yt_upload.py a la fois** : verifier qu'aucun yt_upload ne tourne
+   (Get-CimInstance Win32_Process) avant de lancer un lot, et dire au patron qu'une autre
+   session/terminal pilote le meme Chrome.
+2. **Une video « echouee » peut etre en ligne** : toujours reconcilier avec le RSS public
+   + oEmbed avant toute relance (auto_012 publiee sans confirmation d'interface detectee ;
+   auto_025 publiee par l'autre processus).
+
+**AUTRES CONSTATS DU JOUR**
+- Chrome a ete relance a 12:31 (3 commandes prepare_browser.bat a 12:14 / 12:15 / 12:23).
+- Renderer Studio de nouveau gelable en cours de lot (~90 workers TikTok dans le meme
+  Chrome) : fermeture d'onglet au niveau navigateur + onglet neuf (contournement connu).
+- **Cote TikTok : RIEN NE TOURNE.** Le autoposter tourne bien (log) mais « la BANQUE est
+  epuisee » a chaque boucle : 0 post TikTok aujourd'hui, et les creneaux de 17:00/17:30/18:00
+  UTC partiront vides si de nouveaux scenarios G49+ ne sont pas ecrits dans
+  video_pipeline/factory.py. A VOIR AVEC LE PATRON (priorite probablement plus haute que
+  YouTube : le recyclage YouTube s'arrete aussi quand TikTok n'avance plus).
