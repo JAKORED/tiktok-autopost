@@ -95,14 +95,18 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
 | 18/10 | `via_001`/`via_003` | 1er passage avorté (wizard empoisonné par l'état de `via_001`) → repassés avec état propre : publiés et vérifiés (RSS + oEmbed). |
 | 19/10 | onglet Studio figé en plein lot | Le renderer de l'onglet d'import s'est gelé en cours d'envoi de `via_004` : `Runtime.evaluate` ne répond plus, `cmd` et `Page.close` bloquent aussi (websocket morte). Le fichier s'est téléversé (état `d=ud`) mais le wizard n'a jamais cliqué « Publier » → la vidéo est restée **brouillon**, donc absente du RSS (aucun doublon public). **Contournement** : fermeture au niveau navigateur via l'API HTTP — `Invoke-RestMethod -Method Put http://127.0.0.1:9222/json/close/<targetId>` (le navigateur répond même quand le renderer est mort), puis relance du lot sur un onglet neuf. Le lot a été perdu de 3/3. Leçon confirmée : `d=ud` seul ne prouve pas la publication si le wizard a calé avant le clic « Publier » — le RSS reste l'unique vérité. |
 | 20/10 | Chrome trouvé éteint au réveil | Vérifier `http://127.0.0.1:9222/json/version` **avant** chaque lot ; si absent, relancer `prepare_browser.bat` (la chaîne TikTok a aussi besoin de Chrome pour les créneaux du soir). |
+| 20/10 | lot programmé 02:04 (auto_012/022/025) | Le shell d'arrière-plan a été tué au redémarrage/session : **le lot n'a jamais tourné** (historique toujours à 19). Les 3 vidéos restent dues ; un shell d'arrière-plan meurt à chaque redémarrage → **toujours vérifier l'issue** (`logs/youtube_posts.json` + RSS) avant de re-lancer. |
+| 21/10 | méconnaissance des profils Chrome | **3 profils coexistent** : `FactVibesDebug` (créé le 20/10 par l'ancien `prepare_browser.bat`, **aucun cookie** — inutile), le profil par défaut de l'utilisateur (jamais utilisable : Chrome ≥136 refuse le port de débogage sur le profil par défaut), et **`config/chrome_tiktok_profile` = LE vrai** (sessions TikTok (QR) + YouTube, relancé par l'autoposter lui-même, parent logique du port 9222). `prepare_browser.bat` a été réécrit pour ce profil. Ne plus jamais toucher aux autres. |
+| 21/10 | `cdp.py eval <tab-id>` « introuvable » | `find_tab` matche sur **titre + URL**, jamais sur le GUID de l'onglet : toujours passer un sous-chaîne d'URL (`tiktokstudio/upload`, `example.com`…). Les « évaluations bloquées » du 20-21/10 étaient en fait des recherches d'onglet qui échouaient. |
+| 21/10 | « bouton Publier indisponible » = **faux négatif** | 5 vidéos (181, 189, 190-192) marquées FAILED le 20/10 alors que **181 et 189 étaient en ligne** (vérification d'effet qui rate la confirmation de TikTok). La **réconciliation au démarrage** du poster les a reclassées PUBLISHED et a bloqué 190-192 (« doublon de scénario »). **Règle absolue : ne jamais réarmer un FAILED sans contrôle live/réconciliation** — le réarmer aurait pu rejouer une vidéo déjà publiée. Le 20/10 était en réalité 3/3 (185+181+189). |
 
 ## 6. Outillage
 
 | Élément | Rôle |
 |---------|------|
 | `scripts/yt_upload.py` | Publication + sélection anti-doublon + historique (`--daily --limit N`, ou liste d'IDs explicite) |
-| `scripts/cdp.py` | Mini-client Chrome CDP port 9222 (`list`, `open`, `eval`, `snap`, `cmd`) |
-| `prepare_browser.bat` | Lancement de Chrome avec port 9222 (ne jamais fermer Chrome par automation) |
+| `scripts/cdp.py` | Mini-client Chrome CDP port 9222 (`list`, `open`, `eval`, `snap`, `cmd`) — cible = **sous-chaîne titre/URL** |
+| `prepare_browser.bat` | Relance de Chrome **profil `config/chrome_tiktok_profile`** port 9222 (inutile si le port répond déjà ; ne jamais fermer Chrome par automation) |
 | `logs/youtube_posts.json` | Historique YouTube (clé = identifiant vidéo, y compris `SUPPRIMEE`) |
 | `videos/queue.json` | État TikTok — source de sélection (uniquement `PUBLISHED`) |
 | `videos/ready/`, `videos/metadata/` | Fichiers MP4 et métadonnées (titre, hashtags, épisode) |

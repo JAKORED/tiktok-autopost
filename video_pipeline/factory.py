@@ -1160,4 +1160,155 @@ def build_factory_episodes():
             ],
         ))
 
+    # ============ G49 à G54 : scénarios NEUFS du 21/10/2026 =======================
+    # Banque épuisée (0 post le 21/10) : 6 situations INÉDITES vérifiées un par un
+    # contre les 88 sujets déjà produits (mots-clés rares extraits des légendes).
+    # Sujets écartés pour recouvrement : rapport (pris en G00), réparation, météo,
+    # magasin/attente, frigo, parking, musique-drive… Mêmes personnages, décors,
+    # voix et structure (7 répliques + punch).
+
+    # --- G49 : le wifi du train qui n'existe jamais ---
+    for (train, excuse, consequence) in [
+        ("le TGV", "le wifi est en mode avion pour la sécurité",
+         "tous les vidéos du monde ont été téléchargées avant le départ"),
+        ("le train de banlieue", "il est connecté au wagon d'à côté",
+         "vous naviguez chez vos voisins de voyage"),
+        ("le TER", "le réseau fait sa pause",
+         "il reprendra avec la prochaine gare"),
+        ("le métro", "vous êtes sous terre, c'est magique",
+         "la magie coupe les ondes"),
+    ]:
+        add((
+            MARKET, "LE WIFI DU TRAIN|N'EXISTE JAMAIS|EN VOYAGE",
+            f"Le wifi du train qui n'existe jamais ({train})", "quotidien / transports",
+            ["quotidien", "transports", "wifi", "humour"],
+            [
+                l_("josette", "worried", "Je suis dans {0} et le wifi n'existe pas.".format(train)),
+                l_("kevin", "smug", "Il existe. {0}.".format(excuse.capitalize())),
+                l_("josette", "angry", "Le réseau s'affiche, mais il ne répond jamais."),
+                l_("kevin", "happy", "C'est un réseau discret. Il attend qu'on le cherche."),
+                l_("josette", "worried", "Je dois envoyer un fichier avant la gare d'arrivée."),
+                l_("kevin", "neutral", "{0}.".format(consequence.capitalize())),
+                l_("josette", "angry", "Le train avance, lui. Ma 4G a pris le dernier retard.", punch=True),
+            ],
+        ))
+
+    # --- G50 : la batterie à 1 % en réunion ---
+    for (element, excuse, consequence) in [
+        ("le chargeur", "il était sur la table, il est parti en réunion",
+         "le portable est à 2 % depuis vingt minutes"),
+        ("la seule prise de la salle", "elle est en pause",
+         "personne ne se recharge non plus"),
+        ("le powerbank emprunté", "à Fournier, mardi",
+         "il est en mission depuis mardi"),
+        ("la batterie du portable", "elle tient à 1 % depuis l'accueil",
+         "elle compte les points, pas les minutes"),
+    ]:
+        add((
+            OFFICE, "LA BATTERIE|À 1 %|EN RÉUNION",
+            f"La batterie à 1 % en réunion ({element})", "travail / bureau",
+            ["travail", "bureau", "reunion", "humour"],
+            [
+                l_("kevin", "worried", "Ma batterie est à 1 %. Je présente dans deux minutes."),
+                l_("fournier", "smug", "{0} ? {1}.".format(element.capitalize(), excuse.capitalize())),
+                l_("kevin", "angry", "Plus d'écran, donc plus de slides, donc plus de réunion ?"),
+                l_("fournier", "happy", "Si. On décidera que ça compte comme présentation orale."),
+                l_("kevin", "neutral", "Sans écran, je lis dans le vide ?"),
+                l_("fournier", "neutral", "{0}. On improvise.".format(consequence.capitalize())),
+                l_("kevin", "worried", "Seul intervenant sans batterie : seul qui ne peut rien prouver.", punch=True),
+            ],
+        ))
+
+    # --- G51 : le bruit du voisin à vingt-deux heures ---
+    for (heure, plainte, excuse) in [
+        ("vingt-deux heures", "ton marteau a tapé pendant deux heures",
+         "je posais un tableau, c'était trente secondes"),
+        ("vingt-trois heures", "ta perceuse a redémarré pour la troisième fois",
+         "le mur réclamait une fenêtre"),
+        ("minuit", "ta musique a réveillé tout l'immeuble",
+         "on célébrait quelque chose, on ne sait plus quoi"),
+        ("deux heures du matin", "ta chaise a glissé douze fois de suite",
+         "j'alignais le parquet à la main"),
+    ]:
+        add((
+            MARKET, "LE BRUIT DU VOISIN|À VINGT-DEUX|HEURES",
+            f"Le bruit du voisin à {heure} ({plainte[:40]})", "quotidien / voisinage",
+            ["quotidien", "voisinage", "nuit", "humour"],
+            [
+                l_("josette", "angry", "Il est {0} et {1}.".format(heure, plainte)),
+                l_("kevin", "happy", "Désolé. {0}.".format(excuse.capitalize())),
+                l_("josette", "worried", "Je dois me lever à six heures."),
+                l_("kevin", "neutral", "Alors couvre-toi. Les murs sont très bons."),
+                l_("josette", "angry", "Je ne dors pas dans un salon de bruit !"),
+                l_("kevin", "smug", "Tu auras ta revanche : demain, je finis la pièce."),
+                l_("josette", "angry", "Dans cet immeuble, le voisin, c'est une émission de nuit.", punch=True),
+            ],
+        ))
+
+    # --- G52 : le garage qui n'a jamais fini la voiture ---
+    for (element, retard, excuse) in [
+        ("la pièce", "trois semaines", "elle arrive d'un pays qui n'a pas encore de route"),
+        ("le diagnostic", "deux jours", "on regarde la voiture, elle nous regarde aussi"),
+        ("la validation", "une semaine", "le patron valide les voitures comme les congés"),
+        ("le lavage final", "quarante-huit heures", "elle sèche naturellement, on respecte la nature"),
+    ]:
+        add((
+            MARKET, "LE GARAGE|N'A JAMAIS|FINI LA VOITURE",
+            f"Le garage qui n'a jamais fini la voiture ({element})", "quotidien / garage",
+            ["quotidien", "garage", "voiture", "humour"],
+            [
+                l_("josette", "worried", "Je viens chercher ma voiture. Ça fait {0}.".format(retard)),
+                l_("kevin", "smug", "Presque prête. Il manque {0}.".format(element)),
+                l_("josette", "angry", "Vous me disiez ça il y a {0} !".format(retard)),
+                l_("kevin", "happy", "{0}. On ne bâcle rien.".format(excuse.capitalize())),
+                l_("josette", "neutral", "Et entre-temps, je fais quoi, moi ?"),
+                l_("kevin", "neutral", "Vous passez nous tenir compagnie. Le café est mauvais."),
+                l_("josette", "angry", "Ma voiture en réparation depuis {0} : c'est une adoption.".format(retard), punch=True),
+            ],
+        ))
+
+    # --- G53 : la notification qui revient toujours ---
+    for (source, fois, constat) in [
+        ("un mail déjà lu", "trois", "il est marqué lu depuis mardi"),
+        ("la facture du service", "huit", "elle est payée depuis vendredi"),
+        ("un rappel de réunion passée", "cinq", "la réunion était hier"),
+        ("un message du directeur", "onze", "il attend juste un accord"),
+    ]:
+        add((
+            OFFICE, "LA NOTIFICATION|QUI REVIENT|TOUJOURS",
+            f"La notification qui revient toujours ({source})", "travail / numérique",
+            ["travail", "bureau", "notification", "humour"],
+            [
+                l_("kevin", "worried", "{0} revient pour la {1}e fois.".format(source.capitalize(), fois)),
+                l_("fournier", "smug", "Elle a raison d'insister : tu ne réponds pas."),
+                l_("kevin", "angry", "Je l'ai lue ! Elle est déjà dans les archives !"),
+                l_("fournier", "happy", "Les archives, c'est un parking. La notification, c'est un taxi."),
+                l_("kevin", "neutral", "Et si je coupe toutes les notifications ?"),
+                l_("fournier", "neutral", "Elle passera par le collègue d'à côté. {0}.".format(constat.capitalize())),
+                l_("kevin", "angry", "Je ne discute plus avec mon téléphone : on se duelle.", punch=True),
+            ],
+        ))
+
+    # --- G54 : le fichier qui s'appelle FINAL_v2 ---
+    for (nom, complement) in [
+        ("FINAL_v2", "douze versions avant lui"),
+        ("version_corrigée(1)", "un jumeau sans numéro"),
+        ("dossier_à_relire_urgent", "trois personnes qui l'ouvrent en même temps"),
+        ("copie_de_travail_brouillon", "personne ne sait qui l'a modifiée"),
+    ]:
+        add((
+            OFFICE, "LE FICHIER QUI|S'APPELLE|FINAL",
+            f"Le fichier nommé {nom} ({complement})", "travail / bureau",
+            ["travail", "bureau", "fichier", "humour"],
+            [
+                l_("kevin", "neutral", "Où est {0} ?".format(nom)),
+                l_("fournier", "smug", "Laquelle ? {0}.".format(complement.capitalize())),
+                l_("kevin", "angry", "Celle qui s'appelle {0} !".format(nom)),
+                l_("fournier", "happy", "Tu parles de la provisoire. Elle a changé hier soir."),
+                l_("kevin", "worried", "Le fichier FINAL n'est jamais final ?"),
+                l_("fournier", "neutral", "Final veut dire « pour l'instant ». C'est un mot souple."),
+                l_("kevin", "angry", "Le fichier s'appelle FINAL, mais c'est moi qui suis provisoire.", punch=True),
+            ],
+        ))
+
     return eps
