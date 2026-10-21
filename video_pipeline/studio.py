@@ -218,6 +218,17 @@ def render_new(config, count=None, ep_ids=None):
             make_toon.build(ep["id"])
         except Exception as exc:
             print(f"[studio] ÉCHEC {ep['id']}: {exc}", flush=True)
+            # visibilite : le superviseur avale le stdout -> trace quand meme
+            try:
+                import datetime as _dt
+                os.makedirs("logs", exist_ok=True)
+                with open(os.path.join("logs", "render_failures.log"), "a",
+                          encoding="utf-8") as _f:
+                    _f.write("%s %s: %s\n" % (
+                        _dt.datetime.now().isoformat(timespec="seconds"),
+                        ep["id"], exc))
+            except Exception:
+                pass
             continue
         log_render(ep["id"])
         done.append(ep["id"])
