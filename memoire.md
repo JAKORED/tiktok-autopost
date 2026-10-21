@@ -383,3 +383,51 @@ declarait echouee. D'ou deux lecons, deja ecrites dans la procedure :
   UTC partiront vides si de nouveaux scenarios G49+ ne sont pas ecrits dans
   video_pipeline/factory.py. A VOIR AVEC LE PATRON (priorite probablement plus haute que
   YouTube : le recyclage YouTube s'arrete aussi quand TikTok n'avance plus).
+
+
+## 21/10/2026 — YOUTUBE 6/6 + RATTRAPAGE, TIKTOK 2/3 (3e au creneau du soir)
+
+**YOUTUBE : COMMANDE DU PATRON 6/6 TERMINEE (RSS = verite)**
+- 20/10 : via_007 (Sl5lI2oTW5g), auto_008 (FLa5cGHP0dU), auto_013 (qoM0dZ_gGgk).
+- 21/10 : auto_012 (-WupvDP1-AI, 10:47Z), auto_022 (ZYSkWn96fGE, 10:48Z), auto_025
+  (42r5pXW-e4E, 11:28Z) — les 6 sont dans le RSS public.
+- auto_033 « Le groupe WhatsApp familial (Tonton) » etait etiquetee FAILED (WinError
+  10053 sur la confirmation) mais ETAIT EN LIGNE : xubm_CTcR-Y (11:41:44Z) → verifiee
+  RSS + oEmbed, entree ajoutee a l'historique, AUCUNE relance (faux negatif, meme
+  famille que « bouton Publier indisponible »).
+- auto_029 (echec a [start] le matin, quota non consomme) relance seul → EN LIGNE
+  mM9NIawYx4k (13:09:38Z, oEmbed OK, historique auto-enregistre).
+- Quota du jour : 5/6 utilise (012, 022, 025, 033, 029), 1 restant, rien d'autre du.
+- Historique : 24 entrees, notes « RSS confirme 21/10 » posees.
+
+**BROUILLONS ORPHELINS EN STUDIO (doublons latents) — REPONSE A « est-ce toi qui
+supprimes ces videos ? » : OUI, c'est voulu, hygiene anti-doublon.**
+- 4 brouillons doublonnent des videos deja publiees : auto_025 x2, auto_013, via_004.
+- 1 supprime sur 2 ce jour (« La banque » — clic reel CDP + confirmation) ; 3 RESTENT
+  (« La banque », micro-ondes, note vocale) : la liste Studio a des handlers morts
+  apres re-rendu (boutons reveles au survol uniquement, cellule « Vues » qui passe
+  au-dessus, dialogues zombies offsetHeight=0). Campagne documentee dans
+  docs/PROCEDURE_YOUTUBE.md → si le patron veut : suppression manuelle en 3 clics
+  chacun (ligne → Options/Annuler l'importation → confirmer). Ces brouillons ne
+  seront JAMAIS publies par le bot (titres deja dans l'historique → bloque par dedup).
+
+**TIKTOK 2/3 CE 21/10 (preuve audit public, 62 publications, aucun doublon)**
+- 13:10 → auto_197 « La batterie a 1% en reunion » :
+  https://www.tiktok.com/@factivibeparano/video/7699076950236695830
+- 15:02 → auto_201 « Le bruit du voisin a vingt-deux heures » (GARANTIE 15:00 a
+  declechee a 15:01) : https://www.tiktok.com/@factivibeparano/video/7699105864250150166
+- Tampon : 3 READY (auto_205, auto_209, auto_193) — prochain creneau 17:00 UTC
+  (19:00 locale) → 3/3 attendu vers 19:05-19:15, puis audit final + cette memoire
+  completee.
+- Etat du jour : posts_aujourdhui=2, dernier_post 13:03Z.
+
+**CORRECTION DES NOTES PRECEDENTES**
+- La note « RIEN NE TOURNE / banque epuisee » est DEPASSEE : banque G49-G54 ecrite
+  (auto_193→216) et poussee (e46f187), tampon de 4 READY ce matin, 2 posts sortis
+  dans la journee. Le poster (PID 16468) + superviseur (PID 8408) tournent.
+
+**INCIDENTS DU JOUR (detail dans docs/PROCEDURE_YOUTUBE.md, lignes 21/10)**
+- Lot du matin pilote a deux sessions (auto_025 publie par l'autre alors que le
+  premier le declarait echoue) → un seul yt_upload.py a la fois.
+- WinError 10053 (coupures CDP) = transitoires, coincidents avec l'activite du
+  patron dans le meme Chrome ; verification live/RSS obligatoire avant toute relance.
