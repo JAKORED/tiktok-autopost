@@ -39,6 +39,8 @@ videos/fingerprints.json
 videos/.publish.lock
 # verrou de l'orchestrateur (auto_poster) : idem
 videos/.autoposter.lock
+# verrou de lancement YouTube (yt_upload) : un seul lot à la fois
+videos/.yt_publish.lock
 # copies de sauvegarde de la file
 videos/queue.json.bak-*
 videos/generated/

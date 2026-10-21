@@ -75,6 +75,13 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
   à l'historique. Toute vidéo de l'historique absente du live est marquée
   `SUPPRIMEE` dans `logs/youtube_posts.json` (vérification par rechargement de
   sa page d'édition Studio, pour écarter les erreurs de chargement transitoires).
+- **Lancement unique (verrou)** : `yt_upload.py` prend `videos/.yt_publish.lock`
+  à démarrage et refuse de tourner si un autre lot est en cours (< 30 min).
+  Deux lanceurs sur le même Chrome se volent l'onglet l'un à l'autre et
+  publient des vidéos que l'autre déclare échouées (incident du 21/10).
+  `--force` ne s'utilise que si on sait que l'autre processus est mort.
+  En cas d'échec d'interface, l'onglet Studio est fermé au niveau navigateur et
+  remplacé par un onglet neuf (jamais de réutilisation d'un onglet suspect).
 - **Brouillons** : un brouillon oublié en Studio est d'abord cherché avant tout
   téléversement (risque de doublon). S'il correspond à une vidéo de la sélection,
   on corrige ses textes et on le publie au lieu de re-téléverser.
@@ -111,6 +118,7 @@ Description :  Le message à 23 h 43 — épisode 1 de FactVibes Toons.
 | `scripts/cdp.py` | Mini-client Chrome CDP port 9222 (`list`, `open`, `eval`, `snap`, `cmd`) — cible = **sous-chaîne titre/URL** |
 | `prepare_browser.bat` | Relance de Chrome **profil `config/chrome_tiktok_profile`** port 9222 (inutile si le port répond déjà ; ne jamais fermer Chrome par automation) |
 | `logs/youtube_posts.json` | Historique YouTube (clé = identifiant vidéo, y compris `SUPPRIMEE`) |
+| `videos/.yt_publish.lock` | Verrou de lancement : un seul `yt_upload.py` à la fois (posé/release automatiquement, TTL 30 min) |
 | `videos/queue.json` | État TikTok — source de sélection (uniquement `PUBLISHED`) |
 | `videos/ready/`, `videos/metadata/` | Fichiers MP4 et métadonnées (titre, hashtags, épisode) |
 

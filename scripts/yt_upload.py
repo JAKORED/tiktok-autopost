@@ -14,6 +14,7 @@ import json
 import os
 import sys
 import time
+import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -25,6 +26,52 @@ UPLOAD_URL = ("https://studio.youtube.com/channel/UCfRGgDMtWpsmd7LmBEY2_Lg"
               "/videos/upload")
 HISTORY = os.path.join(ROOT, "logs", "youtube_posts.json")
 QUEUE = os.path.join(ROOT, "videos", "queue.json")
+
+# Verrou de lancement : DEUX yt_upload.py sur le MEME Chrome se marchent dessus
+# (le second navigue l'onglet au milieu du wizard du premier → « aucune-boite »,
+# « target navigated or closed », et vidéos publiées non détectées).
+# Leçon du 21/10/2026 (voir docs/PROCEDURE_YOUTUBE.md §5).
+LOCK = os.path.join(ROOT, "videos", ".yt_publish.lock")
+LOCK_TTL = 1800            # 30 min : au-delà, le verrou est considéré orphelin
+CDP_HTTP = "http://127.0.0.1:9222"
+
+
+def verrou_acquerir(force=False):
+    """Prend le verrou de lancement ; refuse si un autre lot tourne."""
+    if os.path.exists(LOCK):
+        age = time.time() - os.path.getmtime(LOCK)
+        if age < LOCK_TTL and not force:
+            raise SystemExit(
+                f"un autre yt_upload.py tourne deja (verrou {LOCK}, "
+                f"age {int(age)} s). Attendez sa fin, ou relancez avec --force "
+                f"si vous etes sur qu'il est mort.")
+        print(f"[verrou] ancien verrou ignore (age {int(age)} s)")
+    os.makedirs(os.path.dirname(LOCK), exist_ok=True)
+    with io.open(LOCK, "w", encoding="utf-8") as f:
+        json.dump({"pid": os.getpid(),
+                   "debut_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+                  f)
+
+
+def verrou_lacher():
+    try:
+        if os.path.exists(LOCK):
+            os.remove(LOCK)
+    except OSError:
+        pass
+
+
+def fermer_onglet_studio():
+    """Ferme l'onglet Studio au niveau navigateur (HTTP), même si le renderer
+    est gelé — contournement du 19/10/2026. Inoffensif si absent."""
+    try:
+        for p in list_pages():
+            if "studio.youtube.com" in (p.get("url") or ""):
+                req = urllib.request.Request(
+                    CDP_HTTP + "/json/close/" + p["id"], method="PUT")
+                urllib.request.urlopen(req, timeout=10).read()
+    except Exception:
+        pass
 
 # Cadence imposée par le patron : lot d'essai puis 6 vidéos/jour max.
 QUOTA_INITIAL = 6          # dès le 1er jour (ordre du boss : 6/jour)
@@ -446,11 +493,26 @@ def publish_one(tab, vid, timeout_upload=90):
     })()"""
     steps = 0
     last_state = None
+    vu_dialogue = False            # la boîte d'import a été vue au moins une fois
+    sans_boite = 0                 # itérations consécutives sans aucune boîte
     for i in range(300):           # ~300 × 2 s = 10 min max
         r = tab.evaluate(JS_NEXT)
         if r != last_state:
             print(f"   [nav {i}] {r}")
             last_state = r
+        if r in ("attente", "suivant", "au-visibilite"):
+            vu_dialogue = True
+            sans_boite = 0
+        elif r == "aucune-boite":
+            sans_boite += 1
+            # La boîte avait été vue puis a disparu : l'assistant a été volé par
+            # un AUTRE yt_upload (navigation de l'onglet) ou le renderer est gelé.
+            # Inutile d'attendre 10 min : on sort et on laisse la vérification
+            # RSS décider (la vidéo peut être partie quand même — cas auto_012).
+            if vu_dialogue and sans_boite > 45:     # ~90 s sans aucune boîte
+                raise RuntimeError(
+                    "assistant d'import disparu (onglet repris par un autre "
+                    "processus ou renderer gelé) — vérification RSS obligatoire")
         if r == "suivant":
             steps += 1
             time.sleep(2.5)
@@ -505,6 +567,10 @@ def publish_one(tab, vid, timeout_upload=90):
 
 
 def main():
+    import atexit
+    verrou_acquerir(force="--force" in sys.argv)
+    atexit.register(verrou_lacher)
+
     vids = [a for a in sys.argv[1:] if not a.startswith("-")]
     if not vids:
         print(__doc__)
@@ -582,11 +648,19 @@ def main():
             url = publish_one(tab, vid)
         except Exception as exc:
             print(f"[echec-interface] {vid} : {exc}")
+            # On ne RÉUTILISE jamais un onglet qui a lâché en cours de route :
+            # il a été volé par un autre processus ou son renderer est gelé.
+            print("   (fermeture de l'onglet Studio + ouverture d'un onglet neuf)")
+            fermer_onglet_studio()
+            time.sleep(3)
+            tab = get_tab()
 
         # VÉRITÉ RSS : publié = présent dans le flux public, quelle que soit
         # la parole de l'interface. Une confirmation « perdue » n'est donc
         # plus un échec si la vidéo est réellement en ligne.
-        url_rss = attend_rss(title, timeout=150 if url else 60)
+        # 240 s au lieu de 60 quand l'interface a échoué : une vidéo peut
+        # apparaître en RSS plusieurs minutes après (cas mesuré auto_012, 21/10).
+        url_rss = attend_rss(title, timeout=150 if url else 240)
         if url_rss:
             url_final = url_rss if url in (None, "?") else url
             if url in (None, "?"):
