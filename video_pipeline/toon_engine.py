@@ -90,6 +90,28 @@ class Toon:
         self.mouth = 0.0      # 0..1 lissé
         self.gesture = 0.0    # 0..1 lissé
         self.brow_smooth = 0.0
+        # --- rig (22/10/2026) : posture, tête, regard, gestes, entrée de scène.
+        # Ces états sont MODIFIÉS par le réalisateur (cinema.py) via `apply_rig`
+        # et ne changent RIEN pour l'ancien chemin (valeurs neutres par défaut).
+        self.rig = dict(
+            x=0.0,            # déplacement latéral (marche / recomposition)
+            y=0.0,            # avance / recul dans le plan
+            lean=0.0,         # inclinaison du buste (rad, + = vers l'avant)
+            yaw=0.0,          # tour de tête -1 (gauche) .. 1 (droite)
+            pitch=0.0,        # hochement -1 (bas) .. 1 (haut)
+            gaze_x=0.0,       # regard -1..1 (déplacement des pupilles)
+            gaze_y=0.0,
+            scale=1.0,        # zoom individuel (avancée dans le plan)
+            alpha=1.0,        # opacité (apparition / disparition)
+            enter=1.0,        # 0 = hors champ -> 1 = en place
+            gesture_kind="auto",   # auto | point | shrug | crossed | facepalm | open
+            shoulder=0.0,     # haussement d'épaules (peur / haussement)
+            point_dir=1,      # -1 : index vers la gauche, +1 : vers la droite
+        )
+
+    def apply_rig(self, **kw):
+        """Met à jour le rig (valeurs cibles lissées dans draw)."""
+        self.rig.update({k: v for k, v in kw.items() if k in self.rig})
 
     def blink_amount(self, t):
         for b in self.blinks:
@@ -106,7 +128,17 @@ class Toon:
         self.gesture += (g_target - self.gesture) * (1 - math.exp(-dt * 6))
 
     # ---- dessin
-    def draw(self, ctx, t, speaking, emotion, look_dir, pop=1.0, reacting=False):
+    def draw(self, ctx, t, speaking, emotion, look_dir, pop=1.0, reacting=False,
+             rig=None):
+        """Dessine le personnage.
+
+        `rig` (facultatif, nouveau chemin) : dict des valeurs cibles du rig —
+        x, y, lean, yaw, pitch, gaze_x/y, scale, alpha, enter, gesture_kind, shoulder.
+        Sans `rig`, le comportement est STRICTEMENT celui d'avant (22/10/2026).
+        """
+        if rig:
+            self.apply_rig(**rig)
+        r = self.rig
         p = self.p
         bob = math.sin(t * 2.2 + self.cx) * 5
         talk_bob = math.sin(t * 9 + self.gest_phase) * 6 * self.mouth if speaking else 0
@@ -114,33 +146,89 @@ class Toon:
                 (math.sin(t * 5.0) * 0.02 * self.mouth if speaking else 0))
         if reacting:
             tilt += math.sin(t * 4.0) * 0.012
+        tilt += r["yaw"] * 0.06            # la tête suit le tour
+        alpha = max(0.0, min(1.0, r["alpha"]))
+        enter_k = max(0.0, min(1.0, r["enter"]))
+        dx = r["x"]
+        dy = r["y"] + (1.0 - enter_k) * 110.0
+        s = r["scale"] * (0.88 + 0.12 * enter_k)
+
         ctx.save()
-        ctx.translate(self.cx, HEAD_Y + bob + talk_bob)
-        ctx.scale(pop, pop)
-        self._torso_and_arms(ctx, t, speaking)
+        if alpha < 0.999:
+            ctx.push_group()
+        ctx.translate(self.cx + dx, HEAD_Y + bob + talk_bob + dy)
+        # buste : inclinaison pivotée sur les hanches (posture)
+        if abs(r["lean"]) > 0.001:
+            ctx.save()
+            ctx.translate(0, 3.6 * R)
+            ctx.rotate(r["lean"])
+            ctx.translate(0, -3.6 * R)
+        ctx.scale(pop * s, pop * s)
+        self._torso_and_arms(ctx, t, speaking, r)
         ctx.rotate(tilt)
+        if abs(r["pitch"]) > 0.001:
+            ctx.scale(1.0 + 0.06 * abs(r["pitch"]), 1.0 - 0.05 * r["pitch"])
         if p.get("robot"):
-            self._robot_head(ctx, t, emotion, look_dir)
+            self._robot_head(ctx, t, emotion, look_dir, r)
         else:
-            self._head(ctx, t, emotion, look_dir)
+            self._head(ctx, t, emotion, look_dir, r)
+        if abs(r["lean"]) > 0.001:
+            ctx.restore()
+        if alpha < 0.999:
+            ctx.pop_group_to_source()
+            ctx.paint_with_alpha(alpha)
         ctx.restore()
 
-    def _torso_and_arms(self, ctx, t, speaking):
+    def _torso_and_arms(self, ctx, t, speaking, rig=None):
         p = self.p
+        r = rig or self.rig
         oc = p["outfit_col"]
         dark = shade(oc, 0.72)
+        gest_kind = r.get("gesture_kind", "auto")
+        shoulder = r.get("shoulder", 0.0)
+        # épaules haussées (peur / haussement) : le buste « remonte »
+        if abs(shoulder) > 0.001:
+            ctx.save()
+            ctx.translate(0, -shoulder * 0.16 * R)
         # bras (derrière le buste)
         for side in (-1, 1):
             sx, sy = side * 0.95 * R, 1.35 * R
             rest = (side * 1.15 * R, 2.45 * R)
-            active = (side == 1) and self.gesture > 0.01
-            if active:
-                sw = math.sin(t * 5 + self.gest_phase)
-                gest = (side * 1.05 * R + sw * 0.18 * R, 0.95 * R + math.sin(t * 3.1) * 0.22 * R)
+            hx, hy = rest
+            if gest_kind == "point":
+                # bras tendu vers l'autre (index accusateur)
+                if (side == 1) == (r.get("point_dir", 1) > 0):
+                    g = self.gesture
+                    gest = (side * 1.45 * R, 1.15 * R + math.sin(t * 4.2) * 0.06 * R)
+                    hx, hy = rest[0] + (gest[0] - rest[0]) * g, rest[1] + (gest[1] - rest[1]) * g
+            elif gest_kind == "open":
+                if self.gesture > 0.01:
+                    g = self.gesture
+                    gest = (side * 1.55 * R, 1.25 * R + math.sin(t * 3.4 + side) * 0.1 * R)
+                    hx, hy = rest[0] + (gest[0] - rest[0]) * g, rest[1] + (gest[1] - rest[1]) * g
+            elif gest_kind == "shrug":
                 g = self.gesture
+                gest = (side * 1.4 * R, 1.5 * R + math.sin(t * 2.6 + side) * 0.05 * R)
                 hx, hy = rest[0] + (gest[0] - rest[0]) * g, rest[1] + (gest[1] - rest[1]) * g
-            else:
-                hx, hy = rest
+            elif gest_kind == "crossed":
+                # bras croisés sur la poitrine
+                hx, hy = side * 0.55 * R, 1.85 * R
+            elif gest_kind == "facepalm":
+                if side == 1:
+                    g = self.gesture
+                    gest = (0.42 * R, -0.55 * R)      # main front
+                    hx, hy = rest[0] + (gest[0] - rest[0]) * g, rest[1] + (gest[1] - rest[1]) * g
+                else:
+                    hx, hy = side * 1.1 * R, 2.3 * R
+            else:                      # "auto" : un seul bras parle, comme avant
+                active = (side == 1) and self.gesture > 0.01
+                if active:
+                    sw = math.sin(t * 5 + self.gest_phase)
+                    gest = (side * 1.05 * R + sw * 0.18 * R,
+                            0.95 * R + math.sin(t * 3.1) * 0.22 * R)
+                    g = self.gesture
+                    hx, hy = (rest[0] + (gest[0] - rest[0]) * g,
+                              rest[1] + (gest[1] - rest[1]) * g)
             ctx.set_line_cap(cairo.LINE_CAP_ROUND)
             ctx.set_line_width(0.34 * R)
             ctx.set_source_rgba(*rgb(dark))
@@ -150,6 +238,15 @@ class Toon:
             ctx.set_source_rgba(*rgb(p["skin"]))
             ctx.arc(hx, hy, 0.24 * R, 0, 2 * math.pi)
             ctx.fill()
+            if gest_kind == "point" and ((side == 1) == (r.get("point_dir", 1) > 0)) \
+                    and self.gesture > 0.5:
+                # index
+                ctx.set_line_cap(cairo.LINE_CAP_ROUND)
+                ctx.set_line_width(0.14 * R)
+                ctx.set_source_rgba(*rgb(p["skin"]))
+                ctx.move_to(hx, hy)
+                ctx.line_to(hx + side * 0.42 * R, hy - 0.08 * R)
+                ctx.stroke()
             ctx.set_source_rgba(0, 0, 0, 0.55)
             ctx.set_line_width(4)
             ctx.arc(hx, hy, 0.24 * R, 0, 2 * math.pi)
@@ -201,6 +298,8 @@ class Toon:
             ctx.set_source_rgba(*rgb(shade(p["skin"], 0.9)))
             rrect(ctx, -0.22 * R, 0.85 * R, 0.44 * R, 0.4 * R, 0.1 * R)
             ctx.fill()
+        if abs(shoulder) > 0.001:
+            ctx.restore()      # épaules (save équilibré plus haut)
 
     def _hair_back(self, ctx):
         p = self.p
@@ -253,13 +352,24 @@ class Toon:
             for (bx, by) in [(-0.6, -0.72), (-0.2, -0.86), (0.2, -0.86), (0.6, -0.72)]:
                 ctx.arc(bx * R, by * R, 0.26 * R, 0, 2 * math.pi); ctx.fill()
 
-    def _head(self, ctx, t, emotion, look_dir):
+    def _head(self, ctx, t, emotion, look_dir, rig=None):
         p = self.p
         skin = p["skin"]
+        r = rig or {}
+        yaw = max(-1.0, min(1.0, r.get("yaw", 0.0)))
+        gaze = (r.get("gaze_x", 0.0), r.get("gaze_y", 0.0))
+        # --- torsion de tête 2D : écrasement latéral + décalage des traits.
+        # C'est la vraie illusion de rotation (pas un zoom) : le crâne s'étire,
+        # les traits se déplacent vers le côté du regard, l'oreille lointaine disparaît.
+        ctx.save()
+        ctx.scale(1.0 - 0.24 * abs(yaw), 1.0)
+        ctx.translate(yaw * 0.14 * R, 0)
         self._hair_back(ctx)
-        # oreilles
+        # oreilles (lointaine masquée dès que la tête tourne)
         ctx.set_source_rgba(*rgb(shade(skin, 0.95)))
         for sx in (-1, 1):
+            if abs(yaw) > 0.40 and (sx * yaw) < 0:
+                continue
             ctx.arc(sx * 0.98 * R, 0.08 * R, 0.17 * R, 0, 2 * math.pi); ctx.fill()
         # tête
         ctx.set_source_rgba(*rgb(skin))
@@ -277,7 +387,7 @@ class Toon:
             ctx.set_source_rgba(1, 0.45, 0.5, 0.35)
             for sx in (-1, 1):
                 ellipse(ctx, sx * 0.62 * R, 0.28 * R, 0.16 * R, 0.09 * R); ctx.fill()
-        self._eyes(ctx, t, emotion, look_dir, dark_bags=p.get("bags"))
+        self._eyes(ctx, t, emotion, look_dir, dark_bags=p.get("bags"), gaze=gaze)
         # nez
         ctx.set_source_rgba(*rgb(shade(skin, 0.82)))
         ellipse(ctx, 0, 0.2 * R, 0.1 * R, 0.08 * R)
@@ -291,10 +401,14 @@ class Toon:
                 ctx.stroke()
             ctx.move_to(-0.03 * R, -0.07 * R); ctx.line_to(0.03 * R, -0.07 * R); ctx.stroke()
         self._effects(ctx, t, emotion)
+        ctx.restore()
 
-    def _eyes(self, ctx, t, emotion, look_dir, dark_bags=False):
+    def _eyes(self, ctx, t, emotion, look_dir, dark_bags=False, gaze=(0.0, 0.0)):
         bl = self.blink_amount(t)
         ry = 0.29 * R * (1 - 0.92 * bl)
+        # pupilles : direction de parole (look_dir) + cible de regard (gaze_x/y)
+        gx = max(-1.6, min(1.6, look_dir * 0.62 + gaze[0] * 0.85))
+        gy = max(-0.8, min(0.8, gaze[1] * 0.9))
         for sx in (-1, 1):
             ex, ey = sx * 0.36 * R, -0.05 * R
             if dark_bags:
@@ -306,10 +420,11 @@ class Toon:
             if bl < 0.7:
                 ctx.set_source_rgba(0.08, 0.08, 0.12, 1)
                 pr = 0.11 * R * (1.25 if emotion == "worried" else 1.0)
-                ellipse(ctx, ex + look_dir * 0.1 * R, ey + (0.03 * R if emotion == "smug" else 0), pr, pr * min(1, ry / (0.29 * R) + 0.1))
+                ellipse(ctx, ex + gx * 0.1 * R, ey + gy * 0.06 * R + (0.03 * R if emotion == "smug" else 0),
+                        pr, pr * min(1, ry / (0.29 * R) + 0.1))
                 ctx.fill()
                 ctx.set_source_rgba(1, 1, 1, 0.9)
-                ctx.arc(ex + look_dir * 0.1 * R - 0.03 * R, ey - 0.04 * R, 0.03 * R, 0, 2 * math.pi); ctx.fill()
+                ctx.arc(ex + gx * 0.1 * R - 0.03 * R, ey + gy * 0.06 * R - 0.04 * R, 0.03 * R, 0, 2 * math.pi); ctx.fill()
             if emotion == "neutral" and dark_bags:  # paupière lourde (fatigué)
                 ctx.set_source_rgba(*rgb(shade(self.p["skin"], 0.98)))
                 ctx.save(); ellipse(ctx, ex, ey, 0.26 * R, 0.3 * R); ctx.clip()
@@ -380,8 +495,14 @@ class Toon:
                 ctx.move_to(cx, cy); ctx.curve_to(cx + dx * 0.15 * R * s, cy, cx, cy + dy * 0.15 * R * s, cx + dx * 0.16 * R * s, cy + dy * 0.16 * R * s)
                 ctx.stroke()
 
-    def _robot_head(self, ctx, t, emotion, look_dir):
+    def _robot_head(self, ctx, t, emotion, look_dir, rig=None):
         p = self.p
+        r = rig or {}
+        yaw = max(-1.0, min(1.0, r.get("yaw", 0.0)))
+        gaze = (r.get("gaze_x", 0.0), r.get("gaze_y", 0.0))
+        ctx.save()
+        ctx.scale(1.0 - 0.20 * abs(yaw), 1.0)
+        ctx.translate(yaw * 0.12 * R, 0)
         metal = p["skin"]
         # antenne
         ctx.set_source_rgba(*rgb(shade(metal, 0.6)))
@@ -410,7 +531,8 @@ class Toon:
             ctx.set_source_rgba(*rgb(col, 0.25))
             ellipse(ctx, ex, ey, 0.3 * R, eye_h + 0.06 * R); ctx.fill()
             ctx.set_source_rgba(*rgb(col))
-            ellipse(ctx, ex + look_dir * 0.06 * R, ey, 0.2 * R, eye_h); ctx.fill()
+            ellipse(ctx, ex + (look_dir * 0.5 + gaze[0] * 0.7) * 0.06 * R,
+                    ey + gaze[1] * 0.03 * R, 0.2 * R, eye_h); ctx.fill()
         # sourcils LED
         ctx.set_source_rgba(*rgb(col)); ctx.set_line_width(0.06 * R); ctx.set_line_cap(cairo.LINE_CAP_ROUND)
         for sx in (-1, 1):
@@ -423,6 +545,7 @@ class Toon:
             h = (0.06 + 0.22 * m * (1 - abs(i - 3) / 4.0)) * R
             ctx.set_source_rgba(*rgb(col, 0.95 if m > 0.1 or i in (2, 3, 4) else 0.5))
             rrect(ctx, (-0.55 + i * 0.16) * R, 0.32 * R - h / 2, 0.12 * R, max(h, 0.05 * R), 0.03 * R); ctx.fill()
+        ctx.restore()      # torsion (save équilibré en tête de fonction)
 
 
 # ------------------------------------------------------------------ décors

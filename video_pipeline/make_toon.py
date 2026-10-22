@@ -163,7 +163,13 @@ def prepare(ep):
     return work, lines, total
 
 
-def mix_audio(lines, total, work):
+def mix_audio(lines, total, work, ep=None):
+    # 22/10/2026 — épisodes storyboardés : design sonore narratif (audio_v2 :
+    # sfx de récit, musiques par humeur, ambiances, silences qui étouffent la
+    # musique). Les épisodes historiques gardent le mixage d'origine, inchangé.
+    if ep is not None and ep.get("storyboard") is not None:
+        import audio_v2
+        return audio_v2.mix(lines, total, ep, work)
     n = int(total * SR)
     voice = np.zeros(n, dtype=np.float32)
     sfx = np.zeros(n, dtype=np.float32)
@@ -206,6 +212,12 @@ def build_caption_groups(lines):
 
 
 def render(ep, lines, total, wav, out_path, png_at=None, seconds=None):
+    # 22/10/2026 — réalisateur « FactVibes Nocturne » : si l'épisode porte un
+    # storyboard (et pas d'image IA de fond), la mise en scène passe par cinema.py
+    # (plans, parallaxe, rig, typographie cinétique). Sinon : chemin historique.
+    if ep.get("storyboard") is not None and not ep.get("bg_image"):
+        import cinema
+        return cinema.render(ep, lines, total, wav, out_path, png_at=png_at, seconds=seconds)
     surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, E.W, E.H)
     ctx = cairo.Context(surf)
     ctx.set_antialias(cairo.ANTIALIAS_BEST)
@@ -362,7 +374,7 @@ def build(ep_id, seconds=None, png_at=None):
     ep = next(e for e in EPISODES if e["id"] == ep_id)
     work, lines, total = prepare(ep)
     print(f"{ep['id']} : {len(lines)} répliques, durée {total:.1f}s", flush=True)
-    wav = mix_audio(lines, total, work)
+    wav = mix_audio(lines, total, work, ep=ep)
     if png_at is not None:
         out = work / f"frame_{png_at:.1f}.png"
         render(ep, lines, total, wav, out, png_at=png_at)
@@ -387,6 +399,9 @@ def build(ep_id, seconds=None, png_at=None):
         "mean_volume": mean,
         "lines": [{"who": l["who"], "emo": l["emo"], "text": l["text"]} for l in lines],
         "engine": "pycairo (dessin vectoriel) + edge-tts + ffmpeg — CPU, personnages et musique originaux",
+        "director": ("cinema (storyboard, parallaxe, rig, sfx narratifs)"
+                     if ep.get("storyboard") is not None else "legacy (rendu direct)"),
+        "structure": ep.get("structure", "legacy"),
         "ai_generated_content": True,
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "status": "READY",

@@ -53,3 +53,8 @@ videos/**/*.webp
 # pack d'audit a glisser dans ChatGPT (livraison locale, regenerable par scripts/pack_audit.py)
 audit_factivibes_*/
 *.zip
+
+# dependances npm (Remotion) — jamais versionnees
+node_modules/
+remotion/node_modules/
+remotion/package-lock.json

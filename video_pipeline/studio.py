@@ -154,12 +154,26 @@ def build_caption(ep):
     ; la preuve de présence dans la liste Contenu repose sur le numéro « (épisode N) »
     et le titre distinctif (publish_studio._id_depuis_carte / _titre_distinctif), sans
     jamais afficher « auto_… » au public.
+
+    22/10/2026 — les scénarios v2 (G55+, champ `question`/`hooks`) portent leur propre
+    question de commentaire et leur cluster de hashtags, au lieu des listes tournantes
+    génériques. La question v2 est écrite pour CE scénario (comment-bait réel) et non
+    une question interchangeable.
     """
-    cluster = CAPTION_CLUSTERS[ep["ep"] % len(CAPTION_CLUSTERS)]
-    question = CAPTION_QUESTIONS[ep["ep"] % len(CAPTION_QUESTIONS)]
     hook = ep["headline"].replace("|", " ")
+    est_v2 = bool(ep.get("question") or ep.get("hooks") or ep.get("storyboard"))
+    # Question : celle du scénario (v2) si elle existe, sinon la rotation générique.
+    question = ep.get("question") or CAPTION_QUESTIONS[ep["ep"] % len(CAPTION_QUESTIONS)]
+    # Hashtags : v2 = ceux du scénario ; historique = cluster tournant (inchangé).
+    if est_v2 and ep.get("tags"):
+        cluster = list(ep["tags"])
+    else:
+        cluster = list(CAPTION_CLUSTERS[ep["ep"] % len(CAPTION_CLUSTERS)])
+    if BRAND_TAG not in cluster:
+        cluster.append(BRAND_TAG)
+    cluster = cluster[:5]           # 5 hashtags max, jamais #fyp/#viral (règle 2026)
     text = (f"{hook} — {ep['title']} (épisode {ep['ep']}). "
-            f"{question} {' '.join(cluster)} {BRAND_TAG}")
+            f"{question} {' '.join(cluster)}")
     return text.strip()
 
 

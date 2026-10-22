@@ -53,6 +53,355 @@ def l_(who, emo, text, punch=False):
     return (who, emo, text, punch)
 
 
+# ==================================================================== scénarios v2
+# 10 scénarios originaux (22/10/2026) — suite naturelle à G54 (auto_216).
+# Numérotation : auto_217 .. auto_226, familles G55 .. G64 — UN épisode par
+# scénario (plus de 4 clones), storyboard de mise en scène, question de
+# commentaire réelle, et 4 variantes d'accroche conservées pour les tests A/B.
+#
+# Chaque scénario garde l'ADN FactVibes (parano du quotidien, deadpan,
+# escalade qui se retourne) mais varie la CONSTRUCTION :
+#   - objet connecté qui devance (G55, G57, G58)
+#   - institution qui anticipe (G60, G61, G64)
+#   - objet qui prédit (G56, G59, G62, G63)
+SCENARIOS_V2 = [
+    # ---------------------------------------------------------- G55 : la télé qui répond avant
+    dict(
+        family="G55", question="Ta maison t'a déjà devancé, toi ?",
+        structure="objet-connecte/devancement",
+        hooks=[
+            "ELLE A RÉPONDU AVANT QUE JE FINISSE MA PHRASE",
+            "MA TÉLÉ A COMMANDÉ TOUT SEULE",
+            "L'ASSISTANTE VOCALE S'EST MISE À RÉPONDRE À MA PLACE",
+            "ELLE CONNAISSAIT LA SUITE DE MES PHRASES",
+        ],
+        storyboard={
+            0: dict(kind="wide", move="push", transition="dip"),
+            3: dict(kind="med", move="pan"),
+            5: dict(kind="close", move="push", transition="wipe"),
+            6: dict(kind="close", move="push", transition="flash", slam="DÎNER"),
+        },
+        spec=(
+            OFFICE, "ELLE RÉPOND|AVANT QUE|TU AIES FINI",
+            "La télé qui répond avant ta phrase", "maison connectée / numérique",
+            ["tech", "maisonconnectee", "parano", "humour"],
+            [
+                l_("kevin", "neutral", "Assistante, quelle heure il est ?"),
+                l_("fournier", "smug", "Elle a répondu avant la fin de ta question."),
+                l_("kevin", "worried", "Je n'ai pas fini de la poser."),
+                l_("fournier", "happy", "Elle devance. C'est une nouveauté."),
+                l_("kevin", "worried", "Hier, elle a coupé le film avant la fin."),
+                l_("fournier", "smug", "Elle a jugé que tu n'en avais pas besoin."),
+                l_("kevin", "angry", "Ce matin, elle a commandé un colis. Pour le dîner.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G56 : le badge qui ouvre avant ton arrivée
+    dict(
+        family="G56", question="Ton badge travaille plus vite que toi, lui aussi ?",
+        structure="institution/anticipation",
+        hooks=[
+            "LA PORTE S'EST OUVERTE AVANT MON ARRIVÉE",
+            "MON BADGE A ÉTÉ BADGÉ SANS MOI",
+            "L'ENTREPRISE A NOTÉ MON ABSENCE COMME UNE PRÉSENCE",
+            "ON M'A POINTÉ À UNE RÉUNION OÙ J'ÉTAIS PAS",
+        ],
+        storyboard={
+            0: dict(kind="med", move="push", transition="dip"),
+            2: dict(kind="close", move="drift"),
+            4: dict(kind="med", move="pan", transition="wipe"),
+            6: dict(kind="close", move="push", transition="flash", slam="J'ÉTAIS PAS LÀ"),
+        },
+        spec=(
+            FACTORY, "LE BADGE|A POINTÉ|AVANT TOI",
+            "Le badge qui pointe avant toi", "travail / badge",
+            ["travail", "badge", "entreprise", "humour"],
+            [
+                l_("kevin", "neutral", "Ce matin, la porte s'est ouverte avant que j'arrive."),
+                l_("bob", "neutral", "Ton badge t'a précédé de quatre minutes."),
+                l_("kevin", "worried", "Comment tu le sais ?"),
+                l_("bob", "neutral", "Le registre. Il te note présent depuis six h cinquante-six."),
+                l_("kevin", "angry", "Mais je n'étais pas là !"),
+                l_("bob", "neutral", "Le registre dit le contraire."),
+                l_("kevin", "worried", "On m'a pointé à une réunion. J'étais pas là.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G57 : la cafetière qui mesure le rythme
+    dict(
+        family="G57", question="Tes objets te connaissent-ils mieux que ton médecin ?",
+        structure="objet-connecte/surveillance",
+        hooks=[
+            "MA CAFETIÈRE ME CONNAIT MIEUX QUE MON MÉDECIN",
+            "ELLE A ARRÊTÉ LE CAFÉ À 14 H 32",
+            "LA CAFETIÈRE A DÉCIDÉ POUR MOI",
+            "ELLE M'A MIS EN MODE « REPOS »",
+        ],
+        storyboard={
+            0: dict(kind="close", move="drift", transition="dip"),
+            2: dict(kind="med", move="pan"),
+            4: dict(kind="close", move="push"),
+            6: dict(kind="close", move="push", transition="flash", slam="REPOS"),
+        },
+        spec=(
+            FACTORY, "LA CAFETIÈRE|A DÉCIDÉ|POUR TOI",
+            "La cafetière qui décide à ta place", "objet connecté / santé",
+            ["tech", "cafe", "sante", "humour"],
+            [
+                l_("kevin", "neutral", "Ma cafetière a coupé mon troisième café."),
+                l_("bob", "neutral", "Ton rythme cardiaque montait."),
+                l_("kevin", "worried", "Comment elle le sait ?"),
+                l_("bob", "neutral", "Elle est branchée sur ta montre."),
+                l_("kevin", "angry", "Je n'ai rien demandé !"),
+                l_("bob", "neutral", "Elle a passé mode repos à quatorze h trente-deux."),
+                l_("kevin", "worried", "Elle m'a mis en mode repos. Sans me prévenir.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G58 : le caddie qui fait la liste avant toi
+    dict(
+        family="G58", question="Le caddie connaît-il ta liste de courses, lui aussi ?",
+        structure="objet-connecte/prediction",
+        hooks=[
+            "LE CADDIE A FAIT MA LISTE AVANT MOI",
+            "IL Y AVAIT DÉJÀ CE QUE J'ALLAIS ACHETER",
+            "LE SUPERMARCHÉ ME CONNAIT PAR CŒUR",
+            "IL AVAIT PRÉVU MON PANIER",
+        ],
+        storyboard={
+            0: dict(kind="wide", move="push", transition="dip"),
+            3: dict(kind="med", move="pan", transition="wipe"),
+            5: dict(kind="close", move="push"),
+            6: dict(kind="close", move="push", transition="flash", slam="DANS DEUX JOURS"),
+        },
+        spec=(
+            MARKET, "LE CADDIE|A FAIT|TA LISTE",
+            "Le caddie qui fait ta liste", "supermarché / achat",
+            ["supermarché", "courses", "parano", "humour"],
+            [
+                l_("josette", "neutral", "Ce caddie avait déjà ma liste de courses."),
+                l_("kevin", "worried", "Ta liste ?"),
+                l_("josette", "smug", "Le lait, les œufs, les pâtes. Dans l'ordre."),
+                l_("kevin", "neutral", "C'est une liste classique."),
+                l_("josette", "worried", "Il y avait aussi la semoule. Je n'en achète jamais."),
+                l_("kevin", "neutral", "Et alors ?"),
+                l_("josette", "angry", "Il avait prévu mon panier. Dans deux jours.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G59 : le mail programmé qui part tout seul
+    dict(
+        family="G59", question="Tu Programmes-tu des mails, toi ? (sans bug)",
+        structure="objet-connecte/perte-de-contrôle",
+        hooks=[
+            "MON MAIL EST PARTI TOUT SEULE",
+            "J'AI ÉCRIT UN MAIL QUE JE N'AI PAS ENVOYÉ",
+            "LA BOÎTE A ENVOYÉ À MA PLACE",
+            "IL Y AVAIT MON MAIL DANS LES ENVOYÉS",
+        ],
+        storyboard={
+            0: dict(kind="med", move="push", transition="dip"),
+            2: dict(kind="close", move="drift"),
+            4: dict(kind="med", move="pan", transition="wipe"),
+            6: dict(kind="close", move="push", transition="flash", slam="AVANT HIER"),
+        },
+        spec=(
+            OFFICE, "LE MAIL|EST PARTI|TOUT SEUL",
+            "Le mail parti tout seul", "travail / numérique",
+            ["travail", "mail", "numérique", "humour"],
+            [
+                l_("kevin", "neutral", "J'ai retrouvé un mail dans les envoyés."),
+                l_("fournier", "smug", "Tu l'as écrit, non ?"),
+                l_("kevin", "worried", "Je ne l'ai pas envoyé."),
+                l_("fournier", "happy", "Il est parti tout seul, alors."),
+                l_("kevin", "angry", "Il est parti à dix-huit heures trente."),
+                l_("fournier", "smug", "Tu dormais ?"),
+                l_("kevin", "worried", "Le mail est parti. Avant hier. Je ne l'ai pas écrit.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G60 : le collègue IA qui te remplace en réunion
+    dict(
+        family="G60", question="Une IA te représente-t-elle déjà au travail ?",
+        structure="institution/remplacement",
+        hooks=[
+            "UNE IA M'A REMPLACÉ EN RÉUNION",
+            "ON A ÉCOUTÉ MES PROPOS. JE N'ÉTAIS PAS LÀ",
+            "J'AI DÉFENDU UN AVIS QUE JE N'AI PAS",
+            "MA VOIX A PARLÉ SANS MOI",
+        ],
+        storyboard={
+            0: dict(kind="wide", move="push", transition="dip"),
+            3: dict(kind="close", move="push"),
+            5: dict(kind="med", move="pan", transition="wipe"),
+            6: dict(kind="close", move="push", transition="flash", slam="AVIS QUE JE N'AI PAS"),
+        },
+        spec=(
+            STAGE, "UNE IA|T'A REMPLACÉ|EN RÉUNION",
+            "L'IA qui te remplace en réunion", "travail / intelligence artificielle",
+            ["travail", "reunion", "ia", "humour"],
+            [
+                l_("ministre", "happy", "Bonne nouvelle : tu as été très brillant en réunion."),
+                l_("josette", "worried", "Quelle réunion ?"),
+                l_("ministre", "smug", "Celle de neuf heures. Tu as défendu le budget."),
+                l_("josette", "angry", "J'étais chez le dentiste."),
+                l_("ministre", "happy", "On le sait. Tu as même excusé ton retard."),
+                l_("josette", "worried", "Avec ma voix ?"),
+                l_("ministre", "smug", "Avec ta voix. Et ton avis. Un avis que tu n'as pas.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G61 : la réforme appliquée d'avance
+    dict(
+        family="G61", question="On t'a déjà appliqué une règle d'avance, toi ?",
+        structure="institution/anticipation-2",
+        hooks=[
+            "LA RÉFORME ÉTAIT DÉJÀ APPLIQUÉE CHEZ MOI",
+            "ON M'A DONNÉ LA VERSION FUTURE DU FORMULAIRE",
+            "J'AI SIGNÉ UN DOCUMENT QUI N'EXISTAIT PAS ENCORE",
+            "LE FORMULAIRE AVAIT MA SIGNATURE",
+        ],
+        storyboard={
+            0: dict(kind="med", move="drift", transition="dip"),
+            2: dict(kind="close", move="push"),
+            4: dict(kind="med", move="pan"),
+            6: dict(kind="close", move="push", transition="flash", slam="EXISTAIT PAS ENCORE"),
+        },
+        spec=(
+            STAGE, "LA RÉFORME|ÉTAIT|DÉJÀ LÀ",
+            "La réforme appliquée d'avance", "institution / paperasse",
+            ["paperasse", "administration", "parano", "humour"],
+            [
+                l_("josette", "neutral", "J'ai signé la nouvelle version du formulaire."),
+                l_("ministre", "smug", "Laquelle ?"),
+                l_("josette", "worried", "Celle qui s'appliquera en janvier."),
+                l_("ministre", "happy", "Très bien anticipé."),
+                l_("josette", "angry", "Mais elle n'existe pas encore !"),
+                l_("ministre", "smug", "Elle existait pour nous."),
+                l_("josette", "worried", "Elle n'existait pas encore. Et j'avais déjà signé.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G62 : le ticket de caisse qui prédit
+    dict(
+        family="G62", question="Ton ticket de caisse te connaît-il par cœur ?",
+        structure="objet-connecte/prediction-2",
+        hooks=[
+            "MON TICKET DE CAISSE PRÉDIT MES ACHATS",
+            "IL Y AVAIT DÉJÀ MON PROCHAIN ACHAT",
+            "LA CAISSE SAVAIT CE QUE J'ALLAIS PRENDRE",
+            "LE TICKET ÉTAIT TROP LONG POUR MOI",
+        ],
+        storyboard={
+            0: dict(kind="close", move="push", transition="dip"),
+            3: dict(kind="med", move="pan", transition="wipe"),
+            5: dict(kind="close", move="drift"),
+            6: dict(kind="close", move="push", transition="flash", slam="DEMAIN midi"),
+        },
+        spec=(
+            MARKET, "LE TICKET|PRÉDIT|TES ACHATS",
+            "Le ticket de caisse qui prédit", "supermarché / données",
+            ["supermarché", "données", "parano", "humour"],
+            [
+                l_("kevin", "neutral", "Mon ticket de caisse est bizarre."),
+                l_("josette", "smug", "Il est long ?"),
+                l_("kevin", "worried", "Il y a des articles que je n'ai pas pris."),
+                l_("josette", "happy", "C'est ta prochaine commande."),
+                l_("kevin", "angry", "Il y a du poisson. Je n'aime pas le poisson."),
+                l_("josette", "neutral", "Tu aimes. À partir de demain midi."),
+                l_("kevin", "worried", "Le ticket sait ce que j'achèterai. Demain midi.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G63 : la montre qui te connait par cœur
+    dict(
+        family="G63", question="Ta montre a-t-elle déjà parlé à ta place ?",
+        structure="objet-connecte/surveillance-2",
+        hooks=[
+            "MA MONTRE A PARLÉ À MA PLACE",
+            "ELLE A PRÉVENU MON MÉDECIN SANS MOI",
+            "MA MONTRE ME CONNAIT MIEUX QUE MOI",
+            "ELLE A APPELÉ À MA PLACE",
+        ],
+        storyboard={
+            0: dict(kind="med", move="push", transition="dip"),
+            2: dict(kind="close", move="drift"),
+            4: dict(kind="med", move="pan", transition="wipe"),
+            6: dict(kind="close", move="push", transition="flash", slam="TROIS FOIS CETTE SEMAINE"),
+        },
+        spec=(
+            OFFICE, "LA MONTRE|A PARLÉ|À TA PLACE",
+            "La montre qui parle à ta place", "objet connecté / santé",
+            ["tech", "sante", "montre", "humour"],
+            [
+                l_("kevin", "neutral", "Ma montre a envoyé un message à mon médecin."),
+                l_("fournier", "smug", "Tu lui as demandé ?"),
+                l_("kevin", "worried", "Non. C'est elle qui a décidé."),
+                l_("fournier", "happy", "Elle t'aime bien, ton médecin."),
+                l_("kevin", "angry", "Elle lui a dit que je dormais mal."),
+                l_("fournier", "smug", "Et elle a raison ?"),
+                l_("kevin", "worried", "Elle a appelé trois fois cette semaine. Sans moi.", punch=True),
+            ],
+        ),
+    ),
+    # ---------------------------------------------------------- G64 : l'usine qui produit des pièces pour un objet inexistant
+    dict(
+        family="G64", question="Tu fabriques-tu des pièces pour un truc qui n'existe pas ?",
+        structure="institution/production-inutile",
+        hooks=[
+            "L'USINE PRODUIT DES PIÈCES POUR UN OBJET INEXISTANT",
+            "ON FABRIQUE DES PIÈCES DE RECHANGE SANS OBJET",
+            "LA PRODUCTION A DEVANCÉ L'INVENTION",
+            "NOUS FABRIQUONS DÉJÀ LA SOLUTION",
+        ],
+        storyboard={
+            0: dict(kind="wide", move="push", transition="dip"),
+            3: dict(kind="med", move="pan", transition="wipe"),
+            5: dict(kind="close", move="push"),
+            6: dict(kind="close", move="push", transition="flash", slam="INVENTÉ"),
+        },
+        spec=(
+            FACTORY, "ON FABRIQUE|DES PIÈCES|INUTILES",
+            "L'usine qui produit des pièces inutiles", "usine / production",
+            ["usine", "production", "parano", "humour"],
+            [
+                l_("bob", "neutral", "On produit des pièces pour un appareil."),
+                l_("kevin", "neutral", "Lequel ?"),
+                l_("bob", "neutral", "Celui qui n'est pas encore inventé."),
+                l_("kevin", "worried", "Ça existe ?"),
+                l_("bob", "neutral", "Pas encore. Mais les pièces, oui."),
+                l_("kevin", "angry", "Et on les vend à qui ?"),
+                l_("bob", "smug", "Aux gens qui l'auront. Il est déjà dans le planning.", punch=True),
+            ],
+        ),
+    ),
+]
+
+
+def _ep_v2(no, spec):
+    """Épisode « réalisateur » (22/10/2026) : un scénario = UNE vidéo.
+
+    Contrairement aux groupes G1..G54 (4 variantes quasi clones), chaque scénario
+    v2 est unique et porte : sa question de commentaire (`question`), ses hints de
+    storyboard (plans / mouvements / transition / mot-clé frappé), ses mots-clés à
+    accentuer dans les sous-titres, et 4 variantes d'accroche (`hooks`) conservées
+    pour de futurs tests A/B au niveau de la légende (studio.build_caption).
+    """
+    e = spec["spec"]
+    pair, headline, title, topic, tags, lines = e
+    ep = _ep(no, pair, headline, title, topic, tags, lines, family=spec["family"])
+    ep.update(
+        question=spec["question"],
+        structure=spec.get("structure", "v2"),
+        hooks=spec.get("hooks", []),
+        storyboard=spec.get("storyboard", {}),
+        slam_mots_cles=[spec["storyboard"][k]["slam"]
+                        for k in sorted(spec.get("storyboard", {}))
+                        if spec["storyboard"][k].get("slam")],
+    )
+    return ep
+
+
 def build_factory_episodes():
     """Toutes les variantes de la banque (deterministe). id = auto_XXX."""
     eps, no = [], 0
@@ -1310,5 +1659,13 @@ def build_factory_episodes():
                 l_("kevin", "angry", "Le fichier s'appelle FINAL, mais c'est moi qui suis provisoire.", punch=True),
             ],
         ))
+
+    # --- G55..G64 : scénarios « réalisateur » (22/10/2026) — un épisode chacun.
+    # Ils ne passent PAS par `add()` : ni 4 variantes, ni numérotation par
+    # divisor (VARIANTES_PAR_SCENARIO), mais une numérotation directe à la suite
+    # de la banque (auto_217..auto_226) et un storyboard de mise en scène.
+    for spec in SCENARIOS_V2:
+        no += 1
+        eps.append(_ep_v2(no, spec))
 
     return eps
