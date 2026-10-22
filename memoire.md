@@ -431,3 +431,45 @@ supprimes ces videos ? » : OUI, c'est voulu, hygiene anti-doublon.**
   premier le declarait echoue) → un seul yt_upload.py a la fois.
 - WinError 10053 (coupures CDP) = transitoires, coincidents avec l'activite du
   patron dans le meme Chrome ; verification live/RSS obligatoire avant toute relance.
+
+## 22/10/2026 — ORDRE DU PATRON : 3 VIDEOS TIKTOK, SUIVRE LA PROCEDURE (GITHUB), ZERO DOUBLON — 3/3
+
+**Etat au lancement (10:54 locale)** : 0/3 post aujourd'hui, tampon = 3 READY
+(auto_209, auto_193, auto_213), Chrome 9222 OK, autoposter (PID 18364) +
+superviseur (PID 8408) vivants, derniere sortie auto_205 (21/10 17:03Z).
+Aucun yt_upload ni autre pilote en parallele (seule la boucle auto_poster tournait,
+decision « attendre » jusqu'au 12:00 local).
+
+**PROCEDURE SUIVIE (HANDOFF ORDRE G/J/K/M + routine du studio)**
+1. Preflight anti-doublon maison `scripts/preflight_22_10.py` (5 couches) :
+   familles **g53 / g49 / g54** toutes jamais publiees, signatures de repliques
+   inedites, empreintes visuelles distinctes (seuil 0.035), legendes SANS
+   identifiant interne (ORDRE M), unicite interne du lot. Resultat : 0 doublon.
+2. Reconciliation AVANT envoi `scripts/reconcilier.py` (lecture seule) : 7 cartes
+   en ligne = base, aucune candidate deja en ligne.
+3. Publication unique par `python video_pipeline/studio.py publish` (seule porte de
+   sortie : garde intervalle, script, famille, empreinte, present_dans_contenu,
+   verrou `videos/.publish.lock`).
+4. Intervalle de 30 min respecte a la minute : 11:03 / 11:38 / 12:13 locale.
+5. Audit DOM apres coup `scripts/audit_publications.py` : 66 publications,
+   3 nouvelles cartes avec legende complete et lisible.
+
+**3/3 PUBLIEES (preuve « presente dans Contenu » a l'envoi, re-verifiee par l'audit)**
+- 11:03 locale (09:03Z) — auto_209 « LA NOTIFICATION QUI REVIENT TOUJOURS » (g53) :
+  https://www.tiktok.com/@factivibeparano/video/7699415125127728406
+- 11:38 locale (09:38Z) — auto_193 « LE WIFI DU TRAIN N'EXISTE JAMAIS EN VOYAGE » (g49) :
+  https://www.tiktok.com/@factivibeparano/video/7699424309281885462
+- 12:13 locale (10:14Z) — auto_213 « LE FICHIER QUI S'APPELLE FINAL » (g54) :
+  https://www.tiktok.com/@factivibeparano/video/7699433387848715542
+Légendes = hook + titre + « (episode N) » + question + 4 hashtags, aucun `auto_`
+visible, aucun doublon de scenario (3 familles differentes).
+
+**Apres le lot** : plafond 3/3 atteint → autoposter en « plafond du jour atteint »
+(rien d'autre ne partira aujourd'hui, garanties horaires 12:00/15:00/21:00
+satisfaites d'avance). Onglet /upload laisse VIDE (formulaire vierge, aucun risque
+de depart tout seul).
+
+**ALERTE BANQUE (a traiter avant demain)** : tampon = **0 READY** et chaque boucle
+ecrit « la BANQUE est epuisee » : toutes les familles G1..G54 sont sorties.
+Sans nouveaux scenarios **G55+ dans `video_pipeline/factory.py`**, il n'y aura rien
+a poster demain (les creneaux 17:00/17:30/18:00 UTC partiront vides).
