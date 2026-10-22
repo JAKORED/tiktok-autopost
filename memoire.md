@@ -473,3 +473,13 @@ de depart tout seul).
 ecrit « la BANQUE est epuisee » : toutes les familles G1..G54 sont sorties.
 Sans nouveaux scenarios **G55+ dans `video_pipeline/factory.py`**, il n'y aura rien
 a poster demain (les creneaux 17:00/17:30/18:00 UTC partiront vides).
+
+**OUTIL NOUVEAU : pack d'audit pour faire analyser la chaine par une IA externe**
+`python scripts/pack_audit.py --zip` -> `audit_factivibes_<date>.zip` a glisser dans
+ChatGPT (lecture seule). Contenu : chapitre de demande, chaine + regles, liste des
+publications, **vues/likes/coms par video** (parsees des cartes Studio), 3 captures
+(profil public / statistiques 7 jours / liste Contenu) + leurs textes, 4 mp4
+d'exemple avec metadonnees, stats brutes. Le lien public seul ne sert a RIEN :
+TikTok renvoie une coquille vide aux robots (verifie par webfetch le 22/10).
+Chiffres releves le 22/10 : 10 followers, 417 j'aime, 9,1 K vues / 7 jours,
+99,6 % de trafic « Pour toi », **0 commentaire** = le point faible est l engagement.

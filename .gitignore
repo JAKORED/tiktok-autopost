@@ -50,3 +50,6 @@ videos/**/*.wav
 videos/**/*.png
 videos/**/*.jpg
 videos/**/*.webp
+# pack d'audit a glisser dans ChatGPT (livraison locale, regenerable par scripts/pack_audit.py)
+audit_factivibes_*/
+*.zip
